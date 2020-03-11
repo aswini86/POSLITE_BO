@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Stock Check Create')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Stock Check Create</title>
+    </head>
+    <body>
+        <section class="content-section">
+            <div class="row margin0">
+				<input type="hidden" name="workEffortPurposeTypeId" id="workEffortPurposeTypeId" value="WEPT_STOCKCHECK">
+				<input type="hidden" name="workEffortTypeId" id="workEffortTypeId" value="">
+				<!-- <input type="hidden" name="workEffortPartyId" id="workEffortPartyId" value="10030"> -->
+				<input type="hidden" name="roleTypeId" id="roleTypeId" value="STOCKER">
+                <div class="col-lg-8 col-md-7 col-sm-6 col-xs-12 form-inline">
+                    <div class="row margin1">
+                    	<fieldset style="min-width: 90%;">
+                        <label  style="margin-right: 12%;" class="control-label" for="department">For Department</label> 
+                        <select class="form-control" id="department" name="department">
+                            <option th:each="failityListEach: ${failityList}"
+                					th:value="${failityListEach.facilityId}"
+                					th:text="${failityListEach.facilityName}"></option>
+                        </select>
+                        &ensp;     &ensp;        &ensp;  &ensp;
+                        <label class="control-label" for="type">Type</label>
+                        <input class="form-control" type="text" id="workEffortType" name="workEffortType" value="">
+                        </fieldset>
+                    </div>
+                    <p>
+                    <div class="row margin1">
+                        <label  style="margin-right: 7.5%;" class="control-label" for="remark">Stock Check Remark</label>
+                        <input class="form-control" type="text" name="remark" placeholder="Remarks" id="remark">
+                        &ensp;     &ensp;        &ensp; 
+                        
+                    <div class="form-group">
+                        <label  class="control-label">Type </label> 
+                        <input type="radio" name="stockType" id="stockTypeComplete" value="COMPLETE_SC" onclick="stockTypeComplete(this.value)"/> Complete
+                        <input type="radio" name="stockType" id="stockTypePartial" value="PARTIAL_SC" onclick="stockTypePartial(this.value)" /> Paritial
+                    </div>
+                                        </div>
+                    
+                    <p>
+                    <div class="row margin1">
+                        <label style="margin-right: 1.5%;"class="control-label">Stock Check Scanning Users </label>
+                        <select class="form-control" id="workEffortPartyId" multiple="multiple">
+                            <option th:each="failityUserListEach: ${failityUserList}"
+                					th:value="${failityUserListEach.partyId}"
+                					th:text="${failityUserListEach.firstName}">
+                			</option>
+                        </select>
+                    </div>
+                </div>
+				
+                <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12" style="border-left: 2px dotted #7c7c7c7d;padding: 3% 5% 3% 2%;margin-right:10%;">
+                    <fieldset>
+                        <label class="status" style="margin-right: 5%;">Status</label> 
+                        <span class="form-span"><b>Initiated</b></span>
+                    </fieldset>
+                    <fieldset>
+                        <label class="status" style="margin-right: 14%;">Initiated By</label> 
+                        <span class="form-span"><b>Admin</b></span> 
+                    </fieldset>
+                    <fieldset>
+                        <label class="status" style="margin-right: 0%;">Initiated Date</label> 
+                        <span class="form-span"><b>
+                        <p><span id="datetime"></span></p>
+                        <script>
+               	var dt = new Date();
+                     document.getElementById("datetime").innerHTML = (("0"+dt.getDate()).slice(-2))
+                     +"/"+ (("0"+(dt.getMonth()+1)).slice(-2)) +"/"+ (dt.getFullYear()) +" "+
+                     (("0"+dt.getHours()).slice(-2)) +":"+ (("0"+dt.getMinutes()).slice(-2));
+                        </script>
+            
+                        
+                        </b></span> 
+                    </fieldset>
+                </div>
+            </div>
+            <div style="padding: 5%; margin-left:7%;">
+                
+                <button class="btn-theme btn-black" >
+                CANCEL
+                </button>
+                <button class="btn-theme btn-black" id="initiate">Initiate</button>
+                
+            </div>
+            <script>
+			        function stockTypeComplete() {
+			        	$(document).ready(function() {
+			        		
+				 			   var stockType = $('#stockTypeComplete').val();
+				 			   if(stockType != "" && stockType == "COMPLETE_SC") {
+				 				  $("#workEffortType").val("Complete");
+				 				  $("#workEffortTypeId").val(stockType);
+				 			   }
+				 		});
+			 		}
+			        function stockTypePartial() {
+			        	$(document).ready(function() {
+				 			   var stockType = $('#stockTypePartial').val();
+				 			  if(stockType != "" && stockType == "PARTIAL_SC") {
+				 				 $("#workEffortType").val("Paritial");
+				  				 $("#workEffortTypeId").val(stockType);
+				 			   }
+				 		});
+			 		}
+			        $('#initiate').click(
+							function() {
+								var workEffortPurposeTypeId = $('#workEffortPurposeTypeId').val();
+								var workEffortTypeId = $('#workEffortTypeId').val();
+								var workEffortPartyId = $('#workEffortPartyId').val();
+								var remark = $('#remark').val();
+								var department = $('#department').val();
+								var roleTypeId = $('#roleTypeId').val();
+								var username = "";
+								var password = "";
+								alert("workEffortPartyId--"+workEffortPartyId);
+								var url = '/saveStockCheck';
+								
+								var data0 = {
+									workEffortPurposeTypeId : workEffortPurposeTypeId,
+									workEffortTypeId : workEffortTypeId,
+									description : remark,
+									facilityId : department,
+									roleTypeId : roleTypeId,
+									statusId : "PRTYASGN_ASSIGNED",
+									currentStatusId : "CAL_TENTATIVE",
+									workEffortName : "Stock Check"
+								};
+								var json = JSON.stringify(data0);
+								$.ajax({
+										type : 'GET',
+										url : url,
+										dataType : 'json',
+										async : 'false',
+										data : {
+											json : json,
+											password : "ofbiz",
+											username : "admin",
+											workEffortPartyId : workEffortPartyId.toString(),
+										},
+										success : function(data) {
+											if (data != "" && data != null) {
+												$('#confirmationModal').modal('toggle');
+											} else {
+												$('#alreadyExistModal').modal('toggle');
+												$("#msgtext").append("Error while Initiating Stock Check");
+											}
+										},
+										error : function(data) {
+											$('#alreadyExistModal').modal('toggle');
+											$("#msgtext").append("Stock Check Already Initaited");
+										}
+
+								});
+								$('#redirect').click(
+									function() {
+										var homeUrl = '/stockCheckHistory';
+										window.location = homeUrl;
+								});
+							});
+		        </script>
+            <!-- Confirm Model Starts Here -->
+            <div id="confirmationModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b>Stock Check Initiated Successfully!</b>
+                            <div class="confirmation-btn-div">
+                            <button type="button" data-dismiss="modal" class="btn-theme btn-go" id="redirect">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Confirm Model End Here -->
+            <!-- Already Exists Model Starts Here -->
+            <div id="alreadyExistModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b id="msgtext"></b>
+                            <div class="confirmation-btn-div">
+                                <button type="button" data-dismiss="modal" class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <!-- Already Exists Model End Here -->
+        </section>
+		
+        <!-- -------Define Missing Articles modal starts here---------- -->
+        <div id="missingarticles" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h5 class="modal-title" style="margin-bottom:3%";>Missing Articles</h5>
+                        <div class="col-md-12 table-container">
+                            <table id="missingArticles"
+                                   class="red-head row-border order-column" style="width: 100%">
+
+                                <thead style="background: #1F1F1F; color: #fff;">
+                                    <tr>
+                                        <th>Articles description</th>
+                                        <th>System Stock</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Utsav sonpapdi 400gm</td>
+                                        <td>12</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Clopitab</td>
+                                        <td>5</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Dolo 100Mg</td>
+                                        <td>2</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Citrimax 300Mg</td>
+                                        <td>10</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Aspirin 2.5Mg</td>
+                                        <td>25</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Spectamec</td>
+                                        <td>20</td>
+                                    </tr>
+                            </table>
+                        </div>
+                        <div style="padding: 5%; margin-left:7%; float:right;">
+                            <button class="btn-theme btn-black" data-dismiss="modal" data-toggle="modal" data-target="#print" >PRINT</button>
+                            <button class="btn-theme btn-black" data-dismiss="modal">Ok</button>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <!-- -------Select Reason modal starts here---------- -->
+        <div id="print" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content process">
+
+                    <div class="modal-body text-center" style="font-size:116%; padding:0%;">
+                        <h2><b style="line-height:7; font-size:130%;">This process will take time...Kindly wait.</b></h2>
+                        <div class="confirmation-btn-div"  data-dismiss="modal" data-toggle="modal">
+                            <button type="submit" class="btn-theme btn-go" >Yes</button>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="modal-footer"></div>
+                </div>
+
+            </div>
+        </div>
+    </body>
+</html>

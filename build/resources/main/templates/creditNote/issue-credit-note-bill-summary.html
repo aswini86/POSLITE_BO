@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Credit')}" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Retail BO :: Pos Cart</title>
+</head>
+<body>
+		<section class="main-section" id="wrapper">
+		<!-- --- header starts --- -->
+		<div class="clear"></div>
+		<!-- --- header ends ----- -->
+		<div class="clear"></div>
+		<section class="billing content-section">
+		<!-- ---------------search starts here----------- -->
+		<input type="hidden" id="createdBy" name="createdBy" th:value="${session.username}">
+   		 <div class="row margin0">
+			<div class="col-md-12 padding0">
+
+				<fieldset>
+				<label style="padding-top: 1%; width: 15%;"
+						class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Date</label> 
+						
+						<input class="search-input col-lg-6 col-md-2 col-sm-2 col-xs-2"
+						type="date" id="fromDate" name="date-from" placeholder="DD/MM/YYYY" style="">
+						
+						
+					<button id="go" class="btn btn-go">GO</button>
+				</fieldset>
+				
+						</div>
+		</div>
+   	<br>
+   	<br>
+   	<br>	
+		<div class="col-md-12 table-container">
+	<table id="pos_summary_list" class="row-border order-column" style="width: 100%">
+		<thead style="background: #1F1F1F; color: #fff;">
+			<tr>
+				<th>Customer Name</th>
+ 				<th>Customer Number</th>
+				<th>Bill ID</th>
+				<th>Date</th>
+				<th>Quantity</th>
+				<th>Total Amount</th>
+			</tr>
+		</thead>
+		<tbody>
+    	 <tr >
+			<td style = "text-align:center"id="customerName" ></td>
+			<td style = "text-align:center"id="customerNumber" ></td>
+			<td style = "text-align:center"id="billId" ></td>
+			<td style = "text-align:center"id="date" ></td>
+			<td style = "text-align:center"id="quantity" ></td>
+			<td style = "text-align:center"id="totalAmount" ></td>
+		</tr>  
+		</tbody>
+	</table>
+	</div>
+   	
+   	
+   	
+   	<h1>This is What "Issue Credit Note Bill Summary!" Menu</h1>
+	<h1>Click Here to Go Issue Credit Note!</h1>
+	<button> <a th:href="@{/ISSUE-CREDIT-NOTE}">Issue Credit Note</a></button>
+	
+</body>
+</html>

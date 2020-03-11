@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Credit')}" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Retail BO :: Pos Cart</title>
+</head>
+<body>
+		<section class="main-section" id="wrapper">
+		<!-- --- header starts --- -->
+		<div class="clear"></div>
+		<!-- --- header ends ----- -->
+		<div class="clear"></div>
+		<section class="billing content-section">
+		<div class="row margin0">
+            <button class="btn-theme btn-white" onclick="javascript:window.location='PosbillSummary'">
+                Bill Summary
+            </button>
+        </div>
+		<!-- ---------------search starts here----------- -->
+		<input type="hidden" id="createdBy" name="createdBy" th:value="${session.username}">
+   		 <div class="row margin0">
+			<div class="col-md-12 padding0">
+
+				<fieldset>
+				<label style="padding-top: 1%; width: 15%;"
+						class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Date</label> 
+						
+						<input class="search-input col-lg-6 col-md-2 col-sm-2 col-xs-2"
+						type="date" id="fromDate" name="date-from" placeholder="DD/MM/YYYY" style="">
+						
+						
+					<button id="go" class="btn btn-go">GO</button>
+				</fieldset>
+				
+						</div>
+		</div>
+   	<br>
+   	<br>
+   	<br>	
+		<div class="col-md-12 table-container">
+	<table id="pos_summary_list" class="row-border order-column" style="width: 100%">
+		<thead style="background: #1F1F1F; color: #fff;">
+			<tr>
+				<th>Customer Name</th>
+ 				<th>Customer Number</th>
+				<th>Bill ID</th>
+				<th>CN ID</th>
+				<th>Issued Date</th>
+				<th>Credit Note Amount</th>
+				<th>Amount Due</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+		<tbody>
+    	 <tr th:each="customerCreditNoteTxnEach,iter : ${customerCreditNoteTxnList}">
+			<td style="text-align:center" id="customerName" th:text="${customerCreditNoteTxnEach.get('customerName')}"></td>
+			<td style="text-align:center" id="customerNumber" th:text="${customerCreditNoteTxnEach.get('customerMobileNo')}"></td>
+			<td style="text-align:center" id="billId" th:text="${customerCreditNoteTxnEach.get('billId')}"></td>
+			<td style="text-align:center" id="cnId" th:text="${customerCreditNoteTxnEach.get('cnId')}"></td>
+			<td style="text-align:center" id="issuedDate" th:text="${customerCreditNoteTxnEach.get('issuedDate')}"></td>
+			<td style="text-align:center" id="creditAmount" th:text="${customerCreditNoteTxnEach.get('totCustomerCreditNoteAmt')}"></td>
+			<td style="text-align:center" id="amountDue" th:text="${customerCreditNoteTxnEach.get('totCustomerCreditNoteAmtDue')}"></td>
+			<td style="text-align:center" id="status" th:text="${customerCreditNoteTxnEach.get('statusId')}"></td>
+		</tr>  
+		</tbody>
+	</table>
+	</div>
+   	
+	<!-- <button> <a th:href="@{/issueCreditNoteSummary}">Issue Credit Note</a></button> -->
+</body>
+</html>

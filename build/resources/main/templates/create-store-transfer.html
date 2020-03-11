@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Create Store Transfer')}" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Retail BO :: Store Transfer</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel='stylesheet' href='assets/css/roboto.css' media='all'
+	type="text/css">
+	<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+	<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<link rel='stylesheet' href='assets/css/style.css' media='all'
+	type="text/css">
+<link rel='stylesheet' href='assets/css/responsive.css' media='all'
+	type="text/css">
+
+<link rel='stylesheet' href='assets/css/style.css' media='all'
+	type="text/css">
+<link rel='stylesheet' href='assets/css/table.css' media='all'
+	type="text/css">
+<link rel='stylesheet' href='assets/css/responsive.css' media='all'
+	type="text/css">
+
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	<script src="assets/js/table.js"></script>
+	
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+	
+<!--[if lt IE 9]>
+  	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<![endif]-->
+
+
+</head>
+<body>
+	<section class="main-section">
+		<div class="clear"></div>
+
+		<section class="interdepartment-transfer content-section">
+			<!-- ---------------search starts here----------- -->
+			<div class="search-container">
+				<div class="search-options col-md-7 col-xs-12">
+					<fieldset>
+						<label>Transfer Date</label> <label class="pull-right">
+						<select name="department_to" class="modal-input" id="department_to">
+							<option>Store To</option>
+							<div th:each="facility : ${result1}">
+								<option id="facilityIdTo"
+									th:value="${facility.inventoryFacilityId}"
+									th:text="${facility.storeName}"></option>
+							</div>
+						</select>
+						
+						<select name="department_from" class="modal-input" id="department_from">
+							<option>Store From</option>
+							<div th:if="${partyId == 'admin'}" th:each="facility : ${result1}">
+								<option id="facilityId"
+									th:value="${facility.inventoryFacilityId}"
+									th:text="${facility.storeName}"></option>
+							</div>
+							<div th:if="${partyId != 'admin'}">
+								<option id="facilityId"
+									th:value="${facilityId}"
+									th:text="${storeName}" selected></option>
+							</div>
+						</select> 
+						<input type="date" id="transfer_date" name="transfer_date" class="modal-input" />
+						</label>
+					</fieldset>
+
+					<fieldset>
+						<label>Reason For stock movement</label>
+						<textarea id="comments" name="stock_movement_reason"
+							class="modal-input" cols="63"></textarea>
+					</fieldset>
+
+					<fieldset>
+						<label>Search Article</label> <label class="pull-right"> <input
+							type="search" id="searchByProductName"
+							th:name="searchByProductName" class="modal-input pull-left"
+							placeholder="Search by EAN/Product Name/Item ID" size="53">
+							<button class="btn-theme btn-go" id="go" data-toggle="modal">Go</button>
+							<!--data-target="#selectArticle"  -->
+						</label>
+					</fieldset>
+				</div>
+				<div class="search-info col-md-5 col-xs-12">
+					<fieldset>
+						<label>Transaction No</label><span class="modal-span-value">7894521034658</span>
+					</fieldset>
+					<fieldset>
+					
+						<label>Entered By</label>
+							<span class="form-span" th:text="${partyId}"></span><br> <span
+							class="modal-span-value" id="demo">10/2/2018 6:05:24 pm</span>
+					</fieldset>
+				</div>
+			</div>
+			<div class="search-div">
+				<form class="" action="">
+					<i class="fa fa-search"></i> <input type="text"
+						placeholder="Scanned EAN Number" name="search">
+
+				</form>
+			</div>
+			<!-- ---------------search ends here----------- -->
+			<div class="col-md-12 table-container">
+				<table id="interdependent_transfer"
+					class="row-border order-column table   table-sm"
+					style="width: 100%">
+					<thead style="background: #1F1F1F; color: #fff;">
+						<tr>
+							<th></th>
+							<th>EAN Code</th>
+							<th>Inventory Item</th>
+							<th>Item ID</th>
+							<th>Unit ID</th>
+							<th>Product name</th>
+							<th>LOT ID</th>
+							<th>No. Of Packs</th>
+							<th>Pack Size</th>
+							<th>Qty</th>
+							<th>Sale Rate</th>
+							<th>Co Batch No.</th>
+							<th>Expiry Date</th>
+						</tr>
+					</thead>
+					<tbody id="myBody">
+
+
+						<tr th:each="product : ${result}" class="result">
+							<!-- data-target="#approve" -->
+
+							<td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+							<td id="ean" th:text="${product.ean}"></td>
+							<td class="inventoryItemId" th:text="${product.inventoryItemId}"></td>
+							<td class="productId" th:text="${product.productId}"></td>
+							<td><select name="unit_id" class="table-select">
+									<option>EA</option>
+							</select></td>
+							<td id="productId" th:text="${product.productName}"></td>
+							<td id="lotId" th:text="${product.lotId}"></td>
+							<!-- <td><select name="pack_of_size" class="pack-of-size table-select">
+					<option>1</option>
+				</select></td> -->
+							<td><span class="transfer" contentEditable="true"></span></td>
+							<td id="quantityOnHandTotal"
+								th:text="${product.quantityOnHandTotal}"></td>
+							<td id="quantityOnHandTotal"
+								th:text="${product.quantityOnHandTotal}"></td>
+							<td id="unitCost" th:text="${product.unitCost}"></td>
+							<td id="serialNumber" th:text="${product.serialNumber}"></td>
+							<td id="expireDate" th:text="${product.expireDate}"></td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+			<!-- --- add notification div starts here --- -->
+			<div id="approve1" class="form-popup">
+
+
+				<div class="add-notify">
+					<h2>
+						<!--  -->
+						<i onclick="closeForm()" class="fa fa-times" aria-hidden="true"></i>
+						<button onclick="approveConfirmation()" class="btn-theme btn-black">Approve & create New</button>
+						<!-- <button class="btn-theme btn-black">Save & Create View</button> -->
+						<button onclick="saveCloseConfirmation()" class="btn-theme btn-black">Save & Close</button>
+						<button onclick="openConfirmation()" class="btn-theme btn-green">Save</button>
+					</h2>
+				</div>
+
+			</div>
+			<input type="hidden" id="inventoryTransferUrl" th:value="${session.inventoryTransfer}" />
+			<input type="hidden" id="findInventoryItemUrl" th:value="${session.findInventoryItemUrl}" />
+
+			<!-- --- add notification div ends here --- -->
+			<!-- --- add notification div starts here --- -->
+			<div id="comfirmation1" class="form-popup">
+				<div class="warning-notify">
+					<h2>
+						<i onclick="closeConfirmation()" class="fa fa-times"
+							aria-hidden="true"></i> <img src="assets/images/icon-info.png"
+							alt="" class="">Are You sure you want to Save this transaction.
+						<button onclick="closeConfirmation()" class="btn-theme btn-black" id="yes">
+							<img src="assets/images/icon-yes.png" alt="icon for yes">Yes
+						</button>
+						<button class="btn-theme btn-black" onclick="closeConfirmation()">
+							<img src="assets/images/icon-no.png" alt="icon for no">No
+						</button>
+					</h2>
+				</div>
+
+			</div>
+			
+			<div id="approveComfirmation" class="form-popup">
+				<div class="warning-notify">
+					<h2>
+						<i onclick="closeApproveConfirmation()" class="fa fa-times"
+							aria-hidden="true"></i> <img src="assets/images/icon-info.png"
+							alt="" class="">Are You sure you want to Approve this transaction.
+						<button onclick="closeApproveConfirmation()" class="btn-theme btn-black" id="approveyes">
+							<img src="assets/images/icon-yes.png" alt="icon for yes">Yes
+						</button>
+						<button class="btn-theme btn-black" onclick="closeConfirmation()">
+							<img src="assets/images/icon-no.png" alt="icon for no">No
+						</button>
+					</h2>
+				</div>
+
+			</div>
+			
+			<div id="saveCloseConfirmation" class="form-popup">
+				<div class="warning-notify">
+					<h2>
+						<i onclick="closeSaveConfirmation()" class="fa fa-times"
+							aria-hidden="true"></i> <img src="assets/images/icon-info.png"
+							alt="" class="">Are You sure you want to Save this transaction.
+						<button onclick="closeSaveConfirmation()" class="btn-theme btn-black" id="savecloseyes">
+							<img src="assets/images/icon-yes.png" alt="icon for yes">Yes
+						</button>
+						<button class="btn-theme btn-black" onclick="closeConfirmation()">
+							<img src="assets/images/icon-no.png" alt="icon for no">No
+						</button>
+					</h2>
+				</div>
+
+			</div>
+			<!-- Confirm Model Starts Here -->
+	  
+            <div id="confirmationModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    Modal content
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b>Stock Transfer Created Successfully!</b>
+                            <div class="confirmation-btn-div">
+                            <button  onclick="modalclose()"  class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="approveConfirmationModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    Modal content
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b>Stock Transfer Approved Successfully!</b>
+                            <div class="confirmation-btn-div">
+                            <button  onclick="modalclose()"  class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="closeConfirmationModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b>Stock Transfer Created Successfully!</b>
+                            <div class="confirmation-btn-div">
+                            <button  onclick="modalredirect()" data-dismiss="modal" class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             
+         <!-- Confirm Model End Here -->
+	     <!-- Already Exists Model Starts Here -->
+            <div id="alreadyExistModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b id="msgtext"></b>
+                            <div class="confirmation-btn-div">
+                                <button type="button" data-dismiss="modal" class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <!-- Already Exists Model End Here -->
+			
+			<!-- --- add notification div ends here --- -->
+		</section>
+		<!-- ------content section ends here------- -->
+	</section>
+	<!-- ------main section ends here------- -->
+	<!-- -------Add to stock modal starts here---------- -->
+	<div id="selectArticle" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h1 class="modal-title">Select Article</h1>
+				</div>
+				<div class="modal-body">
+					<div class="search-div">
+						<form class="" action="">
+							<i class="fa fa-search"></i> <input type="text"
+								placeholder="Scanned EAN Number" name="search">
+
+						</form>
+					</div>
+			
+					<!-- ---------------search ends here----------- -->
+					<div class="col-md-12 table-container">
+						<table class="row-border order-column" style="width: 100%">
+							<thead style="background: #1F1F1F; color: #fff;">
+								<tr>
+									<th>EAN Code</th>
+									<th>Item ID</th>
+									<th>Unit ID</th>
+									<th>Product name</th>
+									<th>LOT ID</th>
+									<th>No. Of Packs</th>
+									<th>Pack Size</th>
+									<th>Qty</th>
+									<th>Sale Rate</th>
+									<th>Co Batch No.</th>
+									<th>Expiry Date</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Tige</td>
+									<td>Nixon</td>
+									<td>EA</td>
+									<td>Edinburgh</td>
+									<td>61</td>
+									<td>1</td>
+									<td>$320,800</td>
+									<td>5421</td>
+									<td>t.nixon@.net</td>
+									<td>$320,800</td>
+									<td>5421</td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="modal-footer"></div>
+			</div>
+
+		</div>
+	</div>
+	
+	 <script src="https://code.jquery.com/jquery-3.3.1.js"></script> 
+	<script
+		src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script
+		src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script>
+	<script
+		src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
+
+</body>
+</html>

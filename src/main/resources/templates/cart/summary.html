@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Pos Cart Summary')}" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Retail BO :: Pos Cart</title>
+</head>
+<body>
+	<section class="main-section" id="wrapper">
+		<style type="text/css">
+			.dataTables_filter{
+				display: none;
+			}
+			/* Chrome, Safari, Edge, Opera */
+			input::-webkit-outer-spin-button,
+			input::-webkit-inner-spin-button {
+			  -webkit-appearance: none;
+			  margin: 0;
+			}
+			
+			/* Firefox */
+			input[type=number] {
+			  -moz-appearance:textfield;
+			}
+		</style>
+		<!-- --- header starts --- -->
+		<div class="clear"></div>
+		<!-- --- header ends ----- -->
+		<div class="clear"></div>
+		<section class="billing content-section">
+		<!-- ---------------search starts here----------- -->
+		<input type="hidden" id="createdBy" name="createdBy" th:value="${session.username}">
+		<button class="btn-theme btn-white" tabindex="1" onclick="javascript:window.location = 'customerReport'">
+                Customer Report
+        </button>
+        <button class="btn-theme btn-white" tabindex="1" onclick="javascript:window.location = 'ExpiryDate'">
+                Expired Product Report
+        </button>
+   		 <div class="row margin0">
+			<div class="col-md-12 padding0">
+				<fieldset>
+					<label style="padding-top: 1%; width: 15%;"
+						class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Pos Terminal</label>
+					<input class="search-input col-lg-6 col-md-2 col-sm-2 col-xs-2"
+						type="text" id="posTerminalId" name="posTerminalId" tabindex="2" placeholder="pos terminal" style="">
+				</fieldset>
+				<fieldset>
+				      	<label style="padding-top: 1%; width: 15%;"
+						class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Date From</label> 
+						
+						<input class="search-input col-lg-6 col-md-2 col-sm-2 col-xs-2"
+						type="date" id="fromDate" tabindex="3" name="date-from"  placeholder="DD/MM/YYYY" style="">
+						
+					   <label style="margin-left: 3%; width: 10%; padding-top: 1%;"
+						class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Date To</label>
+						 
+						<input class="search-input col-lg-2 col-md-2 col-sm-2 col-xs-2"
+						type="date" id="thruDate" name="date-to" tabindex="4" placeholder="DD/MM/YYYY" >
+						
+					<button id="go" tabindex="5" class="btn btn-go">GO</button>
+				</fieldset>
+				
+			</div>
+		</div>
+   	<br>
+   	<br>
+   	<br>	
+		<!-- ---------------search ends here----------- -->	
+		
+	
+	 <div class="col-md-12 table-container ">
+				<table id="pos_summary" class="row-border order-column"
+					style="width: 100%">
+					<thead style="background: #1F1F1F; color: #fff;">
+						<tr style="align:center">
+							<th style="text-align:center;">Total Number of Orders</th>
+							<th style="text-align:center;"> CASH</th>
+							<th style="text-align:center;"> CARD</th>
+							  <th style="text-align:center;"> CREDIT NOTE</th>
+ 						<th style="text-align:center;"> CREDIT</th>
+			             <th style="text-align:center;">GIFT COUPON</th>
+			              <th style="text-align:center;">SODEXO</th>
+			               <th style="text-align:center;">PAYTM</th>
+			                <th style="text-align:center;">UPI</th>
+			                <th style="text-align:center;">BHIM</th>
+			           <th style="text-align:center;">TICKET</th>
+			                 <th style="text-align:center;">PHONE PE</th>
+							<th style="text-align:center;">Total Amount</th>
+						</tr>
+					</thead>
+					<tbody id="myBody">
+						<td style="text-align:center" id="orderAmtTotal" th:text="${posCartSummary.get('orderQty')}"></td>
+						<td style="text-align:center" id="totalAmtPaidByCash" th:text="${posCartSummary.get('totalAmtPaidByCash')}"></td>
+						<td style="text-align:center" id="totalAmtPaidByCard" th:text="${posCartSummary.get('totalAmtPaidByCard')}"></td>
+						<td style="text-align:center" id="totalAmtPaidByCreditnote" th:text="${posCartSummary.get('totalAmtPaidByCreditnote')}"></td>
+						<td style="text-align:center" id="totalAmtPaidByCredit" th:text="${posCartSummary.get('totalAmtPaidByCredit')}"></td>
+						<td style="text-align:center" id="totalAmtPaidByGiftcoupon" th:text="${posCartSummary.get('totalAmtPaidByGiftcoupon')}"></td>
+						<td style="text-align:center" id="totalAmtPaidBySodexo" th:text="${posCartSummary.get('totalAmtPaidBySodexo')}"></td>
+						<td style="text-align:center" id="totalAmtPaidByPaytm" th:text="${posCartSummary.get('totalAmtPaidByPaytm')}"></td>
+						<td style="text-align:center" id="totalAmtPaidByUpi" th:text="${posCartSummary.get('totalAmtPaidByUpi')}"></td>
+						<td style="text-align:center" id="totalAmtPaidByBhim" th:text="${posCartSummary.get('totalAmtPaidByBhim')}"></td>
+						<td style="text-align:center" id="totalAmtPaidByTicket" th:text="${posCartSummary.get('totalAmtPaidByTicket')}"></td>
+						<td style="text-align:center" id="totalAmtPaidByPhonepe" th:text="${posCartSummary.get('totalAmtPaidByPhonepe')}"></td>
+						<td style="text-align:center" id="orderQty" th:text="${posCartSummary.get('orderAmtTotal')}"></td>
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="col-md-12 padding0">
+				<fieldset>
+					<label style="padding-top: 1%; width: 15%;"
+						class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Bill Id</label>
+					<input class="search-input col-lg-6 col-md-2 col-sm-2 col-xs-2"
+						type="Number" tabindex="01" id="billId" onclick="mybillid()" onkeydown="return event.keyCode !== 69" name="billId" placeholder="Bill Id" style="">
+				</fieldset>
+				<fieldset>
+				      	<label style="padding-top: 1%; width: 15%;"
+						class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Customer Name</label> 
+						
+						<input class="search-input col-lg-6 col-md-2 col-sm-2 col-xs-2"
+						type="text" tabindex="02" id="customerName" name="customerName" placeholder="Customer Name" onkeydown="return alphaOnly(event);" style="">
+						
+					   <label style="margin-left: 3%; width: 15%; padding-top: 1%;"
+						class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Customer Mobile</label>
+						 
+						<input class="search-input col-lg-2 col-md-2 col-sm-2 col-xs-2"
+						type="Number" tabindex="03" id="cusMobileNum" onkeydown="return event.keyCode !== 69" name="cusMobileNum" placeholder="Customer Mobile">
+						
+					<button id="customerSearch" tabindex="04" class="btn btn-go">GO</button>
+				</fieldset>
+			</div>
+			
+           <div class="col-md-12 table-container " style="overflow-x: scroll;">
+               <table id="pos_summary_list" class="row-border order-column" style="width: 100%" data-order=''>
+                 <thead style="background: #1F1F1F; color: #fff;">
+                     <tr>
+                        <th style="text-align:center; width:50%; ">Bill Id</th>
+                        <th style="text-align:center;">Customer Name</th>
+              	 		<th style="text-align:center;">Date</th>
+              	 		<th style="text-align:center;">Total Sales</th>
+              	 		<th style="text-align:center;">Bill Amount</th>
+			            <th style="text-align:center;">CASH</th>
+			               <th style="text-align:center;">CARD</th>
+			            <th style="text-align:center;"> CREDIT NOTE</th>
+ 						<th style="text-align:center;"> CREDIT</th>
+			             <th style="text-align:center;">GIFT COUPON</th>
+			              <th style="text-align:center;">SODEXO</th>
+			               <th style="text-align:center;">PAYTM</th>
+			                <th style="text-align:center;">UPI</th>
+			                <th style="text-align:center;">BHIM</th>
+			           <th style="text-align:center;">TICKET</th>
+			                 <th style="text-align:center;">PHONE PE</th>
+			                
+			                
+			            
+                    </tr>
+                 </thead>
+                 <tbody id="myBody1">
+                   <tr th:each="posCartSummaryListEach,iter : ${posCartSummaryList}" >
+                   <td style="text-align:center; color:blue;" id="billId" th:text="${posCartSummaryListEach.get('receiptId')}"></td>
+                   <td style="text-align:center" id="customerName" th:text="${posCartSummaryListEach.get('customerName')}"></td>
+          <!-- <td style="text-align:center" id="customerName" 
+          		th:if="${posCartSummaryListEach.get('customerName')} != null" th:text="${posCartSummaryListEach.get('customerName')}"></td> -->
+          <td style="text-align:center" id="orderDate" th:text="${posCartSummaryListEach.get('orderDate')}"></td>
+          <td style="text-align:center" id="totalSales" th:text="${posCartSummaryListEach.get('totalSales')}"></td>
+          <td style="text-align:center" id="orderItemAmt" th:text="${posCartSummaryListEach.get('orderItemAmt')}"></td>
+          <td style="text-align:center" id="amtPaidByCash" th:text="${posCartSummaryListEach.get('amtPaidByCash')}"></td>
+          <td style="text-align:center" id="amtPaidByCard" th:text="${posCartSummaryListEach.get('amtPaidByCard')}"></td>
+                    <td style="text-align:center" id="amtPaidByCreditnote" th:text="${posCartSummaryListEach.get('amtPaidByCreditnote')}"></td>
+                    <td style="text-align:center" id="amtPaidByCredit" th:text="${posCartSummaryListEach.get('amtPaidByCredit')}"></td>
+                    <td style="text-align:center" id="amtPaidByGiftcoupon" th:text="${posCartSummaryListEach.get('amtPaidByGiftcoupon')}"></td>
+                    <td style="text-align:center" id="amtPaidBySodexo" th:text="${posCartSummaryListEach.get('amtPaidBySodexo')}"></td>
+                    <td style="text-align:center" id="amtPaidByPaytm" th:text="${posCartSummaryListEach.get('amtPaidByPaytm')}"></td>
+                    <td style="text-align:center" id="amtPaidByUpi" th:text="${posCartSummaryListEach.get('amtPaidByUpi')}"></td>
+                    <td style="text-align:center" id="amtPaidByBhim" th:text="${posCartSummaryListEach.get('amtPaidByBhim')}"></td>
+                    <td style="text-align:center" id="amtPaidByTicket" th:text="${posCartSummaryListEach.get('amtPaidByTicket')}"></td>
+                    <td style="text-align:center" id="amtPaidByPhonepe" th:text="${posCartSummaryListEach.get('amtPaidByPhonepe')}"></td>
+                  
+          
+             </tr>  
+                  </tbody>
+               </table>
+           </div>
+           
+           
+                   
+	 <!-- Date Error Modal -->
+	<div id="dateErrorModal" class="modal fade" role="dialog">
+		<div class="modal-dialog"
+			style="margin-top: 15%; width: 400px !important;">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-body text-center">
+					<b id="dateError"></b>
+					<div class="confirmation-btn-div">
+						<button type="button"   data-dismiss="modal"
+							class="btn-theme btn-go">Ok</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	 
+                    
+	 
+	 
+	<script type="text/javascript">
+	function alphaOnly(event) {
+		var key = event.keyCode;`enter code here`
+		return ((key >= 65 && key <= 90) || key == 8);
+	};
+	$(document).ready(function() {
+		$(function(){
+		    $('[type="date"]').prop('max', function(){
+		        return new Date().toJSON().split('T')[0];
+		    });
+		});
+	 });
+	/* function billSummary(receiptId) {
+		alert("receiptId---"+receiptId)
+	 	location.href = "billSummary?receiptId="+receiptId;
+	 } */
+	
+	$('#myBody1').on('click','tr',
+		function() {
+			var table = $('#pos_summary_list').DataTable();
+			var currentRow = table.row(this).data()[4];
+			receiptId = table.row(this).data()[0];
+			location.href = "billSummary?receiptId="+receiptId;
+	});
+
+	$(document).ready(function() {
+		$('#go').click(function() {
+			
+			var fromDate = $('#fromDate').val();
+			var thruDate = $('#thruDate').val();
+			var posTerminalId = $('#posTerminalId').val();
+			var password = "ofbiz";
+            var username = $('#createdBy').val();
+            var frmDate = new Date(fromDate);
+            var toDate = new Date(thruDate);
+            if(frmDate > toDate) {
+            	$("#dateError").text('');
+            	$('#dateErrorModal').modal('toggle');
+				$("#dateError").append(
+						"DateTo should not be greater than DateFrom");
+            }
+			var data0 = {
+				fromDate : fromDate,
+				thruDate : thruDate,
+				posTerminalId : posTerminalId
+            };
+			var json = JSON.stringify(data0);
+			$.ajax({
+                type : 'GET',
+                url : '/getPosmartCashReport',
+                data : {
+                    json : json,
+                    username : username,
+                    password : password
+                },
+                dataType : 'json',
+                success : function(data) {
+                    populateDataTable(data);
+                }
+            });
+			function populateDataTable(data) {
+                $('#pos_summary').DataTable().clear().draw();
+                var result = JSON.parse(JSON.stringify(data.posCartSummary));
+                $('#pos_summary').dataTable().fnAddData([
+                	result.orderQty,
+                	result.totalAmtPaidByCash,
+                	result.totalAmtPaidByCard,
+                	result.orderAmtTotal,
+                    ]);
+                 if(result.length == 0){
+                     $('#pos_summary').dataTable().fnAddData([
+                         '<td>No Data Available</td>',
+                         '<td></td>',
+                         '<td></td>',
+                         '<td></td>',
+                    ]);
+                 }
+                 var posSummaryResult = JSON.parse(JSON.stringify(data.posCartSummaryList));
+                 $('#pos_summary_list').DataTable().clear().draw();
+                 for (var j = 0, l = posSummaryResult.length; j < l; j++) {
+                     var obj = posSummaryResult[j];
+                     $('#pos_summary_list').dataTable().fnAddData([
+                         obj.receiptId,
+                         obj.customerName,
+                         obj.orderDate,
+                         obj.totalSales,
+                         obj.orderItemAmt,
+                         obj.amtPaidByCash,
+                         obj.amtPaidByCard,
+                         ]);
+                 }
+                 if(posSummaryResult.length == 0){
+                	 $('#pos_summary_list').dataTable().fnAddData([
+                         '<td>No Data Available</td>',
+                         '<td></td>',
+                         '<td></td>',
+                         '<td></td>',
+                         '<td></td>',
+                         '<td></td>',
+                         '<td></td>',
+                    ]); 
+                 }
+            }
+		});
+	});
+	
+	$(document).ready(function() {
+		$('#customerSearch').click(function() {
+			
+			var billId = $('#billId').val();
+			var customerName = $('#customerName').val();
+			var cusMobileNum = $('#cusMobileNum').val();
+			var password = "ofbiz";
+            var username = $('#createdBy').val();
+			var data0 = {
+				billId : billId,
+				customerName : customerName,
+				customerMobileNo : cusMobileNum
+            };
+			var json = JSON.stringify(data0);
+			$.ajax({
+                type : 'GET',
+                url : '/getPosmartSummaryCashReport',
+                data : {
+                    json : json,
+                    username : username,
+                    password : password
+                },
+                dataType : 'json',
+                success : function(data) {
+                    populateDataTable(data);
+                }
+            });
+			function populateDataTable(data) {
+                
+                 var posSummaryResult = JSON.parse(JSON.stringify(data.posCartSummaryList));
+                 $('#pos_summary_list').DataTable().clear().draw();
+                 for (var j = 0, l = posSummaryResult.length; j < l; j++) {
+                     var obj = posSummaryResult[j];
+                     	$('#pos_summary_list').dataTable().fnAddData([
+                     		 obj.receiptId,
+                             obj.customerName,
+                             obj.orderDate,
+                             obj.totalSales,
+                             obj.orderItemAmt,
+                             obj.amtPaidByCash,
+                             obj.amtPaidByCard,
+                             ]);
+                 }
+                 if(posSummaryResult.length == 0){
+                	 $('#pos_summary_list').dataTable().fnAddData([
+                         '<td>No Data Available</td>',
+                         '<td></td>',
+                         '<td></td>',
+                         '<td></td>',
+                         '<td></td>',
+                         '<td></td>',
+                         '<td></td>',
+                    ]); 
+                 }
+            }
+		});
+	});
+	
+	
+	function mobileNumber() {
+		 var search = $('#contactNumber');
+		 search.val('');
+		 search.focus();
+		}
+	Mousetrap.bind('ctrl', mobileNumber);
+
+	</script>
+</section>
+</section>
+</body>
+</html>

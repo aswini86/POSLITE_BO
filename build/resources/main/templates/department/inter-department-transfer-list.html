@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Inter Department Transfer List')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Inter Department Transfer List</title>
+    </head>
+    <body>
+        <section class="content-section">
+            <div class="row margin0">
+   	<div class="col-md-12 padding0">
+				<fieldset>
+					<label style="width: 15%;"
+						class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Search
+						Transaction</label> <input
+						class="search-input col-lg-2 col-md-2 col-sm-2 col-xs-2"
+						type="text" name="quantity" placeholder="Search By Transaction ID"
+						style="width: 12%;"> <select
+						class="form-control col-lg-2 col-md-2 col-sm-2 col-xs-2" id="sel1"
+						style="width: 12%;">
+						<option>Department From</option>
+						<option>Department From</option>
+						<option>Department From</option>
+						<option>Department From</option>
+					</select> <select class="form-control col-lg-2 col-md-2 col-sm-2 col-xs-2"
+						id="sel1" style="width: 12%;">
+						<option>Department To</option>
+						<option>Department To</option>
+						<option>Department To</option>
+						<option>Department To</option>
+					</select> <select class="form-control col-lg-2 col-md-2 col-sm-2 col-xs-2"
+						id="sel1" style="width: 12%;">
+						<option>Select Status</option>
+						<option>Select Status</option>
+						<option>Select Status</option>
+						<option>Select Status</option>
+					</select>
+				</fieldset>
+			</div>
+		</div>
+		<div class="row margin0">
+			<div class="col-md-12 padding0">
+				<fieldset>
+					<label style="padding-top: 1%; width: 15%;"
+						class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Date From</label> <input
+						class="search-input col-lg-2 col-md-2 col-sm-2 col-xs-2"
+						type="date" name="date-from" placeholder="DD/MM/YYYY" style="">
+					<label style="margin-left: 3%; width: 10%; padding-top: 1%;"
+						class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Date To</label> <input
+						class="search-input col-lg-2 col-md-2 col-sm-2 col-xs-2"
+						type="date" name="date-to" placeholder="DD/MM/YYYY">
+					<button class="btn btn-go">GO</button>
+				</fieldset>
+                </div>
+            </div>
+            <div class="search-div">
+                <form class="" action="">
+                    <i class="fa fa-search"></i><input type="text" placeholder="Filter Results" name="search">
+                </form>
+            </div>
+            <div class="col-md-12 table-container">
+                <table id="department-transfer" class="row-border order-column"
+                       style="width: 100%">
+                    <thead style="background:#1F1F1F;color:#fff;">
+                        <tr>
+                            <th>Transaction Id</th>
+                            <th>Date Prepared</th>
+                            <th>Remarks</th>
+                            <th>Status</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>7894561230</td>
+                            <td>22/10/18</td>
+                            <td>System Architect t.nixon@datatables.net t.nixon@datatables.net</td>
+                            <td>Edinburgh</td>
+                            <td><a href="#"><img src="assets/images/print.png"></a></td>
+                            <td><a href="#"><img src="assets/images/button-view.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>4567891230</td>
+                            <td>22/10/18</td>
+                            <td>System Architect t.nixon@datatables.net t.nixon@datatables.net</td>
+                            <td>Tokyo</td>
+                            <td></td>
+                            <td><a href="#"><img src="assets/images/icon-edit.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>78945612130</td>
+                            <td>2009/01/12</td>
+                            <td>$Junior Technical Author Junior Technical Author</td>
+                            <td>Tokyo</td>
+                            <td><a href="#"><img src="assets/images/print.png"></a></td>
+                            <td><a href="#"><img src="assets/images/button-view.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>7894561230</td>
+                            <td>2009/01/12</td>
+                            <td>$Junior Technical Author Junior Technical Author</td>
+                            <td>Tokyo</td>
+                            <td></td>
+                            <td><a href="#"><img src="assets/images/icon-edit.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>12345607478</td>
+                            <td>2009/01/12</td>
+                            <td>$Junior Technical Author Junior Technical Author</td>
+                            <td>Tokyo</td>
+                            <td></td>
+                            <td><a href="#"><img src="assets/images/icon-edit.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>4567896321</td>
+                            <td>2009/01/12</td>
+                            <td>$Junior Technical Author Junior Technical Author</td>
+                            <td>Tokyo</td>
+                            <td></td>
+                            <td><a href="#"><img src="assets/images/button-view.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>4563217890</td>
+                            <td>2009/01/12</td>
+                            <td>$Junior Technical Author Junior Technical Author</td>
+                            <td>Tokyo</td>
+                            <td></td>
+                            <td><a href="#"><img src="assets/images/button-view.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>8523697410</td>
+                            <td>2009/01/12</td>
+                            <td>$Junior Technical Author Junior Technical Author</td>
+                            <td>Tokyo</td>
+                            <td><a href="#"><img src="assets/images/print.png"></a></td>
+                            <td><a href="#"><img src="assets/images/button-view.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>5647893210</td>
+                            <td>2009/01/12</td>
+                            <td>$Junior Technical Author Junior Technical Author</td>
+                            <td>Tokyo</td>
+                            <td></td>
+                            <td><a href="#"><img src="assets/images/icon-edit.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>3698521470</td>
+                            <td>2009/01/12</td>
+                            <td>$Junior Technical Author Junior Technical Author</td>
+                            <td>Tokyo</td>
+                            <td></td>
+                            <td><a href="#"><img src="assets/images/icon-edit.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>753215946</td>
+                            <td>2009/01/12</td>
+                            <td>$Junior Technical Author Junior Technical Author</td>
+                            <td>Tokyo</td>
+                            <td></td>
+                            <td><a href="#"><img src="assets/images/button-view.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>752319405</td>
+                            <td>2009/01/12</td>
+                            <td>$Junior Technical Author Junior Technical Author</td>
+                            <td>Tokyo</td>
+                            <td></td>
+                            <td><a href="#"><img src="assets/images/icon-edit.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>78946521235</td>
+                            <td>2009/01/12</td>
+                            <td>$Junior Technical Author Junior Technical Author</td>
+                            <td>Tokyo</td>
+                            <td></td>
+                            <td><a href="#"><img src="assets/images/icon-edit.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>01236547895</td>
+                            <td>2009/01/12</td>
+                            <td>$Junior Technical Author Junior Technical Author</td>
+                            <td>Tokyo</td>
+                            <td></td>
+                            <td><a href="#"><img src="assets/images/button-view.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>7896541236</td>
+                            <td>2009/01/12</td>
+                            <td>$Junior Technical Author Junior Technical Author</td>
+                            <td>Tokyo</td>
+                            <td></td>
+                            <td><a href="#"><img src="assets/images/button-view.png"></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </body>
+</html>	

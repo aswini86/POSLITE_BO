@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Create Purchase Outward')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Create Purchase Outward</title>
+    </head>
+    <body>
+        <section class="content-section">
+            <div class="row margin0">
+                <div class="col-md-9 col-sm-6 col-xs-12">
+                    <fieldset>
+                        <label for="VendorList">Vendor Name</label> 
+                        <input class=" big-input" type="text" name="Vendor" placeholder="Search by Vendor Name/GSTIN"  id="VendorList" list="Vendors">
+                        <datalist id="Vendors">
+                            <option value="Aryaa Enterprises">
+                            <option value="Aniket Pharma Solutions">
+                            <option value="Bright Enterprises">
+                            <option value="Channel Pharma Solutions">
+                            <option value="Bigreach Enterprises">
+                        </datalist>
+                        <label for="po_number">Po Number</label> 
+                        <input class="small-input" type="text" name="Vendor" id="po_number" placeholder="Insert PO"/>
+                        <label  for="someSwitchOptionWarning">Tax Invoice</label> 
+                        <label style="margin-right: 0%;">No</label>  
+                        <span class="material-switch ">
+                            <input id="someSwitchOptionWarning" name="someSwitchOption001" type="checkbox"/>
+                            <label for="someSwitchOptionWarning" class="label-toggle"  style="margin-right: 0%;"></label>
+                        </span>
+                        <label style="margin-right: 0%;">Yes</label>
+                    </fieldset>
+
+                    <fieldset>
+                        <label for="invoice_no">Invoice No</label>
+                        <input class="small-input" type="text" placeholder="Insert Invoice#" id="invoice_no"/>
+                        <input class="form-control date-picker small-input" type="date" placeholder="DD/MM/YYYY"/>
+                        <label for="bill_discount_aft_tax">Bill Discount(Aft Tax)</label>
+                        <input class="small-input" type="text" name="Vendor" placeholder="Amount" id="bill_discount_aft_tax"/>
+                        <label for="tax_amount">Tax Amount</label>
+                        <input class="small-input" type="text" name="Vendor" placeholder="Amount" id="tax_amount"/>
+                    </fieldset>
+                    <fieldset>
+                        <label for="delivery_chalan">Delivery Challan No</label>
+                        <input class="small-input" type="text" placeholder="Delivery Challan No" id="delivery_chalan"/>
+                        <input class="form-control date-picker small-input" type="date" placeholder="DD/MM/YYYY"/>
+                        <label for="bill_discount_bef">Bill Discount(Bef Tax)</label>
+                        <input class="small-input" type="text" name="Vendor" placeholder="Amount" id="bill_discount_bef"/>
+                        <label for="bill_amount">Bill Amount</label>
+                        <input class="small-input" type="text" name="Vendor" placeholder="Amount" id="bill_amount"/>
+                    </fieldset>
+                    <fieldset>
+                        <label for="remark">Remark</label> 
+                        <input class="big-input" type="text" name="" placeholder="Remark" id="remark">
+                        <label for="item_discount_before">Item Discount(Before Tax)</label>
+                        <input class="small-input" type="text" name="Vendor" placeholder="Amount" id="item_discount_before"/>
+                        <label for="net_others">Net others</label>
+                        <span class="InputAddOn">
+                            <input class="small-input InputAddOn-field" type="text" name="Vendor" placeholder="Amount" id="net_others"/>
+                            <button class="InputAddOn-item btn btn-outline-secondary" data-toggle="modal" data-target="#purchaseProductDetails" type="button" style="background: #B0171D;color:#fff;"><i class="fa fa-pencil"></i></button>
+                        </span>
+
+                    </fieldset>
+                    <fieldset>
+                        <label for="scan_search">Scan/Search Item </label> 
+                        <input class="big-input" id="scan_search" type="text" name="" placeholder="Search By EAN/Product Name/Item ID" >
+                        <label for="item_discount_after_tax">Item Discount(After Tax)</label>
+                        <input class="small-input" type="text" name="Vendor" placeholder="Amount" id="item_discount_after_tax"/>
+                        <label style="margin-right: 0%;">Net Return Amount</label>
+                        <input class="small-input" type="text" name="Vendor" placeholder="Amount"/>
+                    </fieldset>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12" style="border-left: 2px dotted #7c7c7c7d;padding: 3% 5% 3% 2%;">
+                    <fieldset>
+                        <label style="margin-right: 5%;">Outward Number</label> 
+                        <span class="form-span">1234567</span>
+                    </fieldset>
+                    <fieldset>
+                        <label style="margin-right: 14%;">Outward Status</label> 
+                        <span class="form-span">Approval Panding</span>
+                    </fieldset>
+                    <fieldset>
+                        <label style="margin-right: 14%;">Entered By</label> 
+                        <span class="form-span">User(Name) 05/05/2019 06:05:00 PM </span>
+                    </fieldset>
+                    <fieldset>
+                        <label style="margin-right: 14%;">Approved By</label> 
+                        <span class="form-span">User(Name) 05/05/2019 06:05:00 PM</span>
+                    </fieldset>
+                </div>
+
+
+
+
+            </div>
+            <div class="col-md-12 table-container">
+                <table id="purchaseOutwardTable" class="red-head row-border order-column"
+                       style="width: 100%">
+                    <thead style="background:#1F1F1F;color:#fff;">
+                        <tr>
+                            <th></th>
+                            <th>EAN Code</th>
+                            <th>Item Description</th>
+                            <th style="width:55px;">UoM</th>
+                            <th>No of Packs</th>
+                            <th>Pack Size</th>
+                            <th>Order Qty</th>
+                            <th>Free Qty</th>
+                            <th>MRP</th>
+                            <th>OfferRate (Excl. Rate)</th>
+                            <th>Item Disc.</th>
+                            <th>Bill Disc</th>
+                            <th>Tax Rate</th>
+                            <th>Tax Amt.</th>
+                            <th>Net Rate</th>
+                            <th>Amount</th>
+                            <th>Sale Rate</th>
+                            <th>Mfg. Date</th>
+                            <th>Exp Date</th>
+                            <th>CO-Batch Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>123456789110</td>
+                            <td>Nixon</td>
+                            <td style="width:55px;"><select name="unit_id" class="table-select"><option>EA</option></select></td>
+                            <td><span class="grey-bg">60</span></td>
+                            <td>1</td>
+                            <td>60</td>
+                            <td>0</td>
+                            <td>67</td>
+                            <td>53</td>
+                            <td><select name="unit_id" class="table-select" style="width:55px;"><option>Bft</option><option>Aft</option></select>0.00</td>
+                            <td>0.00</td>
+                            <td>0</td>
+                            <td>0.00</td>
+                            <td>53.00</td>
+                            <td>3180.00</td>
+                            <td>67.00</td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="text" placeholder="Batch #"/></td>
+                        </tr>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>123456789110</td>
+                            <td>Nixon</td>
+                            <td style="width:55px;"><select name="unit_id" class="table-select"><option>EA</option></select></td>
+                            <td><span class="grey-bg">60</span></td>
+                            <td>1</td>
+                            <td>60</td>
+                            <td>0</td>
+                            <td>67</td>
+                            <td>53</td>
+                            <td><select name="unit_id" class="table-select" style="width:55px;"><option>Bft</option><option>Aft</option></select>0.00</td>
+                            <td>0.00</td>
+                            <td>0</td>
+                            <td>0.00</td>
+                            <td>53.00</td>
+                            <td>3180.00</td>
+                            <td>67.00</td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="text" placeholder="Batch #"/></td>
+                        </tr>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>123456789110</td>
+                            <td>Nixon</td>
+                            <td style="width:55px;"><select name="unit_id" class="table-select"><option>EA</option></select></td>
+                            <td><span class="grey-bg">60</span></td>
+                            <td>1</td>
+                            <td>60</td>
+                            <td>0</td>
+                            <td>67</td>
+                            <td>53</td>
+                            <td><select name="unit_id" class="table-select" style="width:55px;"><option>Bft</option><option>Aft</option></select>0.00</td>
+                            <td>0.00</td>
+                            <td>0</td>
+                            <td>0.00</td>
+                            <td>53.00</td>
+                            <td>3180.00</td>
+                            <td>67.00</td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="text" placeholder="Batch #"/></td>
+                        </tr>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>123456789110</td>
+                            <td>Nixon</td>
+                            <td style="width:55px;"><select name="unit_id" class="table-select"><option>EA</option></select></td>
+                            <td><span class="grey-bg">60</span></td>
+                            <td>1</td>
+                            <td>60</td>
+                            <td>0</td>
+                            <td>67</td>
+                            <td>53</td>
+                            <td><select name="unit_id" class="table-select" style="width:55px;"><option>Bft</option><option>Aft</option></select>0.00</td>
+                            <td>0.00</td>
+                            <td>0</td>
+                            <td>0.00</td>
+                            <td>53.00</td>
+                            <td>3180.00</td>
+                            <td>67.00</td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="text" placeholder="Batch #"/></td>
+                        </tr>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>123456789110</td>
+                            <td>Nixon</td>
+                            <td style="width:55px;"><select name="unit_id" class="table-select"><option>EA</option></select></td>
+                            <td><span class="grey-bg">60</span></td>
+                            <td>1</td>
+                            <td>60</td>
+                            <td>0</td>
+                            <td>67</td>
+                            <td>53</td>
+                            <td><select name="unit_id" class="table-select" style="width:55px;"><option>Bft</option><option>Aft</option></select>0.00</td>
+                            <td>0.00</td>
+                            <td>0</td>
+                            <td>0.00</td>
+                            <td>53.00</td>
+                            <td>3180.00</td>
+                            <td>67.00</td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="text" placeholder="Batch #"/></td>
+                        </tr>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>123456789110</td>
+                            <td>Nixon</td>
+                            <td style="width:55px;"><select name="unit_id" class="table-select"><option>EA</option></select></td>
+                            <td><span class="grey-bg">60</span></td>
+                            <td>1</td>
+                            <td>60</td>
+                            <td>0</td>
+                            <td>67</td>
+                            <td>53</td>
+                            <td><select name="unit_id" class="table-select" style="width:55px;"><option>Bft</option><option>Aft</option></select>0.00</td>
+                            <td>0.00</td>
+                            <td>0</td>
+                            <td>0.00</td>
+                            <td>53.00</td>
+                            <td>3180.00</td>
+                            <td>67.00</td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="text" placeholder="Batch #"/></td>
+                        </tr>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>123456789110</td>
+                            <td>Nixon</td>
+                            <td style="width:55px;"><select name="unit_id" class="table-select"><option>EA</option></select></td>
+                            <td><span class="grey-bg">60</span></td>
+                            <td>1</td>
+                            <td>60</td>
+                            <td>0</td>
+                            <td>67</td>
+                            <td>53</td>
+                            <td><select name="unit_id" class="table-select" style="width:55px;"><option>Bft</option><option>Aft</option></select>0.00</td>
+                            <td>0.00</td>
+                            <td>0</td>
+                            <td>0.00</td>
+                            <td>53.00</td>
+                            <td>3180.00</td>
+                            <td>67.00</td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="text" placeholder="Batch #"/></td>
+                        </tr>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>123456789110</td>
+                            <td>Nixon</td>
+                            <td style="width:55px;"><select name="unit_id" class="table-select"><option>EA</option></select></td>
+                            <td><span class="grey-bg">60</span></td>
+                            <td>1</td>
+                            <td>60</td>
+                            <td>0</td>
+                            <td>67</td>
+                            <td>53</td>
+                            <td><select name="unit_id" class="table-select" style="width:55px;"><option>Bft</option><option>Aft</option></select>0.00</td>
+                            <td>0.00</td>
+                            <td>0</td>
+                            <td>0.00</td>
+                            <td>53.00</td>
+                            <td>3180.00</td>
+                            <td>67.00</td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="text" placeholder="Batch #"/></td>
+                        </tr>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>123456789110</td>
+                            <td>Nixon</td>
+                            <td style="width:55px;"><select name="unit_id" class="table-select"><option>EA</option></select></td>
+                            <td><span class="grey-bg">60</span></td>
+                            <td>1</td>
+                            <td>60</td>
+                            <td>0</td>
+                            <td>67</td>
+                            <td>53</td>
+                            <td><select name="unit_id" class="table-select" style="width:55px;"><option>Bft</option><option>Aft</option></select>0.00</td>
+                            <td>0.00</td>
+                            <td>0</td>
+                            <td>0.00</td>
+                            <td>53.00</td>
+                            <td>3180.00</td>
+                            <td>67.00</td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="text" placeholder="Batch #"/></td>
+                        </tr>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>123456789110</td>
+                            <td>Nixon</td>
+                            <td style="width:55px;"><select name="unit_id" class="table-select"><option>EA</option></select></td>
+                            <td><span class="grey-bg">60</span></td>
+                            <td>1</td>
+                            <td>60</td>
+                            <td>0</td>
+                            <td>67</td>
+                            <td>53</td>
+                            <td><select name="unit_id" class="table-select" style="width:55px;"><option>Bft</option><option>Aft</option></select>0.00</td>
+                            <td>0.00</td>
+                            <td>0</td>
+                            <td>0.00</td>
+                            <td>53.00</td>
+                            <td>3180.00</td>
+                            <td>67.00</td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="text" placeholder="Batch #"/></td>
+                        </tr>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>123456789110</td>
+                            <td>Nixon</td>
+                            <td style="width:55px;"><select name="unit_id" class="table-select"><option>EA</option></select></td>
+                            <td><span class="grey-bg">60</span></td>
+                            <td>1</td>
+                            <td>60</td>
+                            <td>0</td>
+                            <td>67</td>
+                            <td>53</td>
+                            <td><select name="unit_id" class="table-select" style="width:55px;"><option>Bft</option><option>Aft</option></select>0.00</td>
+                            <td>0.00</td>
+                            <td>0</td>
+                            <td>0.00</td>
+                            <td>53.00</td>
+                            <td>3180.00</td>
+                            <td>67.00</td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="text" placeholder="Batch #"/></td>
+                        </tr>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>123456789110</td>
+                            <td>Nixon</td>
+                            <td style="width:55px;"><select name="unit_id" class="table-select"><option>EA</option></select></td>
+                            <td><span class="grey-bg">60</span></td>
+                            <td>1</td>
+                            <td>60</td>
+                            <td>0</td>
+                            <td>67</td>
+                            <td>53</td>
+                            <td><select name="unit_id" class="table-select" style="width:55px;"><option>Bft</option><option>Aft</option></select>0.00</td>
+                            <td>0.00</td>
+                            <td>0</td>
+                            <td>0.00</td>
+                            <td>53.00</td>
+                            <td>3180.00</td>
+                            <td>67.00</td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="date" placeholder="dd/mm/yyyy"/></td>
+                            <td><input type="text" placeholder="Batch #"/></td>
+                        </tr>
+
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-12 table-container">
+                <table id="productRecieveInfoTable" class="footer-info" style="background-color: #fff4df">
+                    <thead><tr><td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td></tr>
+                    </thead>
+                    <tbody >
+                        <tr style="background-color: #fff4df">
+                            <td><p><strong>Date</strong></p>12/12/2018</td>
+                            <td><p><strong>Received From</strong></p>Mahalashkmi Pharma Enterprises</td>
+                            <td><p><strong>Received Qty</strong></p>50</td>
+                            <td><p><strong>MRP</strong></p>60</td>
+                            <td><p><strong>Offer Rates</strong></p>5.00</td>
+                            <td><p><strong>Tax Rate</strong></p>0%</td>
+                            <td><p><strong>Item Disc.</strong></p>5.00</td> 
+                            <td><p><strong>Bill Disc.</strong></p>0.00</td>
+                            <td><p><strong>Net Rate</strong></p>45.00</td>
+                            <td><p><strong>Margin</strong></p>25%</td>
+                            <td><p><strong>Markup</strong></p>33%</td>
+                            <td><span class="outerspan">Markup<span class="innerspan">26.42%</span></span></td>
+                            <td><span class="outerspan">Margin<span class="innerspan">26.42%</span></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="row pull-left">
+                <div class="col-md-12" style="font-size:12px;margin-top:5px">
+                    <span><span class="outerspan">Purc. Markup <span class="innerspan" >26.42% </span></span>
+                        <span class="outerspan">Purc. Margin<span  class="innerspan">26.42% </span></span>
+                        <span class="outerspan">Total Items<span  class="innerspan">26.42% </span></span>
+                        <span class="outerspan">Total Amount<span class="innerspan">26.42% </span></span></span>
+                    <span style="margin-left:80px;"><button class="btn-theme btn-black" style="height:30px"  data-toggle="modal" data-target="#cancleconfirmationModal">Cancel</button>
+                        <button class="btn-theme btn-black" style="height:30px" data-toggle="modal" data-target="#confirmationModal">Save</button>
+                        <button class="btn-theme btn-black" style="height:30px" >Save & Create New</button>
+                        <button class="btn-theme btn-black" style="height:30px">Save & Close</button></span>
+                </div>
+            </div>
+            <div class="row pull-right"></div>
+
+        </section>
+
+        <!-- Purchase Details model start here  -->
+        <div id="purchaseProductDetails" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h1 class="modal-title"> Purchase Other Details</h1>
+                    </div>
+                    <div class="modal-body">
+                        <div class="search-div">
+                            <form class="" action="">
+                                <i class="fa fa-search"></i> <input type="text"
+                                                                    placeholder="Filter Results" name="search">
+                            </form>
+                        </div>
+                        <!-- ---------------search ends here----------- -->	
+                    </div>
+                    <div class="clear"></div>
+                    <div class="modal-footer"></div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Purchase Details model end here  -->
+
+        <!-- Cancle PurchaseProduct model start here -->
+        <div id="cancleconfirmationModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+
+                    <div class="modal-body text-center">
+                        <b>Are you sure you want to cancle this purchase order?</b>
+                        <div class="confirmation-btn-div">
+                            <button type="submit" class="btn-theme btn-go" >Yes</button>
+                            <button type="submit" class=" btn-theme btn-go" data-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="modal-footer"></div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Cancle PurchaseProduct model end here -->
+
+        <!--  confirmationModal model start here -->
+        <div id="confirmationModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+
+                    <div class="modal-body text-center">
+                        <b>Are you sure you want to save the change to the purchase order?</b>
+                        <div class="confirmation-btn-div">
+                            <button type="submit" class="btn-theme btn-go" >Yes</button>
+                            <button type="submit" class=" btn-theme btn-go" data-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="modal-footer"></div>
+                </div>
+
+            </div>
+        </div>
+        <!-- confirmationModalt model end here -->
+    </body>
+</html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Pos Transaction')}" xmlns:th="http://www.thymeleaf.org">
+<!-- Pos Cart -->
+
+<head>
+<title>Retail BO :: Pos Daily Transaction</title>
+</head>
+<body>
+	<section class="main-section" id="wrapper">
+		<!-- --- header starts --- -->
+		
+		<div class="clear"></div>
+
+		<!-- --- header ends ----- -->
+		<div class="clear"></div>
+
+		<section class="billing content-section">
+		<!-- ---------------search starts here----------- -->
+		<div class="search-container">
+
+
+
+
+
+
+<section class="billing content-section" style="margin-left: 4px; margin-top: 1px;">
+	<input type="hidden" id="receiptId" name="receiptId" th:value="${session.receiptId}" />
+    <input type="hidden" id="dayId" name="dayId" th:value="${session.dayId}" />
+    <input type="hidden" id="createdBy" name="createdBy" th:value="${session.username}">
+    <input type="hidden" id="posTerminalId" name="posTerminalId" th:value="${session.posTerminalId}">
+         <div class="search-container">
+		<div class="col-md-12 col-xs-12">
+		<div class="search-options">
+		<fieldset style="padding-left: 15px; ">
+           <label  class=" pull-left"style="margin-top:5px; ">Bill No: <span id="billNum" th:text="${session.receiptId}"></span></label>
+		<div class="col-md-6 padding" style="display: flex;">
+   
+    
+     <input id ="Receiptdate" class="search-inputs col-lg-3 col-md-8 col-sm-8 col-xs-12"  align="left" type="text" value="-" />
+ 
+     
+     <input id="Receiptid" style="margin-left: 4px;"  class="search-inputs col-lg-7 col-md-8 col-sm-8 col-xs-12"  align="left" 
+     type="text" name="Vendor" placeholder="Name" th:value="${session.receiptId}"> 
+			
+	</fieldset>
+	<br>
+	
+	<script>
+  $(document).ready(function() {
+    var d = new Date();
+    $('#Receiptdate').val(formatDate(d));
+  });
+  function formatDate(date) {
+      var d = new Date(date),
+          month = '' + (d.getMonth() + 1),
+          day = '' + d.getDate(),
+          year = d.getFullYear();
+
+      if (month.length < 2) 
+          month = '0' + month;
+      if (day.length < 2) 
+          day = '0' + day;
+
+      return [year, month, day].join('-');
+  }
+  function cashSubmit() {
+    var password = "ofbiz";
+    var username = $('#createdBy').val();
+    var receiptId = $('#receiptId').val();
+    var dayId = $('#dayId').val();
+    var posTerminalId = $('#posTerminalId').val();
+    var cashToPay = $('#cashToPay').val();
+    var paymentType = "CASH";
+    
+    var data0 = {
+      receiptId : receiptId,
+      dayId : dayId,
+      posTerminalId : posTerminalId,
+      cashToPay : cashToPay,
+      paymentType : paymentType,
+      username : username,
+      password : password
+    }
+    var json = JSON.stringify(data0);
+    $.ajax({
+      type : 'GET',
+      url : '/cartBOAddPayments',
+      data : {
+        json : json,
+        username : username,
+        password : password,
+      },
+      dataType : 'json',
+      success : function(data) {
+        //populateDataTable(data);
+    	  var homeUrl = '/cartPayment';
+		window.location = homeUrl;
+      }
+    });
+    function populateDataTable(data) {
+      var table = $('#pos_payment').DataTable();
+      var result = JSON.parse(JSON.stringify(data.paymentItems));
+      for (var j = 0, l = result.length; j < l; j++) {
+        var obj = result[j];
+        $('#pos_payment').dataTable().fnAddData([
+          obj.paymentType,
+          obj.receivedPayment,
+          obj.remainingAmount,
+          '<td></td>',
+        ]);
+      }
+    }
+        
+    }
+  function cardSubmit() {
+	    var password = "ofbiz";
+	    var username = $('#createdBy').val();
+	    var receiptId = $('#receiptId').val();
+	    var dayId = $('#dayId').val();
+	    var posTerminalId = $('#posTerminalId').val();
+	    var cardCashToPay = $('#cardCashToPay').val();
+	    var paymentType = "CARD";
+	    
+	    var data0 = {
+	      receiptId : receiptId,
+	      dayId : dayId,
+	      posTerminalId : posTerminalId,
+	      cashToPay : cardCashToPay,
+	      paymentType : paymentType,
+	      username : username,
+	      password : password
+	    }
+	    var json = JSON.stringify(data0);
+	    $.ajax({
+	      type : 'GET',
+	      url : '/cartBOAddPayments',
+	      data : {
+	        json : json,
+	        username : username,
+	        password : password,
+	      },
+	      dataType : 'json',
+	      success : function(data) {
+	        //populateDataTable(data);
+	    	  var homeUrl = '/cartPayment';
+			window.location = homeUrl;
+	      }
+	    });
+	        
+	    }
+  function printBill() {
+	  var password = "ofbiz";
+	    var username = $('#createdBy').val();
+	    var receiptId = $('#receiptId').val();
+	    var dayId = $('#dayId').val();
+	    var posTerminalId = $('#posTerminalId').val();
+	    var cardCashToPay = $('#cardCashToPay').val();
+	    
+	    var data0 = {
+  	      receiptId : receiptId,
+  	      dayId : dayId,
+  	      posTerminalId : posTerminalId,
+  	      cashToPay : cardCashToPay,
+  	      username : username,
+  	      password : password
+  	    }
+	    var json = JSON.stringify(data0);
+	    alert("password--"+password);
+	    $.ajax({
+	      type : 'GET',
+	      url : '/printCartItem',
+	      data : {
+	        json : json,
+	        username : username,
+	        password : password,
+	      },
+	      dataType : 'json',
+	      success : function(data) {
+	    	if (data != "" && data != null) {
+	    		alert("bill printed");
+	    	} else {
+	    		alert("Connection Timedout");
+	    	}
+	      },
+	      error : function(data) {
+	    	  alert("Printer Connection Timedout");
+	      }
+	    });
+  }
+  </script>
+</section>
+
+              <div>
+                 <button class="btn-theme btn-black" id="cash"  data-toggle="modal" data-target="#cashPay" onclick="toggleColor(this.id,'cashPay')">Cash</button>
+                 <button class="btn-theme btn-black" id="card" data-toggle="modal" data-target="#cardPay" onclick="toggleColor(this.id,'cardPay')">Razopay</button>
+                 <button class="btn-theme btn-black" id="cnote"   data-toggle="modal" data-target="#cnotePay" onclick="toggleColor(this.id,'cnotePay')">Card</button>
+                 <button class="btn-theme btn-black" id="coupon"   data-toggle="modal" data-target="#externalCard" onclick="toggleColor(this.id,'couponPay')">External Card</button>
+                 <button class="btn-theme btn-black"  data-toggle="modal" data-target="#couponPay" >Credit Note</button>
+                 <button class="btn-theme btn-black"  data-toggle="modal" data-target="#couponPay">Sodexo</button>
+                 <button class="btn-theme btn-black" data-toggle="modal" data-target="#couponPay">Paytm</button>
+			
+			</div>
+		</div>
+	</div>	
+		
+		
+		<!-- Modal starts here  -->
+		
+		
+<!--Cash Modal -->
+<div class="modal fade" id="cashPay" tabindex="-1" role="dialog" aria-labelledby="cashPayLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="margin: 117px">
+      <div class="modal-header" style="display:  -webkit-box;;">
+        <h5 class="modal-title" style="text-align: left; font-size: 14px;">Cash Payment &nbsp; &nbsp;Split Payment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   <div class="btn-group" id="status" data-toggle="buttons">
+              <label class="btn btn-default btn-on active">
+              <input type="radio" value="1" name="multifeatured_module[module_id][status]" checked="checked">ON</label>
+              <label class="btn btn-default btn-off">
+              <input type="radio" value="0" name="multifeatured_module[module_id][status]">OFF</label>
+            </div>
+  </h5>
+</div>
+          
+      <div class="modal-body" style="display: inline-flex; padding-inline-start: 16px;">
+         <h5 class="modal-title" style="text-align: left; font-size: 15px; color:red;">Payble Amount&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class=" pull-right" style="color: black;">
+         <span th:if="${balanceAmount} != null" th:text="${balanceAmount}"></span>
+         </b></h5>
+            </div>
+      <div class="modal-footer" >
+        <label class="pull-left" style="color:black; font-size: 15px;">Cash Recieved</label>
+        <input type="text" id="cashToPay" style="width: 123px;" value=""><br>
+        <br>
+
+<button type="button" class="btn-theme btn-black" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn-theme btn-black" th:onclick="cashSubmit()" id="cashSubmit">Submit</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+		
+
+<!--External Card Modal -->
+<div class="modal fade" id="externalCard" tabindex="-1" role="dialog" aria-labelledby="externalCardLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="margin: 117px">
+      <div class="modal-header" style="display:  -webkit-box;;">
+        <h5 class="modal-title" style="text-align: left; font-size: 14px;">External Card &nbsp; &nbsp;Split Payment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   <div class="btn-group" id="status" data-toggle="buttons">
+              <label class="btn btn-default btn-on active">
+              <input type="radio" value="1" name="multifeatured_module[module_id][status]" checked="checked">ON</label>
+              <label class="btn btn-default btn-off">
+              <input type="radio" value="0" name="multifeatured_module[module_id][status]">OFF</label>
+            </div>
+  </h5>
+</div>
+          
+      <div class="modal-body" style="display: inline-flex; padding-inline-start: 16px;">
+         <h5 class="modal-title" style="text-align: left; font-size: 15px; color:red;">Payble Amount&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class=" pull-right" style="color: black;">
+         <span th:if="${balanceAmount} != null" th:text="${balanceAmount}"></span>
+         </b></h5>
+            </div>
+      <div class="modal-footer" >
+      	<label class="pull-left" style="color:black; font-size: 15px;">Card Number</label>
+        <input type="text" id="cardNumber" style="width: 123px;" value=""><br>
+        <br>
+        
+        <label class="pull-left" style="color:black; font-size: 15px;">Cash Recieved</label>
+        <input type="text" id="cardCashToPay" style="width: 123px;" value="" ><br>
+        <br>
+
+<button type="button" class="btn-theme btn-black" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn-theme btn-black" th:onclick="cardSubmit()" id="cardSubmit">Submit</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!--  -->	
+		
+		
+		
+		
+		
+		<!-- ---------------search ends here----------- -->	
+	  <div class="col-md-9 col-sm-10 col-xs-10 table-container">
+	  <table id="pos_cart" class="row-border order-column"
+		style="width: 100%" "height:20px">
+		<thead style="background:#1F1F1F;color:#fff;">
+			<tr>
+				<th>Payment Method</th>
+				<th>Payment Recieved</th>
+				<th>Total Amount</th>
+				<th>Amount Remaining</th>
+
+			</tr>
+		</thead>
+		<tbody>
+			
+	  <tr th:each="paymentItemsEach,iter : ${paymentItems}">
+	  	<td id="paymentType" th:text="${paymentItemsEach.get('paymentType')}"></td>
+	  	<td id="receivedPayment" th:text="${paymentItemsEach.get('receivedPayment')}"></td>
+	  	<td id="totalDue" th:text="${totalDue}"></td>
+        <td id="remainingAmount" th:text="${paymentItemsEach.get('remainingAmount')}"></td>      
+      </tr>
+      
+     
+       
+     </tbody>
+	</table>
+
+
+
+</div> 
+
+
+
+
+
+
+  <div class="col-md-3 col-sm-12 col-xs-12 table-container">
+	 <div class="panel-group">
+  <div class="panel panel-default">
+      <div class="panel-heading">Panel Header</div>
+      <div class="panel-body" style="height: 400px;">
+      <div class="row border-dotted">
+      	<div class="col-md-6">Bill Amount</div>
+      	<div id="bill_amount" class="bill_amount col-md-6 pull-right">
+      	<span th:text="${subTotal}"></span>
+      	</div>
+      </div>
+      <div class="row border-dotted">
+      	<div class="col-md-6">Item Discount</div>
+      	<div id="item_discount" class="item_discount col-md-6 pull-right">0.00</div>
+      </div>
+      <div class="row" style="display: flex;padding: 2% 0% 0% 0%;">
+      	<div class="col-md-6">Addl. Discount</div>
+      	<div class="col-md-6 pull-right" style="display: flex;">
+      	<input id="additional_discount" type="number" name="addl_disc" class="additional_discount input-box margin-right" style="width:50%">
+      	<select class="input-select">
+      		<option>%</option>
+      	</select>
+      	</div>
+      	</div>
+      	<div class="row border-dotted">
+      		<div class="col-md-6">Discount Amount</div>
+      	<div id="discount_amount" class="discount_amount col-md-6 pull-right">0.00</div>
+      	</div>
+      	<div class="row" style="display: flex;padding: 2% 0% 0% 0%;">
+      	<div class="col-md-6">Charges</div>
+      	<div class="col-md-6 pull-right" style="display: flex;">
+      	<select class="input-select">
+      		<option>%</option>
+      	</select>
+      	
+      	
+      	
+      	<div class="col-md-6 pull-right" style="display: flex;">
+      	<input type="number" name="addl_disc" class="input-box margin-right" style="width:50%" value="5">
+      	<select class="input-select">
+      		<option>Rs.</option>
+      	</select>
+      	</div>
+      	</div>
+      </div>
+
+      	<div class="row border-dotted">
+      		<div class="col-md-6">Amount</div>
+      	<div class="col-md-6 pull-right">0.00</div>
+      	</div>
+      	<!-- <div class="row border-dotted">
+      	<div class="col-md-6">Rounded Off</div>
+      	<div class="col-md-6 pull-right">0.00</div>
+      </div> -->
+      <div class="row border-dotted">
+      		<div class="col-md-6">Amount taxable</div>
+      	<div class="col-md-6 pull-right">
+      	<span th:if="${totalSalesTax} != null" th:text="${totalSalesTax}"></span>
+      	</div>
+      	</div>
+      	<div class="row border-dotted">
+      		<div class="col-md-6">CGST</div>
+      	<div class="col-md-6 pull-right">
+      	<span th:if="${TOT_CGST_TAX} != null" th:text="${TOT_CGST_TAX}"></span>
+      	</div>
+      	</div>
+      	<div class="row border-dotted">
+      		<div class="col-md-6">SGST</div>
+      	<div class="col-md-6 pull-right">
+      	<span th:if="${TOT_SGST_TAX} != null" th:text="${TOT_SGST_TAX}"></span>
+      	</div>
+      	</div>
+      	<div class="row border-dotted">
+      		<div class="col-md-6">IGST</div>
+      	<div class="col-md-6 pull-right">
+      	<span th:if="${TOT_IGST_TAX} != null" th:text="${TOT_IGST_TAX}"></span>
+      	</div>
+      	</div>
+      	<div class="row border-dotted">
+      		<div class="col-md-6">Paid Amount</div>
+      	<div class="col-md-6 pull-right">
+      	<span th:if="${paidAmount} != null" th:text="${paidAmount}"></span>
+      	</div>
+      	</div>
+      	<div class="row border-dotted">
+      		<div class="col-md-6">Balance Amount</div>
+      	<div class="col-md-6 pull-right">
+      	<span th:if="${balanceAmount} != null" th:text="${balanceAmount}"></span>
+      	</div>
+      	</div>
+      <div class="row border-dotted" >
+      	<div class="col-md-6">Payable Amount</div>
+      	<div class="col-md-6 pull-right amount_red"><b><span th:if="${balanceAmount} != null" th:text="${balanceAmount}"></span></b></div>
+  
+      	</div>
+      	
+      	</div>
+      	</div>
+  
+
+	<button id="printBill" class="btn_checkout btn-theme btn-green pl-2 pr-2" style="height:36px;
+		width:-webkit-fill-available;" th:onclick="printBill()">PRINT ALL</button><br>
+	<br>
+
+<form th:action="@{/cartCheckout}" method="post">
+	<input type="hidden" id="preceiptId" name="preceiptId" th:value="${session.receiptId}" />
+	<input type="hidden" id="pdayId" name="pdayId" th:value="${session.dayId}" />
+	<input type="hidden" id="amountCash" name="amountCash" th:value="${totalDue}" />
+<button id="btn_checkout" class="btn_checkout btn-theme btn-green" style="height:36px; width: -webkit-fill-available; ">Checkout</button><br>
+<br>
+</form>
+    
+	 
+		 <tbody>
+			<tr th:each="productListEach,iter : ${productsList}" class="result">
+				<td id="eanCode" th:text="${productListEach.get('productIdEan')}"></td>
+				<td id="productId" th:text="${productListEach.get('productId')}"></td>
+				<td name="unit_id">EA</td>
+				<td id="productName" th:text="${productListEach.get('description')}"></td>
+				<td id="lotId"></td>
+				<td id="moOfPacks"></td>
+				<td id="packSize"></td>
+				<td></td>
+				<td id="saleRate" th:text="${productListEach.get('productSalePrice')}"></td>
+				<td id="coBatchNo"></td>
+	 			<td id="expiryDate" th:text="${productListEach.get('salesDiscontinuationDate')}"></td>
+	            <td><button class="check_val" data-toggle="modal" data-target="#cartmodal" th:onclick="addProductFunction([[${productListEach.get('productId')}]])"><i class="fa fa-plus-square"></i></button></td> 
+	          
+	        
+			</tr>
+		</tbody>  
+	</table>
+	  </div> 
+	      	
+		</div>
+	</div>
+	
+	
+</body>
+</html>

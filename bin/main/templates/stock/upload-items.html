@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Opening Stock')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Open Stock</title>
+    </head>
+    <body>
+        <section class="content-section">
+            <div class="row margin0">
+                <form id="uploadForm" method="POST" th:action="@{/uploadExcel}" enctype="multipart/form-data">
+                    <input id="file" type="file" name="file" style="display: none;" />
+                </form>
+                <button class="btn-theme btn-white" onclick="uploadFile()">
+                    Upload <br>Inventory <img src="assets/images/loader.png" alt="" class="btn-img hidden-xs">
+                </button>
+                <script type="text/javascript">
+                    document.getElementById("file").onchange = function () {
+                        document.getElementById("uploadForm").submit();
+                    };
+                    function uploadFile() {
+                        $('#file').trigger('click');
+                    }
+                </script>
+                <button class="btn-theme btn-blue" onclick="javascript:window.location = 'scanItems'">
+                    Scan <img src="assets/images/scan.png" alt="" class="btn-img hidden-xs">
+                </button>
+                <button class="btn-theme btn-blue" onclick="javascript:window.location = 'exportArticle'">
+                    Inventory Template <img src="" alt="" class="btn-img hidden-xs">
+                </button>
+                <button type="submit" class="btn-theme btn-red" onclick="javascript:window.location = 'uploadItems'">
+                    Clear Data <img src="assets/images/clear.png" alt="" class="btn-img hidden-xs">
+                </button>
+            </div>
+
+            <form method="POST" th:action="@{/addItemsToInventory}" th:object="${itemFormBean}">
+                <button class="btn-theme btn-confirm pull-right">
+                    <i class="fa fa-check hidden-xs" aria-hidden="true"></i> Confirm
+                </button>
+                <div class="col-md-12 table-container">
+                    <table id="uploaded-items" class="row-border order-column" style="width: 100%">
+                        <thead style="background: #1F1F1F; color: #fff;">
+                            <tr>
+                                <th>EAN Code</th>
+                                <th>Product Name</th>
+                                <th>Item Description</th>
+                                <th>Batch Number</th>
+                                <th>Qty</th>
+                                <th>MRP</th>
+                                <th>SP</th>
+                                <th>CP</th>
+                                <th>Lot Id</th>
+                                <th>Date of Manufacturing</th>
+                                <th>Expiry Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="item, itemStat: *{items}">
+                                <td><input th:field="*{items[__${itemStat.index}__].ean}"></td>
+                                <td><input th:field="*{items[__${itemStat.index}__].productName}"></td>
+                                <td><input th:field="*{items[__${itemStat.index}__].description}"></td>
+                                <td><input th:field="*{items[__${itemStat.index}__].batchNumber}"></td>
+                                <td><input th:field="*{items[__${itemStat.index}__].quantity}"></td>
+                                <td><input th:field="*{items[__${itemStat.index}__].mrp}"></td>
+                                <td><input th:field="*{items[__${itemStat.index}__].sp}"></td>
+                                <td><input th:field="*{items[__${itemStat.index}__].cp}"></td>
+                                <td><input th:field="*{items[__${itemStat.index}__].lotId}"></td>
+                                <td><input type="date" th:field="*{items[__${itemStat.index}__].manufacturingDate}"></td>
+                                <td><input type="date" th:field="*{items[__${itemStat.index}__].expiryDate}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+            <div class="clear"></div>
+        </section>
+    </body>
+</html>	

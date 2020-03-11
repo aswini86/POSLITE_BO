@@ -1,0 +1,237 @@
+.form-controller{
+	width:56%;
+    display: inline;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 12px;
+    line-height: 1.42857143;
+    color: #8E8E8E;
+    background-color: #fff;
+    border: none;
+    border-radius: 4px;
+    margin: 5px;
+}
+	.form-searchfield {
+    display: inline;
+    width: 35%;
+    height: 34px;
+    padding: 6px 4px;
+    font-size: 12px;
+    line-height: 1.42857143;
+    color: #8E8E8E;
+    background-color: #fff;
+    border: none;
+    border-radius: 4px;
+    margin: 5px;
+    margin-left: 0px;
+}
+.form-search{
+	width:56%;
+    display: inline;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 12px;
+    line-height: 1.42857143;
+    color: #8E8E8E;
+    background-color: #fff;
+    border: none;
+    border-radius: 4px;
+    margin: 5px;
+}
+.sure{
+	line-height:7; 
+	font-size:130%;
+	}
+	.status{
+	margin-bottom:5%;
+	}
+	.button{
+	height:5%;
+	}
+	tr{
+    line-height:2;
+     }
+	
+	label[for=status]
+	{
+	margin-right:20%;
+	}
+	.search-div form i{
+	width:3%;
+	}
+	.search-div form input[type=text]{
+	width:64%;
+	}
+	.modal-dialog{
+	width:34%;
+	}
+	.search-inputs{
+ border: none;
+    font-size: 12px;
+    border-radius: 4px;
+    height: 32px;
+    padding: 0 7px;
+    margin-bottom: 10px;
+}
+	.form-con {
+    display: inline;
+    width: 97%;
+    height: 59px;
+    padding: 6px 4px;
+    font-size: 12px;
+    line-height: 1.42857143;
+    color: #8E8E8E;
+    background-color: #fff;
+    border: none;
+    border-radius: 4px;
+    margin: 5px;
+    margin-left: 0px;
+}
+@media (max-width:768px)
+{
+#Remark{
+	margin-left:27px;
+}	
+}
+@media (min-width: 768px){
+.form-inline .form-control {
+    width: 86%;
+}
+
+.article modal-dialog {
+    width: 850px;
+    margin: 70px auto;
+}
+.padding-left0{
+padding-left:0;
+}
+
+.form-controller{
+width:86%;
+}
+
+.form-inline .form-group {
+    width: 82%;
+}
+.form-searchfield {
+    width: 90%;
+    
+}
+#missingarticles .modal-dialog {
+    width: 658px;
+    margin: 70px auto;
+    margin-top:146px;
+}
+.form-search{
+width:86%;
+}
+.search-inputs class{
+ border: none;
+    font-size: 12px;
+    border-radius: 4px;
+    height: 32px;
+    padding: 0 7px;
+    margin-bottom: 10px;
+}
+#Transfer_Date{
+	width:35%;
+}
+
+}
+@media only screen(min-width:768px){
+label[for=status]
+{
+margin-right:37%;
+}
+
+}
+@media (min-width: 1025px){
+.form-inline .form-control {
+    width: 24%;
+}
+.form-search{
+width:57%;
+}
+.form-controller{
+width:57%;
+}
+label[for=department]
+{
+margin-right:10%;
+}
+label[for=remark]
+{
+margin-right:6%;
+}
+.form-searchfield{
+width:55%;
+}
+}
+@media only screen and (max-width: 1024px) {
+	label[for=remark]
+{
+margin-right:12% !important;
+}
+ #Remark{
+ margin-left:22px;
+ }
+}
+
+@media (min-width: 900px) and (max-width:1024px){
+.form-inline .form-control {
+    width: 48%;
+}
+.form-search{
+width:48%;
+}
+.form-searchfield{
+width:48%;
+margin-left:5%;
+}
+label[for=status]
+{
+margin-right:39%;
+}
+.form-controller{
+width:48%;
+}
+label[for=department]
+{
+margin-right:20%;
+}
+label[for=remark]
+{
+margin-right:15%;
+}
+label[for=type]
+{
+margin-right: 37%;
+}
+ 
+}
+@media screen and (max-width: 767px){
+
+.form-control {
+    width: 90%;
+}
+.form-search{
+width:90%;
+}
+.form-controller{
+width:90%;
+}
+.form-searchfield {
+    width: 90%;
+    margin-left: 5%;
+}
+
+}
+@media screen and (min-width:425px){
+.sure{
+line-height:2;
+}
+	
+input[type="date" i] {
+	padding:5px 5px;
+	}
+

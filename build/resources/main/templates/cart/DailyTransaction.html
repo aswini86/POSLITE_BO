@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Pos</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel='stylesheet' href='assets/css/roboto.css' media='all'
+	type="text/css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<link rel='stylesheet' href='assets/css/style.css' media='all'
+	type="text/css">
+<link rel='stylesheet' href='assets/css/responsive.css' media='all'
+	type="text/css">
+<link rel='stylesheet' href='assets/css/dailytransaction.css' media='all'
+	type="text/css">
+<link rel='stylesheet'
+	href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
+	media='all' type="text/css">
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/select/1.3.0/css/select.dataTables.min.css">
+<link rel='stylesheet' href='assets/css/table.css' media='all'
+	type="text/css">
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<!--[if lt IE 9]>
+  	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<section class="main-section" id="wrapper">
+		<!-- --- header starts --- -->
+		<header class="main-header">
+			<div class="left-section col-md-6 col-sm-6 col-xs-12">
+				<span class="company-name"><h3>Wellness Healthcare Ltd.</h3>
+					<h5>Terminal Id: 100234</h5></span> <span class="content-heading"><h3>POINT OF SALE</h3></span>
+			</div>
+			<div class="right-section col-md-6 col-sm-6 col-xs-12 hidden-xs">
+				<div class="dropdown pull-right">
+					<button class="btn dropdown-toggle header-dropdown" type="button"
+						data-toggle="dropdown">
+						Administrator <i class="fa fa-chevron-down pull-right"></i>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a href="#">HTML</a></li>
+						<li><a href="#">CSS</a></li>
+						<li><a href="#">JavaScript</a></li>
+					</ul>
+				</div>
+			</div>
+		</header>
+		<div id="sidebar-wrapper">
+		<ul id="sidebar_menu" class="sidebar-nav">
+		<li><img class="logo-img" src="assets/images/logo.png" alt=""/></li>
+		</ul>
+			<ul id="sidebar_menu" class="sidebar-nav">
+				<li class="sidebar-brand"><a id="menu-toggle" href="#">Menu<span
+						id="main_icon" class="glyphicon glyphicon-align-justify"></span></a></li>
+			</ul>
+			<ul class="sidebar-nav" id="sidebar">
+				<li><a href="#"><span>Payment<span></span><span class="sub_icon glyphicon glyphicon-link"></span></a></li>
+				<li><a href="#">Cart<span class="sub_icon glyphicon glyphicon-link"></span></a></li>
+			</ul>
+		</div>
+		<div class="clear"></div>
+
+		<!-- --- header ends ----- -->
+		<section class="tranaction content-section">
+       <div class="daily-transaction">
+       	<div class="col-xs-10 col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3 col-xs-offset-1">
+		<fieldset>
+			<label>Start Date</label>
+			<label class="pull-right">
+			<input type="date" id="transfer_date" name="transfer_date" class="modal-input pull-left" />
+			</label>
+		</fieldset>
+		<fieldset>
+			<label>Last Closing Day</label>
+			<label class="pull-right">
+			<input type=""  id="transfer_date" class="modal-input pull-left" placeholder="Date" />
+			</label>
+		</fieldset>
+		<div class="pull-right">
+			<div class="button pull-left">
+		<button class="btn-theme btn-black" id="start"  data-toggle="modal" data-target="#startday" onclick="">Start Day</button>
+	</div>
+        </div>
+	</div>
+		<div>
+
+
+
+			<!--Last Transaction modal starts here-->
+<div id="startday" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				
+				<div class="modal-body text-center">
+				<h2><b style="font-size:125%;">Last day (Friday,23 Nov 2018) <br>has not been closed.Kindly close.</b></h2>
+				<div class="confirmation-btn-div">
+				    	<button  class="btn-theme btn-go" data-toggle="modal" data-target="#alreadystart" >OK</button>
+				    </div>
+				</div>
+
+		</div>
+	</div>
+	</div>
+	<!--Last Transaction modal ends here-->
+
+	<div id="alreadystart" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				
+				<div class="modal-body text-center">
+				<h2><b style="font-size:125%;">The day has already start.</b></h2>
+				<div class="confirmation-btn-div">
+				    	<button  class="btn-theme btn-go" data-toggle="modal" data-target="#alreadystart" >OK</button>
+				    </div>
+				</div>
+
+		</div>
+	</div>
+
+		</div>

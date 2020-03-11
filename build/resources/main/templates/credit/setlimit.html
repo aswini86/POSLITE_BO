@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'SET_CREDIT_LIMIT')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: SetLimit</title>
+    </head>
+    <body>
+        <section class="content-section">
+        	<input type="hidden" id="customerId" value="">
+        	<input type="hidden" id="createdBy" name="createdBy" th:value="${session.username}">
+            <div class="row margin0">
+             <fieldset style="min-width: 88%;">
+                    <label for="Customer Number" style="margin-right: 3%;">CUSTOMER NUMBER</label>
+                     
+   	    			<input id="contactNumber" type="text" name="contactNumber"
+											placeholder="Customer Mobile Number">
+                   </datalist>
+                  
+                 </fieldset>
+                 </div><br>
+                  <div class="row margin0">
+             <fieldset style="min-width: 88%;">
+                    <label for="Customer Number" style="margin-right: 3%;">CUSTOMER NAME</label> 
+                    <input class="search-input" type="text" name="" id="customerName">
+                 </fieldset>
+                 
+            </div><br>
+             <div class="row margin0">
+             <fieldset style="min-width: 88%;">
+                    <label for="Customer Number" style="margin-right: 3%;">CREDIT LIMIT(Rs.)</label> 
+                    <input class="search-input" type="text" id="creditLimit" onkeypress="return event.charCode >= 48" min="1" >
+                 </fieldset>
+                 
+                 
+            </div><br>
+             <div class="row margin0">
+             <button class="btn-theme btn-green" style="height: 34px;margin-inline-start: 79px; border-radius: 0;" 
+             th:onclick="createCreditLimit()">
+                SET LIMIT
+                </button>
+                       </div>
+            </div>
+            <div id="closeConfirmationModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b>Set Limit created Successfully!</b>
+                            <div class="confirmation-btn-div">
+                            <button  onclick="modalredirect()" data-dismiss="modal" class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Already Exists Model Starts Here -->
+            <div id="alreadyExistModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b id="msgtext"></b>
+                            <div class="confirmation-btn-div">
+                                <button type="button" data-dismiss="modal" class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <!-- Already Exists Model End Here -->
+            <script th:inline="javascript">
+				/*<![CDATA[*/
+				var message = /*[[${CustomerList}]]*/'default';
+				/*]]>*/
+			</script>
+            </section>
+            </body>
+            </html>
+           

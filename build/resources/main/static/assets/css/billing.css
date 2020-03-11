@@ -1,0 +1,190 @@
+ .panel-heading{
+    padding: 8px 18px;
+    font-size: 12px !important;
+    background: #111 !important;
+    font-family: Roboto Bold;
+    color: #fff !important;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+.border-dotted{
+	border-bottom: 2px dotted #dbdbdb;
+    padding: 2% 0%;
+}
+.panel-body {
+    padding: 0 15px 15px 15px !important;
+    font-size: 12px;
+    font-family: Roboto Medium;
+}
+.input-select{
+	background: #EFEFEF;
+    border-radius: 4px;
+    padding: 5% 10%;
+    border: none;
+    height: 27px;
+}
+.input-box{
+	background: #EFEFEF;
+    border-radius: 4px;
+    padding: 5% 10%;
+    border: none;
+    height: 30px;
+    width: 100%;
+}
+.margin-right{
+	margin-right: 2%;
+}
+.material-switch > input[type="checkbox"]:checked + label::after {
+    background: #b8b8b8;
+    left: 20px;
+}
+.material-switch > label::after {
+    background: rgb(184, 184, 184);
+    border-radius: 14px;
+    /* box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3); */
+    content: '';
+    height: 20px;
+    left: -4px;
+    margin-top: -7px;
+    position: absolute;
+    top: -4px;
+    transition: all 0.3s ease-in-out;
+    width: 20px;
+}
+.material-switch > label::before {
+    background: rgb(126, 125, 125);
+    /* box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5); */
+    border-radius: 8px;
+    content: '';
+    height: 13px;
+    margin-top: -7px;
+    position: absolute;
+    opacity: 0.3;
+    transition: all 0.4s ease-in-out;
+    width: 34px;
+}
+.table-select {
+    background: #EFEFEF;
+    border-radius: 4px;
+    padding: 5% 3%;
+    border: none;
+    width: 100%;
+    height: 32px;
+}
+.billing .search-options {padding-right: 20%;}
+.grey-background{
+	background-color: grey;
+	color: #fff;
+	padding: 5px 0;
+}
+.search-options .add-customer{
+	border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+    background: #b0171d;
+    color: #fff;
+}
+.search-options .add-input{
+	border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+}
+@media (min-width: 768px){
+#addNew .modal-dialog {
+    width: 400px;
+    }
+}
+
+#addNew input.modal-input,textarea.modal-input {
+ float: none;
+ width: 100%;
+}
+.amount_red {color: #b0171d}
+/* csss for billing screen*/
+   .btn-theme {margin: 8px;padding: 8px 24px !important;}
+   .btn-orange {background-color: #F2994A;border-radius: 70px;font-size: 12px}
+   .modal-content label {
+    font-size: 12px;
+}
+#upiPay .select-modal {
+    border: none;
+    float: right;
+    font-size: 12px;
+    border-radius: 4px;
+    height: 32px;
+    padding: 0 7px;
+	width: 40%;
+}
+/*Css for auto complete  */
+.search-inputs{
+ border: none;
+    font-size: 12px;
+    border-radius: 4px;
+    height: 32px;
+    padding: 0 7px;
+        margin: 5px 0px;
+ }
+ .search-labels{
+     padding: 10px 15px;
+    margin-bottom: 0;
+    font-size: 12px;
+ }
+ .outer-wrapper{
+ padding:0;
+ }
+ .inner-wrapper{
+ padding-left:0;
+ }
+ .clear-element{
+ clear:both;
+ }
+ 
+.easy-autocomplete{
+     width: auto !important;
+ }
+ .easy-autocomplete-container {
+    /* left: 17%; */
+    position: absolute;
+    width: 83%;
+    z-index: 5;
+    margin-top: 34px;
+}
+.easy-autocomplete-container ul li div {
+	padding:1%;
+	top:30px;
+}
+.easy-autocomplete-container ul li:last-child {
+	background:#6DC2FF;
+}
+.easy-autocomplete-container ul li div .btn-primary{
+	margin-top: -7px;
+	background:#F2C94C;
+}
+.easy-autocomplete input {
+    border-color: transparent;
+    border-radius: 4px;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: none;
+    color: #555;
+    float: none;
+    padding: 6px 12px;
+}
+.vendor>label.has-error{
+	margin-left:17%;
+}
+.details>div>label.has-error{
+	margin-left:35%;
+}
+@media (max-width: 768px){
+.vendor>label.has-error {
+    margin-left: 34%;
+}
+}
+#confirmationModal .modal-dialog{
+	margin-top: 15%;
+    width: 450px;
+}
+#searchVendorModel .modal-content{
+	min-height: 400px !important;
+}

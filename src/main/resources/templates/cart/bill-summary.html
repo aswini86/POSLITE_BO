@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Pos Cart')}" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Retail BO :: Pos Cart</title>
+</head>
+<body>
+	<section class="main-section" id="wrapper">
+		<!-- --- header starts --- -->
+		<div class="clear"></div>
+		<!-- --- header ends ----- -->
+		<div class="clear"></div>
+		<section class="billing content-section">
+		<!-- ---------------search starts here----------- -->
+		<input type="hidden" id="createdBy" name="createdBy" th:value="${session.username}">
+   		 <div class="row margin0">
+			<div class="col-md-12 padding0">
+				<!-- <fieldset>
+					<label style="padding-top: 1%; width: 15%;"
+						class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Pos Terminal</label>
+					<input class="search-input col-lg-6 col-md-2 col-sm-2 col-xs-2"
+						type="text" id="customerMobileNo" name="customerMobileNo" placeholder="Customer Mobile" style="">
+						<button id="go" class="btn btn-go">GO</button>
+				</fieldset> -->
+				<!-- <fieldset>
+				      	<label style="padding-top: 1%; width: 15%;"
+						class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Date From</label> 
+						
+						<input class="search-input col-lg-6 col-md-2 col-sm-2 col-xs-2"
+						type="date" id="fromDate" name="date-from" placeholder="DD/MM/YYYY" style="">
+						
+					   <label style="margin-left: 3%; width: 10%; padding-top: 1%;"
+						class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Date To</label>
+						 
+						<input class="search-input col-lg-2 col-md-2 col-sm-2 col-xs-2"
+						type="date" id="thruDate" name="date-to" placeholder="DD/MM/YYYY">
+						
+					<button id="go" class="btn btn-go">GO</button>
+				</fieldset> -->
+				
+			</div>
+		</div>
+   	<br>
+   	<br>
+   	<br>	
+		<!-- ---------------search ends here----------- -->	
+		
+	<div class="col-md-12 table-container " style="overflow-x: scroll;">
+               <table id="pos_summary_list" class="row-border order-column" style="width: 100%" data-order=''>
+                 <thead style="background: #1F1F1F; color: #fff;">
+			<tr>
+				<th>Customer Name</th>
+				<th>Customer Number</th>
+				<th>Bill Id</th>
+				<th>Date</th>
+				<!-- <th>Quantity</th> -->
+				<th style="text-align:center;"> CASH</th>
+					<th style="text-align:center;"> CARD</th>
+					<th style="text-align:center;"> CREDIT NOTE</th>
+ 						<th style="text-align:center;"> CREDIT</th>
+			             <th style="text-align:center;">GIFT COUPON</th>
+			              <th style="text-align:center;">SODEXO</th>
+			               <th style="text-align:center;">PAYTM</th>
+			                <th style="text-align:center;">UPI</th>
+			                <th style="text-align:center;">BHIM</th>
+			           <th style="text-align:center;">TICKET</th>
+			                 <th style="text-align:center;">PHONE PE</th>
+							<th style="text-align:center;">Total Amount</th>
+						<th></th>
+			</tr>
+		</thead>
+		<tbody id="myBody1">
+    	 <tr th:each="posCartSummaryEach : ${posCartSummaryList}" >
+			<td  style="text-align:center" id="customerName" th:text="${posCartSummaryEach.get('customerName')}"></td>
+				<td  style="text-align:center" id="customerNumber" th:text="${posCartSummaryEach.get('customerMobileNo')}"></td>
+				<td  style="text-align:center" id="billId" th:text="${posCartSummaryEach.get('receiptId')}"></td>
+				<td  style="text-align:center" id="billDate" th:text="${posCartSummaryEach.get('billDate')}"></td>
+				<!-- <td style="text-align:center" id="orderQty" th:text="${posCartSummaryEach.get('billQty')}"></td> -->
+				<td  style="text-align:center" id="totalAmtPaidByCash" th:text="${posCartSummaryEach.get('totalAmtPaidByCash')}"></td>
+				<td style="text-align:center" id="totalAmtPaidByCard" th:text="${posCartSummaryEach.get('totalAmtPaidByCard')}"></td>
+								<td style="text-align:center" id="totalAmtPaidByCreditnote" th:text="${posCartSummaryEach.get('totalAmtPaidByCard')}"></td>
+								<td style="text-align:center" id="totalAmtPaidByCredit" th:text="${posCartSummaryEach.get('totalAmtPaidByCard')}"></td>
+								<td style="text-align:center" id="totalAmtPaidByGiftcoupon" th:text="${posCartSummaryEach.get('totalAmtPaidByCard')}"></td>
+								<td style="text-align:center" id="totalAmtPaidBySodexo" th:text="${posCartSummaryEach.get('totalAmtPaidByCard')}"></td>
+								<td style="text-align:center" id="totalAmtPaidByPaytm" th:text="${posCartSummaryEach.get('totalAmtPaidByCard')}"></td>
+								<td style="text-align:center" id="totalAmtPaidByUpi" th:text="${posCartSummaryEach.get('totalAmtPaidByCard')}"></td>
+								<td style="text-align:center" id="totalAmtPaidByBhim" th:text="${posCartSummaryEach.get('totalAmtPaidByCard')}"></td>
+								<td style="text-align:center" id="totalAmtPaidByTicket" th:text="${posCartSummaryEach.get('totalAmtPaidByCard')}"></td>
+								<td style="text-align:center" id="totalAmtPaidByPhonepe" th:text="${posCartSummaryEach.get('totalAmtPaidByCard')}"></td>
+				
+
+				<td  style="text-align:center" id="billTotalAmt" th:text="${posCartSummaryEach.get('billTotalAmt')}"></td>
+				<td th:if="${posCartSummaryEach.get('checkIssued') == false}"><a th:href="@{/issueCreditNote(receiptId=${posCartSummaryEach.get('receiptId')})}">
+				Issue Credit Note</a></td>
+				<td th:if="${posCartSummaryEach.get('checkIssued') == true}">Credit Note Already Issued</a></td>
+				
+		</tr>  
+		</tbody>
+	</table>
+	</div>
+	 
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('#go').click(function() {
+			
+			var fromDate = $('#fromDate').val();
+			var thruDate = $('#thruDate').val();
+			var posTerminalId = $('#posTerminalId').val();
+			var password = "ofbiz";
+            var username = $('#createdBy').val();
+			var data0 = {
+				fromDate : fromDate,
+				thruDate : thruDate,
+				posTerminalId : posTerminalId
+            };
+			var json = JSON.stringify(data0);
+			$.ajax({
+                type : 'GET',
+                url : '/getPosmartCashReport',
+                data : {
+                    json : json,
+                    username : username,
+                    password : password
+                },
+                dataType : 'json',
+                success : function(data) {
+                    populateDataTable(data);
+                }
+            });
+			function populateDataTable(data) {
+                $('#pos_summary').DataTable().clear().draw();
+                var result = JSON.parse(JSON.stringify(data.posCartSummary));
+                $('#pos_summary').dataTable().fnAddData([
+                	result.orderQty,
+                	result.totalAmtPaidByCash,
+                	result.orderAmtTotal,
+                	result.totalAmtPaidByCard,
+                    ]);
+                 if(result.length == 0){
+                     $('#pos_summary').dataTable().fnAddData([
+                         '<td>No Data Available</td>',
+                         '<td></td>',
+                         '<td></td>',
+                         '<td></td>',
+                    ]);
+                 }
+                 var posSummaryResult = JSON.parse(JSON.stringify(data.posCartSummaryList));
+                 $('#pos_summary_list').DataTable().clear().draw();
+                 for (var j = 0, l = posSummaryResult.length; j < l; j++) {
+                     var obj = posSummaryResult[j];
+                     	$('#pos_summary_list').dataTable().fnAddData([
+                             obj.receiptId,
+                             obj.orderDate,
+                             obj.productName,
+                             obj.productPrice,
+                             obj.quantity,
+                             ]);
+                 }
+                 if(posSummaryResult.length == 0){
+                	 $('#pos_summary_list').dataTable().fnAddData([
+                         '<td>No Data Available</td>',
+                         '<td></td>',
+                         '<td></td>',
+                         '<td></td>',
+                         '<td></td>',
+                    ]); 
+                 }
+            }
+		});
+	});
+	</script>
+</section>
+</section>
+</body>
+</html>

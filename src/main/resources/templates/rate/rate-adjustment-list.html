@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Rate Adjustment List')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Rate Adjustment List</title>
+    </head>
+    <body>
+        <section class="stockadjustment-list content-section">
+            <!-- ---------------search starts here----------- -->
+            <div class="search-container">
+                <form th:action="@{/createRateAdjustment}" method="get">
+	                <button class="btn-theme btn-green pull-right" type="submit" style="margin-right:19px;height: 38px;">
+	                    Create New
+	                </button>
+                </form>
+               <!--  <form class="form-inline"> -->
+                    <div class="form-group"> 
+                        <label for="search" class="control-label">Search Transaction</label>
+                        <input type="search" class="form-control" id="searchTransactionId" name="searchTransactionId" placeholder="Search By transaction Id">
+                        <select name="status" id="statusId" class="form-control">
+                            <option value="">Status</option>
+                            <option th:value="APPROVED" th:text="Approved"></option>
+                            <option th:value="PENDING" th:text="Pending"></option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-group"> 
+                        <label class="control-label" for="date_from">Date From</label>
+                        <input type="date" name="date_from" id="date_from" class="form-control">
+                        <label class="control-label" for="date_to">Date To</label>
+                        <input type="date" name="date_to" id="date_to" class="form-control">
+                      <button id="go" class="btn-theme btn-go" >Go</button>
+                    
+                       <!--  <button id="go" class="btn-theme btn-go">Go</button> -->
+                        
+                    </div>
+                    
+                <!-- </form> -->
+
+            </div>	
+       <script type="text/javascript">
+				$(document).ready(function() {
+					$('#go').click(function() {
+						
+						
+			//writting a function to get the data from ofbiz and displaying it in the database table 
+						var transactionId = $('#searchTransactionId').val();
+						var TransferIdStatus = $('select[name="status"]').val();
+						var datefrom = $('#date_from').val();
+						var rulename = $('#rulename').val();
+						var dateto = $('#date_to').val();
+						var statusId = $('#statusId').val();
+						var password = "ofbiz";
+						var username = "admin";
+						var data0 = {
+							transactionId : transactionId,
+							searchByfacilityIdstatus : TransferIdStatus,
+							searchByfacilityIdfrom : datefrom,
+							dateto : dateto,
+							rulename : rulename,
+							statusId : statusId
+						};
+						var json = JSON.stringify(data0);
+						$.ajax({
+									type : 'GET',
+									url : '/getRateAdjustment',
+									data : {
+										json : json,
+										username : username,
+										password : password
+									},
+									dataType : 'json',
+									success : function(data) {
+										populateDataTable(data);
+									}
+
+								});
+						function populateDataTable(data) {
+							
+							var table = $('#rateadjustment').DataTable();
+							table.clear();
+							var result = JSON.parse(JSON.stringify(data.list));
+							 for (var j = 0, l = result.length; j < l; j++) {
+								var obj = result[j];
+								if(obj.status == "APPROVED") {
+									$('#rateadjustment').dataTable().fnAddData([
+										obj.productPriceRuleTxId,
+										obj.description,
+										obj.createdBy,
+			 							obj.createdStamp,
+			   							obj.status,
+			   							'<td></td>',
+									    '<td><a href="@{/viewRateAdjustmentList}"><img src="assets/images/button-view.png" width="24"></a></td>',]);
+								} else {
+									$('#rateadjustment').dataTable().fnAddData([
+										obj.productPriceRuleTxId,
+										obj.description,
+										obj.createdBy,
+			 							obj.createdStamp,
+			   							obj.status,
+			   							'<td><a href="/approveRateAdjustmentList?productPriceTxnId='+obj.productPriceRuleTxId+'">Approve</a></td>',
+			   							'<td><a href="/viewRateAdjustmentList?productPriceTxnId='+obj.productPriceRuleTxId+'"><img src="assets/images/button-view.png" width="24"></a></td>']);
+								}
+		                           
+							}
+							 if(result.length == 0){
+								 $('#rateadjustment').dataTable().fnAddData([
+									 '<td>No Data Available</td>',
+									 '<td></td>',
+									 '<td></td>',
+									 '<td></td>',
+									 '<td></td>',
+									 '<td></td>',
+									 '<td></td>',
+								]);
+							 }
+						}
+					});
+							
+							
+				});
+		</script>
+            <div class="clear"></div>
+            <div class="search-div col-md-12">
+                <form class="" action="">
+                    <i class="fa fa-search"></i> <input type="text"
+                                                        placeholder="Scanned EAN Number" th:id="add_product_id" name="add_product_id">
+
+                </form>
+               <form th:action="@{/rateAdjustmentList}" method="get">
+                	<button class="btn-clear-search pull-right" type="submit"> CLEAR SEARCH</button>
+                </form>
+            </div>
+            <div class="clear"></div>
+            <!-- ---------------search ends here----------- -->	
+            <div class="col-md-12 table-container">
+                <table id="rateadjustment" class="row-border order-column" style="width: 100%">
+                    <thead style="background: #1F1F1F; color: #fff;">
+                        <tr>
+                            <th>Transaction Id</th>
+                            <th>Remarks</th>
+                            <th>Prepared By</th>
+                            <th>Created Date</th>
+                            <th>Status</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    	<tr th:each="rateAdjutmentEach: ${rateAdjutmentList}">
+                    		<td th:text="${rateAdjutmentEach.get('productPriceRuleTxId')}"></td>
+                    		<td th:text="${rateAdjutmentEach.get('description')}"></td>
+                    		<td th:text="${rateAdjutmentEach.get('createdBy')}"></td>
+                    		<td th:text="${rateAdjutmentEach.get('createdStamp')}"></td>
+                    		<!-- <td th:text="${#dates.day(rateAdjutmentEach.get('createdStamp'))}"></td> -->
+                    		<td th:text="${rateAdjutmentEach.get('status')}"></td>
+                    		<td th:if="${rateAdjutmentEach.get('status')} != 'APPROVED'"><a th:href="@{/approveRateAdjustmentList(productPriceTxnId=${rateAdjutmentEach.get('productPriceRuleTxId')})}">Approve</a></td>
+                    		<td th:if="${rateAdjutmentEach.get('status')} == 'APPROVED'"></td>
+                            <td><a th:href="@{/viewRateAdjustmentList(productPriceTxnId=${rateAdjutmentEach.get('productPriceRuleTxId')})}"><img src="assets/images/button-view.png" width="24"></a></td>
+                    	</tr>
+                    </tbody>
+                </table>
+            </div>
+			<!-- Confirm Model Starts Here -->
+            <!-- <div th:if="${successMessage != null}" id="confirmationModal" class="modal fade" role="dialog"> -->
+                <div th:if="${successMessage != null}" class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b>Product Price Rule Created Successfully!</b>
+                            <div class="confirmation-btn-div">
+                                <button type="button" data-dismiss="modal" class="btn-theme btn-go"></button>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="modal-footer"></div>
+                    </div>
+                    
+                </div>
+        </section>
+    </body>
+</html>
+

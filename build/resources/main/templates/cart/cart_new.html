@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<html th:replace="~{layout_new :: template(~{::title}, ~{::section}, 'Pos Cart')}" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Retail BO :: Pos Cart</title>
+<style type="text/css">
+/* #ID:focus{
+border:1px solid black;
+} */
+body{
+ overflow-x: hidden;
+
+}
+</style>
+</head>
+<body>
+	<section class="main-section" id="wrapper">
+	<div class="wrapper" id="wrapper" >
+		<div class="main-screen-panel" >
+			<!-- <form action="" method="post" id="cart_form"> -->
+				<input type="hidden" id="receiptId" name="receiptId" th:value="${session.receiptId}" />
+				<input type="hidden" id="dayId" name="dayId" th:value="${session.dayId}" />
+				<input type="hidden" id="createdBy" name="createdBy" th:value="${session.username}">
+				<input type="hidden" id="customerShipState" name="customerShipState" th:value="${session.customerShipState}">
+				<input type="hidden" id="posTerminalId" name="posTerminalId" th:value="${session.posTerminalId}">
+				<input type="hidden" id="cartItems" name="cartItems" th:value="${cartItems}">
+				<input type="hidden" id="taxEnable" name="taxEnable" th:value="${taxEnable}" />
+				<input type="hidden" id="discount" name="discount" th:value="${discount}" />
+				<input type="hidden" id="isPercentage" name="isPercentage" th:value="${isPercentage}" />
+				<input type="hidden" id="addlcharges" name="addlcharges" th:value="${charges}" />
+				<input type="hidden" id="isChargePercentage" name="isChargePercentage" th:value="${isChargePercentage}" />
+				<input type="hidden" id="billAmount" name="billAmount" th:value="${subTotal}" />
+				<input type="hidden" id="billDiscAmount" name="billDiscAmount" th:value="${discAmount}" />
+				<input type="hidden" id="discountPer" name="discountPer" th:value="${discountPer}" />
+				<input type="hidden" id="chargePer" name="chargePer" th:value="${chargePercentage}" />
+				
+				<div class="row">
+					<div class="col-md-9">
+						<div class="main-topsection">
+							<div class="billdeatilsform">
+							 <div class="focusguard" id="focusguard-1" onkeydown="OnFocusOut()" tabindex="0"></div>
+							
+								<div class="form-row">
+									<div class="col-md-2">
+										<label class="frm-label">Bill No:</label>
+									</div>
+									<div class="col-md-3 frm-group">
+										<input type="text" id="billNum" th:value="${session.receiptId}" readonly>
+									</div>
+									<div class="col-md-3 frm-group">
+										<div class="frm-icon-input frm-icon-end autocomplete">
+											<input id="contactNumber" type="text"class="firstInput" tabindex="1"  name="contactNumber" onKeyPress="return onlyNumbersandSpecialChar()"
+											autocomplete="on" maxlength="10" placeholder="Customer Mobile Number" th:value="${contactNumber}" >
+											<span class="input-icon"><i class="fa fa-plus"></i></span>
+											<span class="input-icon" data-target=".add-customer" data-toggle="modal"><i class="fa fa-plus"></i></span>
+										</div>
+									</div>
+									<div class="col-md-4 frm-group">
+										<input type="text" placeholder="Customer Name" tabindex="2" autocomplete="off" onclick="mobile()"
+											onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" id="customerName" th:value="${customerName}"> </div>
+								</div>
+								<div class="form-row">
+									<div class="col-md-2">
+										<label class="frm-label">Bill Date</label>
+									</div>
+									<div class="col-md-3 frm-group">
+										<div class="docs-datepicker">
+											<div class="input-group">
+												<input type="text" th:id="transfer_date" name="transfer_date" class="date-input-one" autocomplete="off" placeholder="DD/MM/YYYY">
+												<span class="docs-datepicker-trigger dt-input-trigger-one">
+													<i class="fa fa-calendar" aria-hidden="true"></i>
+												</span>
+											</div>
+											<div class="docs-datepicker-container"></div>
+										</div>
+									</div>
+									<div class="col-md-7 frm-group">
+										<input type="text" placeholder="Customer Address" autocomplete="off" class="lastInput" tabindex="3"  id="customerAddress" th:value="${contactAddress}"> </div>
+								</div>
+								    <div class="focusguard" id="focusguard-2" tabindex="4" ></div>
+								
+								<!-- Commented for pos lite -->
+								<!-- <div class="form-row">
+									<div class="col-md-2">
+										<label class="frm-label">Search Article</label>
+									</div>
+									<div class="col-md-6 frm-group">
+										<input type="text" placeholder="Search by EAN/Product Name/Item ID"> </div>
+									<div class="col-md-3 frm-group">
+										<select>
+											<option value="" selected disabled>Search By</option>
+											<option >Product Name</option>
+											<option value="">Category</option>
+											<option value="">Product Id</option>
+										</select>
+									</div>
+									<div class="col-md-1">
+										<button class="button button-black button-normal" data-target=".add-cartProduct" data-toggle="modal"
+										type="button" >Go</button>
+									</div>
+								</div> -->
+							</div>
+						</div>
+						<div class="main-content">
+							<div class="tablepanel">
+								<div class="table-block">
+									<table id="POITable" class="customtable display" border="0" align="center" cellpadding="0"
+									 cellspacing="0" width="100%" style="width:100%">
+										<thead class="mainthead">
+											<tr>
+												<th width="15%">Barcode</th>
+												<th width="25%">Product Name</th>
+												<th width="15%">Qty</th>
+												<th width="15%">MRP</th>
+												<th width="15%">SP</th>
+												<th width="15%">Amount</th>
+												<th class="iconcol">&nbsp;</th>
+											</tr>
+										</thead>
+
+										<tbody class="maintbody-content">
+										    <div class="focusguard focus" id="focusguard-1" tabindex="5" onkeydown="OnFocusOut1()"></div>
+										
+											<tr>
+												<td><input type="text" tabindex="6" id="barcode" placeholder="EAN" ></td>
+												<td><input type="text" tabindex="7" id="productName" placeholder="Enter Product Name" ></td>
+												<td><input type="Number" tabindex="8" min=0 onkeypress='return event.charCode >= 48 && event.charCode <= 57' /
+													id="quantity" th:onchange="quantityChange()" placeholder="QTY" ></td>
+												<td><input type="Number" tabindex="9" min=0 onkeydown="return event.keyCode !== 69" 
+												id="mrp" placeholder="MRP" ></td>
+												
+												<td><input type="Number" tabindex="10" min=0 onkeydown="return event.keyCode !== 69" 
+												id="sellingPrice" th:onchange="changeSellingPrice()" placeholder="Selling Price" ></td>
+												
+												<td><input type="Number" tabindex="11" min=0 onkeydown="return event.keyCode !== 69" 
+													id="amount" placeholder="Amount" ></td>
+												
+            <!-- 		<td><img src="assets/images/add.png" id="btn" tabindex="12" width="24" th:onclick="addProductFunction()"></td> -->												
+
+	   <td><div onclick="peet()"  tabindex="12" id="addbtn"><button type="button" class="button button-green button-normal addbtnp" id="ID" t tabindex="12" th:onclick="addProductFunction()" style="font-size: 19px; border-radius: 60%;" >+</button></div>
+												</td>
+											</tr>
+											</tbody>
+										</table>
+										<script>
+											function peet()
+											{
+											document.getElementById("ID").disabled = true;
+											}
+										</script>
+										
+										<table id="pos_cart" class="customtable scrollabletable" align="center"
+										 cellpadding="0" cellspacing="0" width="100%" style="width:100%">
+									  <thead>
+									  	<tr>
+									  		<th></th>
+											<th></th>
+											<th></th>
+											<th></th>
+											<th></th>
+											<th></th>
+											<th></th>
+									  	</tr>
+									  </thead>
+										<tbody id="myBody" class="maintbody-content">
+											<tr th:each="cartItemsEach,iter : ${cartItems}" class="result">
+												<td width="15%">
+												<input type="text" readonly placeholder="Barcode" th:id="${'cartBarcode_'+iter.index}"  
+														th:value="${cartItemsEach.get('bar_code')}">
+												</td>
+												<td width="26%" >
+												<input type="text" readonly placeholder="ProductName" th:id="${'cartproductName_'+iter.index}"  
+														th:value="${cartItemsEach.get('productName')}">
+												</td>
+												
+												<td width="16%">
+												<input type="text" readonly placeholder="Qty" th:id="${'cartquantity_'+iter.index}"  
+														th:value="${cartItemsEach.get('product_qty')}">
+												</td>
+												
+												<td width="15%" >
+												<input type="text" placeholder="Mrp" th:id="${'mrprice_'+iter.index}"  
+														th:value="${cartItemsEach.get('mrp')}" readonly>
+												</td>
+												<td width="15%">
+												<input type="text" placeholder="SP" th:value="${cartItemsEach.get('productPrice')}" 
+												th:id="${'cartprice_'+iter.index}" readonly>
+												</td>
+												
+												<td width="15%" id="cartAmount" th:text="${cartItemsEach.get('cartAmount')}"></td>
+												<td>
+                                                   <input src="assets/images/trash.png" type="button" style="border-radius: 16px;height: 32px;margin-left: 0px;" th:onclick="deleteproduct([[${cartItemsEach.get('productId')}]])">
+                                                   <img style="position: relative;margin-top: -51px; margin-left:3px;" src="assets/images/trash.png"></td>
+											</tr>
+										</tbody>
+									</table>
+
+								</div>
+							</div>
+						</div>
+						<div class="main-footer">
+							<div class="footer-button-panel">
+								<div class="detailbtnrow">
+									<div class="button-group">
+										<button class="button button-black button-normal">Reprint BILL</button>
+										<button class="button button-black button-normal" onclick="voidBill()">VOID BILL</button>
+										<button class="button button-black button-normal" onclick="holdBill()">HOLD BILL</button>
+										<button class="button button-black button-normal"
+										data-toggle="modal" data-target=".populateHoldBillModal" type="button">populate held bill</button>
+									</div>
+								</div>
+								<div class="total-amt-ftr">
+									<div class="total-amt-block">
+										<span class="total-items-label">Total Items</span>
+										<span class="total-items-details" id="total_item" th:if="${cartSize} != null" th:text="${cartSize}"></span>
+      									<span class="total-items-details" id="total_item" th:if="${cartSize} == null" style="color: red">0.0</span></b>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="main-right-sidebar">
+							<div class="billing-deatil-sidebar">
+								<div class="bill-detailscol">
+									<div class="detailhead">
+										<div class="maindetailhead">Last Bill Details</div>
+										<div class="subdetailhead" >Customer : <span th:id="bill_customerName"></span></div>
+									</div>
+									<div class="details-des">
+										<div class="row desrow">
+											<div class="col-md-5 billabel">Bill Amount</div>
+											<div class="col-md-7 bilvalue">
+											<span th:id="last_bill_amt" th:if="${billReturnMap} != null" th:text="${billReturnMap.billAmt}"></span>
+									      	<span th:id="last_bill_amt" th:if="${billReturnMap} == null" style = "font-size:15px;">0.0</span>
+											</div>
+										</div>
+										<div class="row desrow">
+											<div class="col-md-5 billabel">Return Amount</div>
+											<div class="col-md-7 bilvalue" >
+											<span th:id="last_bill_returnamt" th:if="${billReturnMap} != null" th:text="${billReturnMap.billReturnAmt}"></span>
+									      	<span th:id="last_bill_returnamt" th:if="${billReturnMap} == null" style = "font-size:15px;">0.0</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="bill-detailscol">
+									<div class="detailhead">
+										<div class="maindetailhead">Current Bill Details</div>
+									</div>
+									<div class="details-des">
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel">Bill Amount</div>
+											<div class="col-md-7 bilvalue" id="bill_amt" th:text="${subTotal}"></div>
+										</div>
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel">Item Discount</div>
+											<div class="col-md-7 bilvalue" id="item_discount">0.00</div>
+										</div>
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel valign-middle-label">Addl. Discount</div>
+											<div class="col-md-7 bilvalue">
+												<input type="text" name="addldiscnt" tabindex="13" id="addl_discount" onKeyPress="return onlyNumbersandSpecialChar()" th:onchange="calcAddlDiscount()"
+													placeholder="0">
+												<select id="addl_discount_opt" tabindex="14" th:onchange="calcAddlDiscount()">
+													<option value="discount_per">%</option>
+													<option value="discount_amt">₹</option>
+												</select>
+											</div>
+											<div class="col-md-5 billabel">Total Discount</div>
+											<div class="col-md-7 bilvalue" id="discount_amount">
+											<span id="discount_amount" th:if="${discAmount} != null" th:text="${discAmount}"></span>
+      										<span id="discount_amount" th:if="${discAmount} == null" >0.0</span></b>
+											</div>
+										</div>
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel valign-middle-label">Charges</div>
+											<div class="col-md-7 bilvalue">
+												<input type="text" name="charges" tabindex="15" id="charges" th:onchange="calcAddlDiscount()" onKeyPress="return onlyNumbersandSpecialChar()" placeholder="0" value="">
+												<select id="charge_opt" tabindex="16" th:onchange="calcAddlDiscount()">
+													<option value="charges_per">%</option>
+													<option value="charges_amt">₹</option>
+												</select>
+											</div>
+											<div class="col-md-5 billabel">Amount</div>
+											<div class="col-md-7 bilvalue" id="charge_amount">0.00</div>
+										</div>
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel">Rounded Off</div>
+											<div class="col-md-7 bilvalue" id="round_off">0.00</div>
+										</div>
+										<div class="row desrowborder payrow">
+											<div class="col-md-5 billabel">Payable Amount</div>
+											<div class="col-md-7 bilvalue" id="payable_amount">
+									      	<span id="pay_amount" th:if="${balanceAmount} != null" th:text="${balanceAmount}"></span>
+									      	<span id="pay_amount" th:if="${balanceAmount} == null" style = "font-size:15px;">0.0</span>
+									      	</div>
+										</div>
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel font-wt-700 valign-middle-label">Tax Invoice?</div>
+											<div class="col-md-7 bilvalue">
+												<div class="switch-block" tabindex="17">
+													<span class="switch-label font-wt-700" >No</span>
+													<label class="switch">
+														<input type="checkbox" id="withTax">
+														<span class="slider"></span>
+													</label>
+													<span class="switch-label font-wt-700" >Yes</span>
+												</div>
+											</div>
+										</div>
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel">Apply Coupon</div>
+											<div class="col-md-7 bilvalue apcoupon">
+												<input type="text" name="apcoupon" placeholder="Coupon Code"> <span class="couponerror">Coupon code applied!</span> </div>
+										</div>
+									</div>
+								</div>
+								
+								<form th:action="@{/newPayment}" method="post">
+									<input type="hidden" id="preceiptId" name="preceiptId" th:value="${session.receiptId}" />
+									<input type="hidden" id="pcontactNumber" name="pcontactNumber" th:value="${contactNumber}" />
+									<input type="hidden" id="pcustomerName" name="pcustomerName" th:value="${customerName}" />
+									<input type="hidden" id="pdayId" name="pdayId" th:value="${session.dayId}" />
+									<input type="hidden" id="isHold" name="isHold" value="" />
+										
+								  	<div class="checkoutrow">
+									<button class="button button-green button-normal" id="billingCheckout">checkout</button>
+								</div>
+								</form>
+								 
+								<!-- <div class="checkoutrow">
+									<button class="button button-green button-normal">checkout</button>
+								</div> -->
+							</div>
+						</div>
+					</div>
+				</div>
+			<!-- </form> -->
+		</div>
+	</div>
+	
+	
+	<!-- --- Add customer modal starts here --- -->
+	<div class="modal add-customer">
+
+		<!-- <div class="stop_scan"> -->
+		<div class="modal-dialog modal-grid-wrapper">
+			<div class="modal-content">
+				<!-- Modal body -->
+				<div class="modal-body text-center modal-wrapper ">
+					<div class="split-flex">
+						<h4>Add Customer Details </h4>
+					</div>
+
+					<div class="wrapper-grid-paytype autocomplete="off"">
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Enter name</label>
+						</div>
+						<div class="grid-item-split-cash-btm">
+							<div class="frm-group"><input type="text" autocomplete="off" name="enter name" id="enter_name"
+								onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" placeholder="Customer Name"></div>
+						</div>
+						
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Email-id</label>
+						</div>
+						<div class="grid-item-split-cash-btm paytype-detail-red">
+							<div class="frm-group"><input type="text" name="email id" autocomplete="off" id="email_id" placeholder="E-mail"></div>
+						</div>
+						
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Contact Number</label>
+						</div>
+						<div class="grid-item-split-cash-btm paytype-detail-red">
+							<div class="frm-group"><input type="text" autocomplete="off" name="contact number" id="contact_number" 
+										onKeyPress="return onlyNumbersandSpecialChar()" placeholder="Contact Number" maxlength="10"	></div>
+						</div>
+						
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Address</label>
+						</div>
+						<div class="grid-item-split-cash-btm paytype-detail-red">
+							<div class="frm-group"><input type="text" autocomplete="off" name="email id" id="address" placeholder="Address"></div>
+						</div>
+						
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">City</label>
+						</div>
+						<div class="grid-item-split-cash-btm paytype-detail-red">
+							<div class="frm-group"><input onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" type="text" name="city" id="city" autocomplete="off" placeholder="City"></div>
+						</div>
+						
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Postal Code</label>
+						</div>
+						<div class="grid-item-split-cash-btm paytype-detail-red">
+							<div class="frm-group"><input type="text" autocomplete="off" name="postalCode" id="postal_code" 
+							onKeyPress="return onlyNumbersandSpecialChar()" placeholder="Postal Code"></div>
+						</div>
+					</div>
+					
+					<!-- Modal footer buttons starts -->
+					<div class="button-group button-group-middle modal-footer-buttons">
+						<button type="button" class="button button-black button-normal" data-dismiss="modal"> CANCEL</button>
+						<button type="button" class=" button button-black button-normal" data-dismiss="modal" th:onclick="createCustomer()"> SUBMIT</button>
+					</div>
+					<!-- Modal footer buttons ends -->
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Customer success Modal -->
+			<div id="createCustomerSuccessModal" class="modal fade" role="dialog">
+				<div class="modal-dialog"
+					style="margin-top: 15%; width: 400px !important;">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-body text-center">
+							<b id="customerSuccess"></b>
+							<div class="confirmation-btn-div">
+								<button type="button" data-dismiss="modal"
+									class="btn-theme btn-go">Ok</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--  -->
+			<!-- Customer Error Modal -->
+			<div id="createCustomerErrorModal" class="modal fade" role="dialog">
+				<div class="modal-dialog"
+					style="margin-top: 15%; width: 400px !important;">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-body text-center">
+							<b id="customerError">Customer created Successfully!</b>
+							<div class="confirmation-btn-div">
+								<button type="button" data-dismiss="modal"
+									class="btn-theme btn-go">Ok</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="mrperror" class="modal fade" role="dialog">
+				<div class="modal-dialog"
+					style="margin-top: 15%; width: 400px !important;">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-body text-center">
+							<b id="mrpError">Selling Price should not be greater than MRP!</b>
+							<div class="confirmation-btn-div">
+								<button type="button" data-dismiss="modal"
+									class="btn-theme btn-go">Ok</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--  -->
+	<!-- --- Add customer modal ends here --- -->
+	<div class="modal fade add-cartProduct">
+
+		<!-- <div class="stop_scan"> -->
+		<div class="modal-dialog modal-dialog-lg">
+			<div class="modal-content">
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div class="modal-heading">
+						<h4>Select Article</h4>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="frm-group">
+								<div class="frm-icon-input">
+									<span class="input-icon"><i class="fa fa-search"></i></span>
+									<input type="text" placeholder="Filter Results">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="tablepanel">
+								<div class="table-block">
+									<table class="customtable display scrollabletable" border="0" align="center" cellpadding="0" cellspacing="0" width="100%" style="width:100%">
+										<thead class="mainthead" style="width:100%">
+											<tr>
+												<th>Product name</th>
+												<th>Product Type</th>
+												<th>Mrp</th>
+												<th>Expiry Date</th>
+												<th>Co Batch No.</th>
+												<th></th>
+											</tr>
+										</thead>
+										
+										<tbody class="maintbody-content">
+											<tr th:each="productListEach,iter : ${productsList}" >
+												<td id="productName" th:text="${productListEach.get('productName')}"></td>
+												<td id="productTypeId" th:text="${productListEach.get('productTypeId')}">-</td>
+												<!-- <td id="saleRate" th:text="${productListEach.get('productPrice')}"></td> -->
+												<td id="saleRate" th:text="${productListEach.get('productPrice')}"></td>
+												<td id="expiryDate" th:text="${productListEach.get('expireDate')}"></td>
+												<td id="coBatchNo"></td>
+	          									<td><button class="fa fa-plus-square" th:onclick="addProductFunction([[${productListEach.get('productId')}]])"></button></td> 
+											</tr>
+										</tbody>
+									</table>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!-- -------Add to stock modal starts here---------- -->
+	
+	<!--End of Add Product-->
+	
+	<!-- Start of populate hold bill -->
+<div class="modal populateHoldBillModal">
+<!-- <div class="stop_scan"> -->
+<div class="modal-dialog modal-grid-wrapper">
+<div class="modal-content">
+<!-- Modal body -->
+<div class="modal-body text-center modal-wrapper ">
+<div class="split-flex">
+<h4>Hold Bill List</h4>
+</div>
+<div>
+
+<div class="wrapper-grid-paytype2 " th:each="holdPosCartEach,iter : ${holdPosCartList}">
+<div th:onclick="populateHoldCartItems([[${holdPosCartEach.get('dayId')}]],[[${holdPosCartEach.get('posTerminalId')}]],
+      [[${holdPosCartEach.get('posReceiptId')}]])" tabindex = "0" th:id="${'heldbill_'+iter.index}"  class = "heldBillFocusClass">
+<div class="hold-bill1">
+<div class="grid-item-paytype-label">
+<label class="frm-label">POS Status:</label>
+</div>
+
+
+<div class="grid-item-paytype-label">
+<label class="frm-label">Customer Name:</label>
+</div>
+
+
+<div class="grid-item-paytype-label">
+<label class="frm-label">Terminal Id:</label>
+</div>
+
+
+<div class="grid-item-paytype-label">
+<label class="frm-label">Receipt Id:</label>
+</div>
+
+<div class="grid-item-paytype-label">
+<label class="frm-label">Mobile No:</label>
+</div>
+
+</div>
+
+  <div class="hold-bill2">
+  <div class="grid-item-split-cash-btm">
+<div class="frm-group" th:text="${holdPosCartEach.get('posStatus')}"></div>
+</div>
+
+<div class="grid-item-split-cash-btm">
+<div class="frm-group" th:text="${holdPosCartEach.get('customerName')}"></div>
+</div>
+
+<div class="grid-item-split-cash-btm">
+<div class="frm-group" th:text="${holdPosCartEach.get('posTerminalId')}"></div>
+</div>
+<div class="grid-item-split-cash-btm">
+<div class="frm-group" th:text="${holdPosCartEach.get('posReceiptId')}"></div>
+</div>
+<div class="grid-item-split-cash-btm">
+<div class="frm-group" th:text="${holdPosCartEach.get('customerMobileNo')}"></div>
+</div>
+
+
+
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- Modal footer buttons starts -->
+<div class="button-group button-group-middle modal-footer-buttons">
+<button type="button" class="button button-black button-normal" data-dismiss="modal"> CANCEL</button>
+</div>
+<!-- Modal footer buttons ends -->
+</div>
+</div>
+</div>
+</div>
+
+<!-- End of populate hold bill -->
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			var message = /*[[${CustomerList}]]*/'default';
+			/*]]>*/
+			/*<![CDATA[*/
+			var barcodeVal = /*[[${barcodeList}]]*/'default';
+			/*]]>*/
+		</script>
+		<script>
+		 $(function() {
+  $( ".date-input-one" ).datepicker({  maxDate: new Date() });
+ });
+		 
+ </script>
+ 
+ <script>
+ 
+$(window).keydown(function(event) {
+ if(event.altKey && event.keyCode == 82) {
+ //R key
+   event.preventDefault();
+   console.log("Hey! alt+B event captured!");
+   alert('P-reprint bill');
+   
+ }
+ 
+ if(event.altKey && event.keyCode == 86) {
+ //v key
+   event.preventDefault();
+   console.log("Hey! alt+B event captured!");
+   //alert('Void bill');
+   voidBill();
+   
+ }
+ 
+ if(event.altKey && event.keyCode == 72) {
+ //H key
+   event.preventDefault();
+   console.log("Hey! alt+B event captured!");
+   //alert('Hold bill');
+   holdBill();
+   
+ }
+ 
+ if(event.altKey && event.keyCode == 80) {
+ //P key
+   event.preventDefault();
+   console.log("Hey! alt+B event captured!");
+   //alert('populate bill');
+   $('.populateHoldBillModal').modal('show');
+   
+ }
+ 
+ 
+ if(event.altKey && event.keyCode == 83) { 
+	  //S key
+   event.preventDefault(); 
+   goNext();}
+if(event.altKey && event.keyCode == 90) { 
+ //Z key
+event.preventDefault(); 
+goPrevious();  
+}
+
+
+ if(event.altKey && event.keyCode == 78) {
+ //N key
+   event.preventDefault();
+   console.log("Hey! alt+B event captured!");
+  //alert('Navigation');
+ 
+   var isopne = $('#navvalue').val();
+   if(isopne=="1")
+   {
+    isopne="0";
+    openNav();
+    $('#navvalue').val("0");
+  }
+   else if(isopne=="0")
+      {
+    $('#navvalue').val("1");
+      closeNav();
+     
+    }
+   
+ }
+});
+
+
+ </script>
+ 
+  <script language="javascript">
+document.onkeyup = KeyCheck;
+
+function KeyCheck(e)
+{
+   var KeyID = (window.event) ? event.keyCode : e.keyCode;
+   if(KeyID == 113)
+   {
+  //checkout
+      //alert("F2 to checkout");
+      billingCheckout();
+  //redirection to checkout payment screen
+   }
+}
+
+$('.add-customer').on('shown.bs.modal', function () {
+    $('#enter_name').focus();
+}) 
+
+$('.populateHoldBillModal').on('shown.bs.modal', function () {
+$("#heldbill_0").focus();
+Mousetrap.bind('enter', function(){
+var idx = document.activeElement.id;
+idx = "#" + idx;
+console.log(idx);
+$(idx).click();
+} );
+});
+
+
+
+$(document).on("shown.bs.modal", ".add-customer", function () {
+    var contactNumber = $("#contactNumber").val();
+    $(".grid-item-split-cash-btm #contact_number").val(contactNumber);
+    var data0 = {
+    	contactNumber : contactNumber,
+    };
+	var json = JSON.stringify(data0);
+	$.ajax({
+		type : 'GET',
+		url : '/findPosCustomers',
+		dataType : 'json',
+		async : 'false',
+		data : {
+			contactNumber : contactNumber,},
+		success : function(data) {
+			var result = JSON.parse(JSON.stringify(data));
+			$.each(data, function(i){
+				if(contactNumber==result[i].contactNumber){
+					$("#enter_name").val(result[i].firstName);
+					$("#city").val(result[i].city);
+					$("#postal_code").val(result[i].postalCode);
+					$("#address").val(result[i].address1);
+					
+					}
+				});                                                                                                                                                
+		}
+	});
+});
+function mobile(){
+    var a = document.getElementById("#contactNumber").value;
+    var filter = /[1-9]{1}[0-9]{9}/;
+    if (filter.test(a)) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+$('#enter_name').keypress(function (e) {
+    var regex = new RegExp("^[a-zA-Z \s]+$");
+    var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+    if (regex.test(str)) {
+        return true;
+    }
+    else
+    {
+    e.preventDefault();
+    //alert('Please Enter Alphabate');
+    return false;
+    }
+});
+   </script>
+
+	</section>
+</body>
+</html>
+<script>
+
+</script>
+
+
+
+
+

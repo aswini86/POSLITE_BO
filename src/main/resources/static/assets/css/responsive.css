@@ -1,0 +1,59 @@
+/* If the screen size is 375px wide or less */
+@media screen and (max-width: 900px) {
+	.btn-theme {
+		height: 40px;
+		line-height: 12px;
+	}
+	.search-div form i,.search-container form i {
+		width: 5%;
+	}
+	.search-input {
+    width: 25%;
+	}
+	.form-control {
+      width: 25%;
+	}
+}
+@media (min-width: 768px){
+	#selectArticle .modal-dialog {
+    width: 937px;
+    margin: 70px auto;
+}
+}
+
+
+@media screen and (max-width: 496px) {
+	.search-div form i,.search-container form i {
+		width: 10%;
+	}
+	.search-div form input[type=text],.search-container form input[type=text]{
+		width: 85%;
+	}
+	.content-section .row {
+		flex-wrap: wrap;
+	}
+	.btn-green,.btn-confirm{
+	margin-left:0;
+	}
+	
+	.btn-theme{
+    padding: 5px 15px;
+    height: 32px;
+    margin-right: 6px;
+    font-size: 11px;
+    line-height: 12px;
+    margin-top: 7px;
+	}
+	.search-input {
+    width: 25%;
+	}
+	.form-control {
+      width: 25%;
+	}
+}
+
+@media screen and (max-width: 375px) {
+	h3 {
+		font-size: 11px;
+	}
+}

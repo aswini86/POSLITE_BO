@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<html th:replace="~{layout_new :: template(~{::title}, ~{::section}, 'Pos Payment')}" xmlns:th="http://www.thymeleaf.org">
+<!-- Pos Cart -->
+
+<head>
+<title>Retail BO :: Pos Payment</title>
+</head>
+<body>
+	<section class="main-section" id="wrapper">
+	<input type="hidden" id="receiptId" name="receiptId" th:value="${session.receiptId}" />
+    <input type="hidden" id="dayId" name="dayId" th:value="${session.dayId}" />
+    <input type="hidden" id="createdBy" name="createdBy" th:value="${session.username}">
+    <input type="hidden" id="posTerminalId" name="posTerminalId" th:value="${session.posTerminalId}">
+    <input type="hidden" id="contactNumber" name="contactNumber" th:value="${session.contactNumber}" />
+    <input type="hidden" id="holdCustName" name="holdCustName" th:value="${holdCustName}" />
+    <input type="hidden" id="holdCustMobileNo" name="holdCustMobileNo" th:value="${holdCustMobileNo}" />
+    <input type="hidden" id="cartBalAmount" name="cartBalAmount" th:value="${balanceAmount}" />
+    <input type="hidden" id="taxEnable" name="taxEnable" th:value="${taxEnable}" />
+    <input type="hidden" id="discount" name="discount" th:value="${discount}" />
+	<input type="hidden" id="isPercentage" name="isPercentage" th:value="${isPercentage}" />
+	<input type="hidden" id="addlcharges" name="addlcharges" th:value="${charges}" />
+	<input type="hidden" id="isChargePercentage" name="isChargePercentage" th:value="${isChargePercentage}" />
+	<input type="hidden" id="billAmount" name="billAmount" th:value="${subTotal}" />
+	<input type="hidden" id="billDiscAmount" name="billDiscAmount" th:value="${discAmount}" />
+	<input type="hidden" id="discountPer" name="discountPer" th:value="${discountPer}" />
+	<input type="hidden" id="chargePer" name="chargePer" th:value="${chargePercentage}" />
+	
+	<div class="wrapper" id="wrapper">
+        <div class="main-screen-panel">
+            <!-- <form action="" method="post" id="login_form"> -->
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="main-topsection">
+                            <div class="billdeatilsform">
+                            <div class="form-row">
+                            	<div class="col-md-2">
+                            		<label class="frm-label">Bill No. :</label>
+                            	</div>
+                            	<div class="col-md-3 frm-group">
+                            		<input type="text" th:value="${session.receiptId}" readonly> </div>
+                            	<!-- <div class="col-md-3 frm-group">
+
+                            		<div class="frm-icon-input frm-icon-end autocomplete">
+                            			<input id="patientmob" type="text" name="patientmobno" placeholder="Patient Mobile Number">
+                            			<span class="input-icon"><i class="las la-plus"></i></span>
+                            		</div>
+                            	</div> 
+                            	<div class="col-md-4 frm-group">
+                            		<input type="text" placeholder="Patient Name"> </div>-->
+                            </div>
+                            <div class="form-row">
+                            	<div class="col-md-2">
+                            		<label class="frm-label">Bill Date</label>
+                            	</div>
+                            	<div class="col-md-3 frm-group">
+                            		<div class="docs-datepicker">
+                            			<div class="input-group">
+                            				<input type="text" class="date-input-one" name="dateone" id ="Receiptdate" autocomplete="off" 
+                            				data-toggle="datepicker" placeholder="DD/MM/YYYY">
+                            				<span class="docs-datepicker-trigger dt-input-trigger-one">
+                            					<i class="fa fa-calendar" aria-hidden="true"></i>
+                            				</span>
+                            			</div>
+                            			<div class="docs-datepicker-container"></div>
+                            		</div>
+                            	</div>
+                            	<div class="col-md-4 frm-group">
+                            		<input type="text" placeholder="Customer Name" id="custname" readonly th:value="${session.pcustomerName}"> </div>
+                            	<div class="col-md-3 frm-group">
+                            	
+                            	<!-- <div class="docs-datepicker">
+                            			<div class="input-group">
+                            				<input type="text" class="date-input-two" name="datetwo" autocomplete="off" data-toggle="datepicker" placeholder="Prescription Date">
+                            				<span class="docs-datepicker-trigger dt-input-trigger-two">
+                            					<i class="las la-calendar" aria-hidden="true"></i>
+                            				</span>
+                            			</div>
+                            			<div class="docs-datepicker-container"></div>
+                            		</div> -->
+                            	
+                            		</div>
+                            </div>
+                            
+                        </div>
+                        </div>
+                        <div class="main-content">
+                            <div class="tablepanel">
+                            <div class="table-block">
+                                <table class="customtable display scrollabletable" border="0" align="center" cellpadding="0" cellspacing="0" width="100%" style="width:100%">
+                                      <thead class="mainthead">
+                                          <tr>
+                                              <th width="60%">Payment Method</th>
+                                              <th>Payment Received</th>
+                                              <th>Total Amount</th>
+                                              <th>Amount Remaining</th>
+                                          </tr>
+                                      </thead>
+                                      <tbody class="maintbody-content">
+                                          <tr th:each="paymentItemsEach,iter : ${paymentItems}">
+                                          		<td id="paymentType" th:text="${paymentItemsEach.get('paymentType')}"></td>
+											  	<td id="receivedPayment" th:text="${paymentItemsEach.get('receivedPayment')}"></td>
+											  	<td id="totalDue" th:text="${addlTotalDue}"></td>
+										        <td id="remainingAmount" th:text="${paymentItemsEach.get('remainingAmount')}"></td>
+                                          </tr>
+                                          
+                                          
+                                      </tbody>
+                                  </table>
+                              </div>
+                          </div>
+                          </div>
+                          <div class="main-footer">
+                              <div class="payment-types-panel" onkeydown="OnFocusOut()">
+                                <div class="focusguard focus" id="focusguard-1" tabindex="1"></div>
+                              
+                                  	<button type="button" class="payment-block active" tabindex="2" id="firstInput" value="CASH" onkeydown="OnFocusOut()" data-toggle="modal" data-target=".payment-cash">
+                                  		<div class="payment-icon"><img src="/assets/images/payment-icons/cash.svg" alt="cash"></div>
+                                  		<div class="payment-text">Cash</div>
+                                  	</button>
+
+                                  	<button class="payment-block" tabindex="3" data-toggle="modal" value="CARD" id="card" data-target=".payment-cash">
+                                  		<div class="payment-icon"><img src="/assets/images/payment-icons/cards.svg" alt="card"></div>
+                                  		<div class="payment-text">Card</div>
+                                  	</button>
+
+                                  	<button class="payment-block" tabindex="4" data-toggle="modal" data-target=".credit-note">
+                                  		<div class="payment-icon"><img src="/assets/images/payment-icons/credit-note.svg" alt="Credit Note"></div>
+                                  		<div class="payment-text">Credit Note</div>
+                                  	</button>
+
+                                  	<button class="payment-block" tabindex="5" data-toggle="modal" id="giftcoupon" value="GIFT_COUPON" data-target=".payment-cash" onclick="giftCoupon()">
+                                  		<div class="payment-icon"><img src="/assets/images/payment-icons/gift-coupon.svg" alt="Gift Coupon"></div>
+                                  		<div class="payment-text">Gift Coupon</div>
+                                  	</button>
+
+                                  	<button class="payment-block" tabindex="6" data-toggle="modal"id="sodexo" value="SODEXO" data-target=".payment-cash">
+                                  		<div class="payment-icon"><img src="/assets/images/payment-icons/sodexo.svg" alt="Sodexo"></div>
+                                  		<div class="payment-text">Sodexo</div>
+                                  	</button>
+
+                                  	<button class="payment-block" tabindex="7" data-toggle="modal" id="ticketrest" value="TICKET" data-target=".payment-cash">
+                                  		<div class="payment-icon"><img src="/assets/images/payment-icons/ticket-restaurant.svg" alt="Ticket Restaurant"></div>
+                                  		<div class="payment-text">Ticket Restaurant</div>
+                                  	</button>
+
+                                  	<button class="payment-block" tabindex="8" data-toggle="modal" id="paytm" value="PAYTM" data-target=".payment-cash">
+                                  		<div class="payment-icon"><img src="/assets/images/payment-icons/paytm.svg" alt="Paytm"></div>
+                                  		<div class="payment-text">Paytm</div>
+                                  	</button>
+
+                                  	<button class="payment-block" tabindex="9" data-toggle="modal" id="bhim" value="BHIM" data-target=".payment-cash">
+                                  		<div class="payment-icon"><img src="/assets/images/payment-icons/bhim.svg" alt="Bhim"></div>
+                                  		<div class="payment-text"> BHIM </div>
+                                  	</button>
+
+                                  	<button class="payment-block" tabindex="10" data-toggle="modal" id="upi" value="UPI" data-target=".payment-cash">
+                                  		<div class="payment-icon"><img src="/assets/images/payment-icons/upi.svg" alt="UPI"></div>
+                                  		<div class="payment-text">UPI</div>
+                                  	</button>
+
+                                  	<button class="payment-block" tabindex="11" data-toggle="modal" id="phonepe" value="PHONE_PE" data-target=".payment-cash">
+                                  		<div class="payment-icon"><img src="/assets/images/payment-icons/phonepe.svg" alt="PhonePe"></div>
+                                  		<div class="payment-text">PhonePe</div>
+                                  	</button>
+                                  	</button>
+                       	 		   <button type="button"   id="lastInput"  tabindex="12"  class="payment-block " onFocus="document.querySelector('[autofocus]').focus()" data-toggle="modal" data-target=".credit">
+            						<div class="payment-icon"><img src="/assets/images/payment-icons/cards.svg" alt="card"></div>
+         							   <div class="payment-text">Credit</div>
+     							   </button>
+     							    <div class="focusguard focus" id="focusguard-2"  onkeydown="OnFocusOut()" tabindex="13"></div>
+                                  </div>
+                          </div>
+                      </div>
+                      <div class="col-md-3">
+                         <div class="main-right-sidebar">
+	<div class="billing-deatil-sidebar">
+		<div class="bill-detailscol">
+			<div class="detailhead">
+				<div class="maindetailhead">Last Bill Details</div>
+				<div class="subdetailhead">Customer : <span th:id="bill_customerName" th:text="${session.pcustomerName}"></span></div>
+			</div>
+			<div class="details-des">
+				<div class="row desrow">
+					<div class="col-md-5 billabel">Bill Amount</div>
+					<div class="col-md-7 bilvalue">
+					<span th:if="${billReturnMap} != null" th:id="last_bill_amt" th:text="${billReturnMap.billAmt}"></span>
+					<span th:if="${billReturnMap} == null" th:id="last_bill_amt" style = "font-size:15px;">0.0</span>
+					</div>
+				</div>
+				<div class="row desrow">
+					<div class="col-md-5 billabel">Return Amount</div>
+					<div class="col-md-7 bilvalue">
+					<span th:if="${billReturnMap} != null" th:id="last_bill_returnamt" th:text="${billReturnMap.billReturnAmt}"></span>
+					<span th:if="${billReturnMap} == null" th:id="last_bill_returnamt" style = "font-size:15px;">0.0</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--  -->
+		<div class="bill-detailscol">
+									<div class="detailhead">
+										<div class="maindetailhead">Current Bill Details</div>
+									</div>
+									<div class="details-des">
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel">Bill Amount</div>
+											<div class="col-md-7 bilvalue" id="bill_amt" th:text="${subTotal}"></div>
+										</div>
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel">Item Discount</div>
+											<div class="col-md-7 bilvalue" id="item_discount">0.00</div>
+										</div>
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel valign-middle-label">Addl. Discount</div>
+											<div class="col-md-7 bilvalue">
+												<input type="text" name="addidiscnt" id="addl_discount" th:onchange="calcAddlDiscount()"
+												 placeholder="5">
+												<select id="addl_discount_opt" th:onchange="calcAddlDiscount()">
+													<option value="discount_per">%</option>
+													<option value="discount_amt">₹</option>
+												</select>
+											</div>
+											<div class="col-md-5 billabel">Discount Amount</div>
+											<div class="col-md-7 bilvalue" id="discount_amount">
+											<span id="discount_amount" th:if="${discAmount} != null" th:text="${discAmount}"></span>
+      										<span id="discount_amount" th:if="${discAmount} == null" >0.0</span></b>
+											</div>
+										</div>
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel valign-middle-label">Charges</div>
+											<div class="col-md-7 bilvalue">
+												<input type="text" name="charges" id="charges" th:onchange="calcAddlDiscount()" 
+												placeholder="0" value="">
+												<select id="charge_opt" th:onchange="calcAddlDiscount()">
+													<option value="charges_per">%</option>
+													<option value="charges_amt">₹</option>
+												</select>
+											</div>
+											<div class="col-md-5 billabel">Amount</div>
+											<div class="col-md-7 bilvalue" id="charge_amount">0.00</div>
+										</div>
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel">Rounded Off</div>
+											<div class="col-md-7 bilvalue" id="round_off">0.00</div>
+										</div>
+										<div class="row desrowborder payrow">
+											<div class="col-md-5 billabel">Payable Amount</div>
+											<div class="col-md-7 bilvalue" id="payable_amount">
+									      	<span id="pay_amount" th:if="${balanceAmount} != null" th:text="${balanceAmount}"></span>
+									      	<span id="pay_amount" th:if="${balanceAmount} == null" style = "font-size:15px;">0.0</span>
+									      	</div>
+										</div>
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel font-wt-700 valign-middle-label">Tax Invoice?</div>
+											<div class="col-md-7 bilvalue">
+												<div class="switch-block">
+													<span class="switch-label font-wt-700">No</span>
+													<label class="switch">
+														<input type="checkbox" id="withTax">
+														<span class="slider"></span>
+													</label>
+													<span class="switch-label font-wt-700">Yes</span>
+												</div>
+											</div>
+										</div>
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel">Apply Coupon</div>
+											<div class="col-md-7 bilvalue apcoupon">
+												<input type="text" name="apcoupon" placeholder="Coupon Code"> <span class="couponerror">Coupon code applied!</span> </div>
+										</div>
+									</div>
+								</div>
+								<!-- <form th:action="@{/cartCheckout}" method="post">-->
+								<input type="hidden" id="preceiptId" name="preceiptId" th:value="${session.receiptId}" />
+								<input type="hidden" id="pdayId" name="pdayId" th:value="${session.dayId}" />
+								<input type="hidden" id="amountCash" name="amountCash" th:value="${totalDue}" />
+								<input type="hidden" id="paidAmount" name="paidAmount" th:value="${paidAmount}" />
+								<!--<div class="checkoutrow">
+								<button class="button button-green button-normal" id="billingCheckout" disabled='disabled'>checkout</button>
+								</div>
+								</form> -->
+								<div class="checkoutrow">
+								<button class="button button-green button-normal" id="billingCheckout" 
+								th:onclick="cartLiteCheckout()">checkout</button>
+								</div>
+		<!--  -->
+		
+		
+	</div>
+</div>
+                      </div>
+                  </div>
+              <!-- </form> -->
+          </div>
+        </div>
+           
+    
+           
+           
+ <!-- ------------------------ add-new-article------------------ -->
+
+	<div class="modal payment-cash">
+
+		<!-- <div class="stop_scan"> -->
+		<div class="modal-dialog modal-grid-wrapper">
+			<div class="modal-content">
+				<!-- Modal body -->
+				<div class="modal-body text-center modal-wrapper ">
+					<div class="split-flex">
+						<h4> Payment </h4>
+						<div class="split-switch">
+							Split Payment
+							<label class="switch">
+								<input type="checkbox" >
+								<span class="slider"></span>
+							</label>
+						</div>
+					</div>
+
+
+					<div class="wrapper-grid-bal-amt">
+						<div class="wrapper-grid-item-bal-amt bal-amt-label">Balance Amount</div>
+						<div class="wrapper-grid-item-bal-amt bal-amt-detail" th:id="cash_bal_amt" th:if="${balanceAmount} != null" th:text="${balanceAmount}"></div>
+
+					</div>
+					<hr>
+					<div class="wrapper-grid-paytype">
+					<div class="grid-item-paytype-label">
+							<label class="frm-label">Payment Method</label>
+						</div>
+						<div class="grid-item-split-cash-btm">
+							<div class="frm-group"><input type="text" readonly  name="paymentmethod" value=""  id="paymentmethod" placeholder="" ></div>
+						</div>
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Amount</label>
+						</div>
+						<div class="grid-item-split-cash-btm">
+							<div class="frm-group"><input type="number" min="0" name="cashToPay"  id="cashToPay" placeholder="" ></div>
+						</div>
+						
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Amount Return</label>
+						</div>
+						<div class="grid-item-split-cash-btm paytype-detail-red">
+							<span th:if="${returnAmount} != null" th:text="${returnAmount}"></span>
+							<span th:if="${returnAmount} == null" style = "font-size:15px;">0.0</span>
+						</div>
+					
+					</div>
+					
+					<!-- Modal footer buttons starts -->
+					<div class="button-group button-group-right">
+						<button type="button" class="button button-black button-normal" data-dismiss="modal"> CANCEL</button>
+						<button type="button" class=" button button-black button-normal" data-dismiss="modal" 
+									th:onclick="cashSubmit()" id="cashSubmit"> SUBMIT</button>
+					</div>
+					<!-- Modal footer buttons ends -->
+					
+				</div>
+
+			</div>
+			<!-- </div> -->
+		</div>
+		
+		
+	</div>
+	
+	
+	   
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="modal payment-card">
+
+		<!-- <div class="stop_scan"> -->
+		<div class="modal-dialog modal-grid-wrapper">
+			<div class="modal-content">
+				<!-- Modal body -->
+				<div class="modal-body text-center modal-wrapper ">
+					<div class="split-flex">
+						<h4>Card Payment </h4>
+						<div class="split-switch">
+							Split Payment
+							<label class="switch">
+								<input type="checkbox" >
+								<span class="slider"></span>
+							</label>
+						</div>
+					</div>
+
+
+					<div class="wrapper-grid-bal-amt">
+						<div class="wrapper-grid-item-bal-amt bal-amt-label">Balance Amount</div>
+						<div class="wrapper-grid-item-bal-amt bal-amt-detail" th:id="card_bal_amt" th:if="${balanceAmount} != null" th:text="${balanceAmount}"></div>
+
+					</div>
+					<hr>
+					<div class="wrapper-grid-paytype">
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Cash Recieved</label>
+						</div>
+						<div class="grid-item-split-cash-btm">
+							<div class="frm-group"><input type="number" min="0" name="cashToPay" id="cardCashToPay" placeholder="" onkeypress="return event.charCode >= 48" ></div>
+						</div>
+						
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Amount Return</label>
+						</div>
+						<div class="grid-item-split-cash-btm paytype-detail-red">
+							<span th:if="${returnAmount} != null" th:text="${returnAmount}"></span>
+							<span th:if="${returnAmount} == null" style = "font-size:15px;">0.0</span>
+						</div>
+					</div>
+					
+					<!-- Modal footer buttons starts -->
+					<div class="button-group button-group-right">
+						<button type="button" class="button button-black button-normal" data-dismiss="modal"> CANCEL</button>
+						<button type="button" class=" button button-black button-normal" data-dismiss="modal" 
+									th:onclick="cardSubmit()" id="cashSubmit"> SUBMIT</button>
+					</div>
+					<!-- Modal footer buttons ends -->
+					
+				</div>
+
+			</div>
+			<!-- </div> -->
+		</div>
+		
+		
+	</div>
+	<!-- Code for credit note  -->
+	<div class="modal credit-note">
+		<!-- <div class="stop_scan"> -->
+		<div class="modal-dialog modal-grid-wrapper">
+			<div class="modal-content">
+				<!-- Modal body -->
+				<div class="modal-body text-center modal-wrapper ">
+					
+					<div class="wrapper-grid-paytype">
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Credit ID</label>
+						</div>
+						<div class="grid-item-split-cash-btm">
+							<div class="frm-group">
+							<!-- <input type="number" name="creditId" id="creditId" placeholder=""> -->
+							<select class="form-control" id="creditId" style="width: 100%;" onChange="getCreditNoteAmt()">
+									<option value="">Please Select One</option>
+									<div th:each="creditNoteItem : ${creditNoteList}">
+									<option class="categoryitem"
+										th:value="${creditNoteItem.creditId}"
+										th:text="${creditNoteItem.creditId}">
+									</option>
+									</div>
+								</select>
+							</div>
+						</div>
+						<div class="grid-item-paytype-label">
+							<label class="frm-label"> Amount</label>
+						</div>
+						<div class="grid-item-split-cash-btm">
+							<div class="frm-group"><input type="number" min="0" name="creditNoteAmt" id="creditNoteAmt" 
+							placeholder="" th:value="${totCreditNoteAmount}" readonly></div>
+						</div>
+						<div class="grid-item-paytype-label">
+							<label class="frm-label"> Redeem Amount</label>
+						</div>
+						<div class="grid-item-split-cash-btm">
+							<div class="frm-group"><input type="number" name="redeemAmount" id="redeemAmount" placeholder="" onkeypress="return event.charCode >= 48" min="1" ></div>
+							<label id="cashRedeemError" style="color:red;"></label>
+						</div>
+						
+						
+					</div>
+					
+					<!-- Modal footer buttons starts -->
+					<div class="button-group button-group-right ">
+						<button type="button" class="button button-black button-normal" data-dismiss="modal"> CANCEL</button>
+						<button type="button" class="button button-black button-normal"
+							th:onclick="payByCreditNote()" id="creditNoteSubmit"> Apply</button>
+					</div>
+					<!-- Modal footer buttons ends -->
+					
+				</div>
+
+			</div>
+			<!-- </div> -->
+		</div>
+	</div>
+	<!-- Code for credit note  -->
+	<!-- Code for credit -->
+	<div class="modal credit">
+		<!-- <div class="stop_scan"> -->
+		<div class="modal-dialog modal-grid-wrapper">
+			<div class="modal-content">
+				<!-- Modal body -->
+				<div class="modal-body text-center modal-wrapper ">
+					
+					<div class="wrapper-grid-paytype">
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Credit Due</label>
+						</div>
+						<div class="grid-item-split-cash-btm">
+							<div class="frm-group"><input type="number"   name="creditDue" id="creditDue" placeholder="" th:value="${totCreditDueAmt}" readonly></div>
+						</div>
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Credit Limit</label>
+						</div>
+						<div class="grid-item-split-cash-btm">
+							<div class="frm-group"><input type="number" name="creditLimit" id="creditLimit" placeholder="" th:value="${creditLimitAmt}" readonly></div>
+						</div>
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Cash Received</label>
+						</div>
+						<div class="grid-item-split-cash-btm">
+							<div class="frm-group"><input type="number" onkeypress="return event.charCode >= 48" min="1"  name="cashReceived" id="cashReceived" placeholder=""></div>
+							<label id="cashReceivedError"style="color:red;"></label>
+						</div>
+					</div>
+					
+					<!-- Modal footer buttons starts -->
+					<div class="button-group button-group-right ">
+						<button type="button" class="button button-black button-normal" data-dismiss="modal"> CANCEL</button>
+						<button type="button" class="button button-black button-normal"
+									th:onclick="payByCredit()" id="payByCredit"> Give Credit</button>
+					</div>
+					<!-- Modal footer buttons ends -->
+				</div>
+			</div>
+			<!-- </div> -->
+		</div>
+	</div>
+	<!-- End of code for credit -->
+	
+
+	<!-- Code for checkout -->
+<div class="modal checkout">
+<!-- <div class="stop_scan"> -->
+<div class="modal-dialog modal-grid-wrapper">
+<div class="modal-content">
+<!-- Modal body -->
+<div class="modal-body text-center modal-wrapper ">
+
+<p><b>Do you want to print the bill?</b></p>
+
+
+<!-- Modal footer buttons starts -->
+<div class="button-group button-group-right modal-footer-buttons">
+<button type="button" class="button button-black button-normal" data-dismiss="modal"> YES</button>
+<button type="button" class=" button button-black button-normal" data-dismiss="modal"
+th:onclick="payByCredit()" id="cashSubmit"> NO</button>
+</div>
+<!-- Modal footer buttons ends -->
+</div>
+</div>
+<!-- </div> -->
+</div>
+</div>
+<!-- End of code for checkout -->
+<div id="cartCheckoutSuccessModal" class="modal fade" role="dialog">
+<div class="modal-dialog"
+style="margin-top: 15%; width: 400px !important;">
+<div class="modal-content">
+<div class="modal-body text-center">
+<b id="checkoutSuccess"></b>
+<div class="confirmation-btn-div">
+<button type="button" data-dismiss="modal" class="btn-theme btn-go" id="cartredirect">Ok</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script type="text/javascript">
+$('.credit').on('shown.bs.modal', function () {
+    $('#cashReceived').focus();
+
+})  
+
+/* $('.payment-cash').on('shown.bs.modal', function () {
+	var paymentType = $("#firstInput").val();
+	var paymentType = $("#giftcoupon").val();
+
+	console.log("paymentType"+paymentType);
+    $('#cashToPay').focus();
+    $(".grid-item-split-cash-btm #paymentmethod").val(paymentType);   
+    
+})  */
+
+/*function cashPayment() {
+	$(document).on("click", ".payment-cash", function () {
+		var paymentType = $("#firstInput").val();
+		console.log("paymentType"+paymentType);
+	    $('#cashToPay').focus();
+	    $(".grid-item-split-cash-btm #paymentmethod").val(paymentType);   
+	    
+	});
+}
+
+
+function giftCoupon() {
+	$(document).on("click", ".payment-cash", function () {
+		var paymentType = $("#giftcoupon").val();
+		console.log("paymentType"+paymentType);
+	    $('#cashToPay').focus();
+	    $(".grid-item-split-cash-btm #paymentmethod").val(paymentType);   
+	    
+	});
+}*/
+
+$(document).on("click", "button", function () {
+	//$("button").click(function() {
+	    //alert(this.id); // or alert($(this).attr('id'));
+	    var cid ="#" + this.id;
+	    console.log("ID of the button: "+ cid)
+	    
+	    var paymentType = $(cid).val();
+	    console.log(paymentType);
+	    $(".grid-item-split-cash-btm #paymentmethod").val(paymentType);   
+
+	    
+	});
+//	var paymentType = $("#firstInput").val();
+//	var paymentType = $("#giftcoupon").val();
+
+//	console.log("paymentType"+paymentType);
+//   $('#cashToPay').focus();
+//    $(".grid-item-split-cash-btm #paymentmethod").val(paymentType);   
+    
+
+$('.payment-cash').on('shown.bs.modal', function () {
+    $('#cashToPay').focus();
+}) 
+$('.credit-note').on('shown.bs.modal', function () {
+    $('#creditId').focus();
+}) 
+$('.payment-card').on('shown.bs.modal', function () {
+    $('#cardCashToPay').focus();
+}) 
+$('#cartCheckoutSuccessModal').on('shown.bs.modal', function () {
+    $('#cartredirect').focus();
+
+})  
+
+$("#myBtn3").click(function(){
+    $("#myModal3").modal({backdrop: "static"});
+  });
+  
+$(document).keydown(function(event) { 
+	  if (event.keyCode == 27) { 
+	    $('.modal').modal('hide');
+	  }
+	});
+</script>
+
+	 <script language="javascript">
+
+
+$(window).keydown(function(event) {
+	if(event.keyCode == 13) { 
+		  //Enter key
+	    event.preventDefault(); 
+	    console.log("Hey! enter event captured!");
+	    //alert('Submit cash');
+	    //$("#cashSubmit").click();
+	    
+	  }
+	
+	
+</script>
+ <script language="javascript">
+document.onkeyup = KeyCheck;
+
+function KeyCheck(e)
+{
+   var KeyID = (window.event) ? event.keyCode : e.keyCode;
+   if(KeyID == 113)
+   {
+  //checkout
+     // alert("F2 to checkout");
+      cartLiteCheckout();
+  //redirection to checkout payment screen
+   }
+}
+
+
+
+
+</script>
+	
+	</section>
+</body>
+</html>

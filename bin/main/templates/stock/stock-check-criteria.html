@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Stock Check Criteria')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Stock Check Criteria</title>
+    </head>
+    <body>
+        <section class="content-section">
+            <div class="row margin0">
+
+
+                <div class="col-lg-8 col-md-7 col-sm-6 col-xs-12 form-inline">
+                    <div class="form-group">
+                        <label class="control-label" for="department">For Department</label> 
+                        <select class="form-control" id="department">
+                            <option>Select Status</option>
+                            <option>Select Status</option>
+                            <option>Select Status</option>
+                            <option>Select Status</option>
+                        </select>
+                        <label class="control-label" for="type">Type</label> 
+                        <input class="form-control" type="text" id="type" name="type" value="Partial">
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label" for="remark">Stock Check Remark</label> 
+                        <input class="form-control" type="text" name="" placeholder="Remarks" id="remark">
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label">Stock Check Scanning Users </label> 
+                        <input class="form-control" type="text" name="date-to"  placeholder="Search by EAN/Product Name/Item ID">
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12" style="border-left: 2px dotted #7c7c7c7d;padding: 3% 5% 3% 2%;margin-right:10%;">
+                    <fieldset>
+                        <label class="status" style="margin-right: 5%;">Status</label> 
+                        <span class="form-span"><b></b></span>
+                    </fieldset>
+                    <fieldset>
+                        <label class="status" style="margin-right: 14%;">Initiated By</label> 
+                        <span class="form-span"><b></b></span> 
+                    </fieldset>
+                    <fieldset>
+                        <label class="status" style="margin-right: 0%;">Initiated Date</label> 
+                        <span class="form-span"><b></b></span> 
+                    </fieldset>
+                </div>
+            </div>
+            <div style="padding: 5%; margin-left:7%;">
+                <button class="btn-theme btn-black" data-toggle="modal"
+                        data-target="#itemcriteria">DEFINE ITEM CRITERIA</button>
+                <button class="btn-theme btn-black">CANCEL</button>
+            </div>
+        </section>
+
+        <div id="itemcriteria" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h5 class="modal-title" style="margin-bottom:3%";>Define Item Criteria</h5>
+                        <input class="form-con" placeholder="Search by EAN/Product Name">
+                        <div class="search-div">
+                            <form class="" action="">
+                                <i class="fa fa-search"></i><input type="text" placeholder="Filter Results" name="search">
+                            </form>
+                        </div>
+
+                        <div class="col-md-12 table-container">
+                            <table id="item"
+                                   class="red-head row-border order-column" style="width: 100%">
+
+                                <thead style="background: #1F1F1F; color: #fff;">
+                                    <tr>
+                                        <th></th>
+                                        <th>Brand</th>
+                                        <th>Category</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class=" select-checkbox"></td>
+                                        <td>Nescafe</td>
+                                        <td>Coffee</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class=" select-checkbox"></td>
+                                        <td>Bru</td>
+                                        <td>Coffee</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class=" select-checkbox"></td>
+                                        <td>Filter Coffee</td>
+                                        <td>Coffee</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class=" select-checkbox"></td>
+                                        <td>Hasmukh Rai</td>
+                                        <td>Tea</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class=" select-checkbox"></td>
+                                        <td>Colgate Blue</td>
+                                        <td>Toothpaste</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class=" select-checkbox"></td>
+                                        <td>Pepsodent</td>
+                                        <td>Toothpaste</td>
+                                    </tr>
+                            </table>
+                        </div>
+                        <div style="padding-bottom:3%; margin-left:7%; float:right;">
+                            <button class="btn-theme btn-black" data-dismiss="modal" data-toggle="modal">SUBMIT & PROCEED</button>
+                        </div>
+                        <!-- <div style="padding: 5%; margin-left:7%;">
+                        <button class="btn-theme btn-black button" data-toggle="modal">VERIFY STOCK CHECK</button>
+                        <button class="btn-theme btn-black button" data-toggle="modal" data-target="#stopscanning">STOP SCANNING</button>
+                        </div> -->
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="stopscanning" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+
+                    <div class="modal-body text-center">
+                        <b style="font-size:125%;">Are you sure, you want to stop scanning?</b><br>
+                        <b>Please check if other users are in scanning process.</b>
+                        <div class="confirmation-btn-div">
+                            <button type="submit" class="btn-theme btn-go" data-dismiss="modal" >Yes</button>
+                            <button type="submit" class="btn-theme btn-go" data-dismiss="modal" >No</button>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="modal-footer"></div>
+                </div>
+
+            </div>
+        </div>
+    </body>
+</html>

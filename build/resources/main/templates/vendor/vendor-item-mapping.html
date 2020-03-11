@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Vendor Item Mapping')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Vendor Item Mapping</title>
+    </head>
+    <body>
+        <section class="content-section">
+            <div class="row margin0">
+                <div class="col-md-8">
+                    <fieldset>
+                        <!-- <label style="margin-right: 5%;">Search Vendor</label> 
+                        <input class="search-input" type="text" id="template-custom" type="text" name="Vendor" placeholder="Search Vendor" style="width: 82%;" list="Vendors"> -->
+                        <label  class="col-lg-2 col-md-3 col-sm-4 col-xs-12" style="margin: 9px 0;padding: 0;">Search Vendor</label> 
+                        <input class="search-inputs col-lg-10 col-md-9 col-sm-8 col-xs-12" id="vendorName" type="text" name="vendorName" placeholder="Search By Vendor Name/GSTIN" list="Vendors">
+                    </fieldset>
+                    <form id="criteriaSearch">
+                        <fieldset>
+                            <label style="margin-right: 5%;">Item Criteria -1</label> 
+                            <select class="form-control" id="criteria1" style="width: 20%;">
+                                <option selected>Please Select One</option>
+                                <div th:each="facility : ${productCategory}">
+									<option class="productCategory" id="productCategory"
+										th:value="${facility.productCategoryId}"
+										th:text="${facility.productCategoryId}">${facility.categoryName}</option>
+								</div>
+								
+								
+                            </select>
+                            <input class="search-input" type="text" name="criteria_1" id="criteria_1" placeholder="Category" style="width: 25%;">
+                        </fieldset>
+                        <fieldset>
+                            <label style="margin-right: 5%;">Item Criteria -2</label> 
+                            <select class="form-control" id="criteria2" name="criteria2" style="width: 20%;">
+                            <option selected>Please Select One</option>
+                                <div th:each="party : ${partyList}">
+									 <option class="productCategory" id="productCategory"
+										th:value="${party.partyId}"
+										th:text="${party.partyId}"></option> 
+								</div>
+                            </select>
+                            <input class="search-input" type="text" name="criteria_2" id="criteria_2" placeholder="Manufacturer" style="width: 25%;">
+                            <button type="button"  class="btn-theme btn-red" id="criteriaSearchbtn" style="position: absolute;width: 49px;height: 76px;margin-top: -5%;">Go</button>
+                        </fieldset>
+                    </form>
+                    <fieldset>
+                        <label style="margin-right: 7%;">Rate Criteria </label> 
+                        <select class="form-control" id="sel1" style="width: 20%;margin-right: 1%;">
+                            <option selected>Select Criteria</option>
+                            <option>Department From</option>
+                            <option>Department From</option>
+                            <option>Department From</option>
+                            <option>Department From</option>
+                        </select>
+                        <label style="margin-right: 4%;">Mark Up</label> 
+                        <input  class="search-input mark_up" type="text" name="mark-up" placeholder="%" style="width: 12%;">
+                        <label style="margin-right: 4%;">Mark Down</label> 
+                        <input  class="search-input mark_down" type="text" name="mark-down" placeholder="%" style="width: 12%;">
+                        <button type="submit" class="btn-theme btn-go" style="width: 75px;height: 34px;">Apply</button>
+                    </fieldset>
+                </div>
+                <div class="col-md-4" style="border-left: 2px dotted #7c7c7c7d;padding: 3% 5% 3% 2%;">
+                    <fieldset>
+                        <label style="margin-right: 5%;">Created By</label> 
+                        <span class="form-span" th:text="${partyId}"></span>
+                    </fieldset>
+                    <fieldset>
+                        <label style="margin-right: 14%;">Created On</label> 
+                        <span class="form-span" th:text="${#execInfo.now.time}"></span>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="col-md-12 table-container">
+                <table id="vendorItemMapping" class=" row-border order-column" style="width: 100%">
+                    <thead style="background: #1F1F1F; color: #fff;">
+                        <tr>
+                        <th style="visibility:hidden" >Party ID</th>
+                            <th>Item ID</th>
+                            <th>Item Name</th>
+                            <th>Item Criteria</th>
+                            <th>Criteria Value</th>
+                            <th>MRP</th>
+                            <th>Offer Rate(Excl. Tax)</th>
+                            <th>Tax Rate</th>
+                            <th>Tax Ammount</th>
+                            <th>Offer Rate(Incl. Tax)</th>
+                            <th>Order UoM</th>
+                            <th>Pack Size</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="col-md-12 table-container">
+                <table id="marginTable" class=" row-border order-column" style="width: 100%">
+                    <tbody>
+                    <tr>
+                           <td><p align="right">Markup 20%</p><p align="right">Margin 15%</p></td> 
+                        </tr>
+                    </tbody>
+                </table>	
+            </div>
+            
+                       <p align="right">
+  <input type="button" id="cancelbtn" class="btn-theme btn-go"  style=" width:75px;height: 34px;" value="Cancel" />
+    <input type="button" id="submitbtn" class="btn-theme btn-go"  style=" width:75px;height: 34px;" value="Submit" />
+</p>   
+ <!-- Confirm Model Starts Here -->
+            <div id="confirmationModal1" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b>Vendor Item Mapped  Successfully!</b>
+                            <div class="confirmation-btn-div">
+                            <button type="button" data-dismiss="modal" class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Confirm Model End Here -->
+              <!-- Already Exists Model Starts Here -->
+            <div id="alreadyExistModal1" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b id="msgtext"></b>
+                            <div class="confirmation-btn-div">
+                                <button type="button" data-dismiss="modal" class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <!-- Already Exists Model End Here -->
+            <div class="clear"></div>
+            <script th:inline="javascript">
+			/*<![CDATA[*/
+			var list = /*[[${productList}]]*/'default';
+			console.log(list);
+			/*]]>*/
+		</script>
+        </section>
+    </body>
+</html>

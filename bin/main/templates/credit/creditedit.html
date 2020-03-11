@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'UPDATE CREDIT')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Credit</title>
+    </head>
+    <body>
+        <section class="content-section">
+        <input type="hidden" id="createdBy" name="createdBy" th:value="${session.username}">
+        <input type="hidden" id="customerId" name="customerId" th:value="${customerId}">
+         <div class="row margin0">
+             <fieldset style="min-width: 88%;">
+                    <label for="Customer Number" style="margin-right: 3%;">TOTAL CREDIT</label> 
+                    <input id="totalCredit" class="search-input" type="text" th:value="${totCreditAmt}" name="totalCredit" readonly>
+                  
+                 </fieldset>
+                 </div><br>
+                  <div class="row margin0">
+             <fieldset style="min-width: 88%;">
+                    <label for="Customer Number" style="margin-right: 3%;">AMOUNT DUE</label> 
+                    <input id="creditAmtDue" class="search-input" type="text" th:value="${totCreditDueAmt}" name="creditAmtDue" readonly>
+                 </fieldset>
+                 
+            </div><br>
+             <div class="row margin0">
+             <fieldset style="min-width: 88%;">
+                    <label for="Customer Number" style="margin-right: 3%;">PAID AMOUNT</label> 
+                    <input class="search-input" type="text" name="" id="paidAmount" onkeypress="return event.charCode >= 48" min="1">
+                 </fieldset>
+                 
+                 
+            </div><br>
+             <div class="row margin0">
+             <button class="btn-theme btn-green" style="height: 34px;margin-inline-start: 79px; border-radius: 0;"
+             th:onclick="customerCreditPayAmt()">SUBMIT
+                </button>
+              </div>
+            </div>
+           <script type="text/javascript">
+           		function customerCreditPayAmt () {
+           			
+           			var password = "ofbiz";
+           		    var username = $('#createdBy').val();
+           		    var customerId = $('#customerId').val();
+           		    var paidAmount = $('#paidAmount').val();
+           		    var retailer = "0";
+           		    var customer = "1";
+           		    var type = "CREDIT";
+           		    
+           		    var data0 = {
+           		   	  type : type,
+           		   	  paidAmount : paidAmount,
+           		      customerId : customerId,
+           		   	  customer : customer,
+           		      retailer : retailer,
+           		      username : username,
+           		      password : password
+           		    }
+           		    var json = JSON.stringify(data0);
+           		    $.ajax({
+           		      type : 'GET',
+           		      url : '/createPosCustomerCredit',
+           		      data : {
+           		        json : json,
+           		        username : username,
+           		        password : password,
+           		      },
+           		      dataType : 'json',
+           		      success : function(data) {
+           		    	  var homeUrl = '/credit';
+           				window.location = homeUrl;
+           		      }
+           		    });
+           		}
+           </script>
+        </section>
+        </body>
+        </html>

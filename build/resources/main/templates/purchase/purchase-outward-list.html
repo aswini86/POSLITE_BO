@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Purchase Outward List')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Purchase Outward List</title>
+    </head>
+    <body>
+        <section class="content-section">
+            <div class="row margin0">
+                <div class="col-md-8">
+                    <div class="col-md-6">
+                    <fieldset>
+                        <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12">Search Transaction</label> 
+                        <input class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" type="text" name="Vendor" placeholder="Search by PO Number" >
+                    </fieldset>
+                    <fieldset>
+                        <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12" >From Date</label>
+                        <input class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" type="date" placeholder="DD/MM/YYYY" />
+                    </fieldset>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12">Status</label> 
+                        <select class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" id="sel1" >
+                            <option selected>Select Status</option>
+                            <option>Department From</option>
+                            <option>Department From</option>
+                            <option>Department From</option>
+                            <option>Department From</option>
+                        </select>
+
+                        <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12" >To Date</label>
+                        <input class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" type="date" placeholder="DD/MM/YYYY" />
+                    </div>
+                    <button class="btn-theme btn-black pull-right">Go</button>
+                </div>
+                
+                <div class="col-md-4" style="border-left: 2px dotted #7c7c7c7d;padding: 3% 5% 3% 2%;">
+                	<form th:action="@{/createPurchaseOutward}" method="get">
+                    <button class="btn-theme btn-green pull-right" data-toggle="modal" data-target="#addNew" style="margin-right:0px;height: 38px;">
+                        <i class="fa fa-plus hidden-xs" aria-hidden="true"></i> Create New
+                    </button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-12 table-container">
+                <table id="purchaseOrderTable" class="row-border order-column"
+                       style="width: 100%">
+                    <thead style="background:#1F1F1F;color:#fff;">
+                        <tr>
+                            <th></th>
+                            <th>Transaction ID</th>
+                            <th>Vandor name</th>
+                            <th>Inward Date</th>
+                            <th>Status</th>
+                            <th>Created By</th>
+                            <th>Approved By</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>Tiger</td>
+                            <td>Nixon</td>
+                            <td>System Architect</td>
+                            <td>Edinburgh</td>
+                            <td>61</td>
+                            <td>2011/04/25</td>
+                            <td><a href="#"><img src="assets/images/print.png" width="24"></a></td>
+                            <td><a href="#"><img src="assets/images/button-view.png" width="24"></a></td>
+                        </tr>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>Garrett</td>
+                            <td>Winters</td>
+                            <td>Accountant</td>
+                            <td>Tokyo</td>
+                            <td>63</td>
+                            <td>2011/07/25</td>
+                            <td><a href="#"><img src="assets/images/print.png" width="24"></a></td>
+                            <td><a href="#"><img src="assets/images/button-view.png" width="24"></a></td>
+                        </tr>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>Ashton</td>
+                            <td>Cox</td>
+                            <td>Junior Technical Author</td>
+                            <td>San Francisco</td>
+                            <td>66</td>
+                            <td>2009/01/12</td>
+                            <td><a href="#"><img src="assets/images/print.png" width="24"></a></td>
+                            <td><a href="#"><img src="assets/images/button-view.png" width="24"></a></td>
+                        </tr>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>Cedric</td>
+                            <td>Kelly</td>
+                            <td>Senior Javascript Developer</td>
+                            <td>Edinburgh</td>
+                            <td>22</td>
+                            <td>2012/03/29</td>
+                            <td><a href="#"><img src="assets/images/print.png" width="24"></a></td>
+                            <td><a href="#"><img src="assets/images/button-view.png" width="24"></a></td>
+                        </tr>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>Airi</td>
+                            <td>Satou</td>
+                            <td>Accountant</td>
+                            <td>Tokyo</td>
+                            <td>33</td>
+                            <td>2008/11/28</td>
+                            <td><a href="#"><img src="assets/images/print.png" width="24"></a></td>
+                            <td><a href="#"><img src="assets/images/button-view.png" width="24"></a></td>
+                        </tr>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>Brielle</td>
+                            <td>Williamson</td>
+                            <td>Integration Specialist</td>
+                            <td>New York</td>
+                            <td>61</td>
+                            <td>2012/12/02</td>
+                            <td><a href="#"><img src="assets/images/print.png" width="24"></a></td>
+                            <td><a href="#"><img src="assets/images/button-view.png" width="24"></a></td>
+                        </tr>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>Herrod</td>
+                            <td>Chandler</td>
+                            <td>Sales Assistant</td>
+                            <td>San Francisco</td>
+                            <td>59</td>
+                            <td>2012/08/06</td>
+                            <td><a href="#"><img src="assets/images/print.png" width="24"></a></td>
+                            <td><a href="#"><img src="assets/images/button-view.png" width="24"></a></td>
+                        </tr>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>Rhona</td>
+                            <td>Davidson</td>
+                            <td>Integration Specialist</td>
+                            <td>Tokyo</td>
+                            <td>55</td>
+                            <td>2010/10/14</td>
+                            <td><a href="#"><img src="assets/images/print.png" width="24"></a></td>
+                            <td><a href="#"><img src="assets/images/button-view.png" width="24"></a></td>
+                        </tr>
+                        <tr>
+                            <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                            <td>Colleen</td>
+                            <td>Hurst</td>
+                            <td>Javascript Developer</td>
+                            <td>San Francisco</td>
+                            <td>39</td>
+                            <td>2009/09/15</td>
+                            <td><a href="#"><img src="assets/images/print.png" width="24"></a></td>
+                            <td><a href="#"><img src="assets/images/button-view.png" width="24"></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+    </body>
+    
+</html>

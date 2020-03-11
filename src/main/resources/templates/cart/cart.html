@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Pos Cart')}" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Retail BO :: Pos Cart</title>
+</head>
+<body>
+	<section class="main-section" id="wrapper">
+		<!-- --- header starts --- -->
+		
+		<div class="clear"></div>
+
+		<!-- --- header ends ----- -->
+		<div class="clear"></div>
+
+		<section class="billing content-section">
+		<!-- ---------------search starts here----------- -->
+		<input type="hidden" id="receiptId" name="receiptId" th:value="${session.receiptId}" />
+		<input type="hidden" id="dayId" name="dayId" th:value="${session.dayId}" />
+		<input type="hidden" id="createdBy" name="createdBy" th:value="${session.username}">
+		<input type="text" id="customerShipState" name="customerShipState" value="">
+		<input type="hidden" id="posTerminalId" name="posTerminalId" th:value="${session.posTerminalId}">
+		<input type="hidden" id="cartItems" name="cartItems" th:value="${cartItems}">
+		<div class="search-container">
+
+			<div class="search-options">
+				<div class="row col-lg-12">
+					<div class="col-lg-2"><label>Bill Number :</label></div>
+					<div class="col-lg-5"><label id="billNum" ><span id="billNum" th:text="${session.receiptId}"></span></label></div>
+					<div class="col-lg-5"></div>
+				</div>
+				<div class="col-md-12 inner-wrapper" style="margin-top: 8px;">
+					<div class="col-lg-2"><label>Contact Number :</label></div>
+					<div class="col-lg-5">
+						<input type="text" class="modal-input pull-left add-input col-lg-10 col-md-9 col-sm-8 col-xs-12" 
+						placeholder="Customer Mobile Number" th:value="${contactNumber}" id="contactNumber" size="32" style="margin: 0;">
+						<button class="btn add-customer" data-toggle="modal" data-target="#addNew"><i class="fa fa-plus"></i></button>
+					</div>
+					<div class="col-lg-5">
+						<input type="text" class="modal-input pull-left" id="customerName" placeholder="Customer Name" th:value="${customerName}" size="44">
+					</div>
+				</div>
+				
+				<div class="row col-lg-12" style="margin-top: 6px;">
+					<div class="col-lg-2"><label>Bill Date</label></div>
+					<div class="col-lg-5">
+						<input type="date" name="transfer_date" class="modal-input pull-left" size="30" style="margin: 0;width: 327px;"/>
+					</div>
+					<div class="col-lg-5">
+						<input type="text" class="modal-input pull-left" placeholder="Customer Address" id="customerAddress" 
+						th:value="${contactAddress}" size="44">
+				    </div>
+				</div>
+				<div class="row col-lg-12" style="margin-top: 8px;">
+					<div class="col-lg-2"><label>Search Article</label></div>
+					<div class="col-lg-4">
+						<input type="search" class="modal-input pull-left" placeholder="Search by EAN/Product Name/Item ID" 
+						style="margin: 0;width: 328px" value="">
+					</div>
+					<div class="col-lg-4">
+						<select class="modal-input pull-left" style="width: 236px;margin-left: 75px;">
+						<option>Serach By</option>
+						<option>Serach By</option>
+						<option>Serach By</option>
+						</select>
+					</div>
+					<div class="col-lg-2">
+						<button class="btn-theme btn-go" data-toggle="modal" data-target="#selectArticle" 
+						style="width: 60px;margin-left: 39px;margin-top: -1px;" type="button">Go</button>
+					</div>
+				</div>
+			</div>
+			<form id="addScanPosCartItem" method="POST" th:action="@{/addScanPosCartItem}" >
+				<input type="hidden" id="receiptId" name="receiptId" th:value="${session.receiptId}" />
+				<input type="hidden" id="dayId" name="dayId" th:value="${session.dayId}" />
+				<input type="hidden" id="createdBy" name="createdBy" th:value="${session.username}">
+				<input type="hidden" id="scustomerShipState" name="scustomerShipState" value="">
+				<input type="hidden" id="posTerminalId" name="posTerminalId" th:value="${session.posTerminalId}">
+				<input type="hidden" id="password" name="password" value="ofbiz">
+				<input type="hidden" id="username" name="username" value="sbadmin">
+				  <div class="row col-lg-12" style="margin-top: 8px;">
+	              	<i class="fa fa-search"></i> <input type="text" placeholder="Scanned EAN Number" 
+	              	th:id="add_product_id" name="add_product_id" th:autofocus="${true}">
+	              </div>
+        	</form>
+		</div>
+		</div>	
+		<!-- ---------------search ends here----------- -->	
+	  <div class="col-md-9 col-sm-12 col-xs-12 table-container">
+	  <table id="pos_cart" class="row-border order-column"
+		style="width: 100%">
+		<thead style="background:#1F1F1F;color:#fff;">
+			<tr>
+				<th>Product Name</th>
+				<th>Expiry Date</th>
+				<th>Sale Rate</th>
+				<th>SGST</th>
+				<th>CGST</th>
+				<th>IGST</th>
+				<th>Qty</th>
+				<th>Discount</th>
+				<th>Disc.Amt</th>
+				<th>Amount</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="cartItemsEach,iter : ${cartItems}" class="result">
+				<td id="productName" th:text="${cartItemsEach.get('productName')}"></td>
+				<td></td>
+				<td id="productPrice" th:text="${cartItemsEach.get('productPrice')}"></td>
+				<td id="SGST_TAX" th:if="${cartItemsEach.get('SGST_TAX')} != null" th:text="${cartItemsEach.get('SGST_TAX')}"></td>
+				<td id="CGST_TAX" th:if="${cartItemsEach.get('CGST_TAX')} != null" th:text="${cartItemsEach.get('CGST_TAX')}"></td>
+				<td id="IGST_TAX" th:if="${cartItemsEach.get('IGST_TAX') == null}"></td>
+      			<td id="IGST_TAX" th:if="${cartItemsEach.get('IGST_TAX') != null}" th:text="${cartItemsEach.get('IGST_TAX')}"></td>
+				<td id="productQty" th:text="${cartItemsEach.get('productQty')}"></td>
+				<td></td>
+				<td></td>
+				<td id="productTotalAmt" th:text="${cartItemsEach.get('Item_Tot_Amt')}"></td>
+	 			<td><span th:onclick="deleteproduct([[${cartItemsEach.get('productId')}]])" class="delete-span"><i class="fa fa-trash"></i></span></td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="col-md-12" style="padding: 1%">
+	<div class="pull-left">
+	  <button id="print_bill" class="print_bill btn-theme btn-black" style="height:36px">PRINT BILL</button>
+	  <button id="void_bill" onclick="voidBill()" class="void_bill btn-theme btn-black" style="height:36px">Void Bill</button>
+	  <button id="hold_bill" onclick="holdBill()" class="hold_bill btn-theme btn-black" style="height:36px">Hold Bill</button>
+	  <!-- <button id="populate_hold_bill" onclick="populateholdBill()" class="populate_hold_bill btn-theme btn-black"
+	   style="height:36px">Populate Held Bill</button>  -->
+	  <button class="btn-theme btn-black" style="height:36px"type="button" data-toggle="modal" data-target="#populateHoldBillModal">
+		Populate Hold Bill</button>
+ 	 
+<!--   <button class="btn-theme btn-black" style="height:36px"type="button"  data-toggle="modal" data-target="#exampleModalLong">
+populateholdBill</button><br> -->
+	<!-- Data Model for Populate Held bill -->
+	<!--  modal starts here for populateholdBill -->
+  
+<div class="modal fade" id="populateHoldBillModal" tabindex="-1" role="dialog" aria-labelledby="Populate Hold Bill" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div id="modelcontent" class="modal-content">
+		<button type="button" class="close" data-dismiss="modal">&times;</button>
+		<span aria-hidden="true" class="mr-auto"></span>
+		    
+			<div class="modal-body" id="modelbg" >
+				<div class="container-fluid">
+				<h1 class="text-center" style="font-size: 20px; font: bold;">Hold Bill List</h1>
+					<div class="rounded style= width: 23rem; pt-3 pb-3" style="background-color: white;">    
+						<div class="main">
+							<div class="child1">
+								<table>
+									<tr>
+										<td>posstats</td>
+										<td>hold</td>
+									</tr>
+									<tr>
+										<td>dayid</td>
+										<td>1011</td>
+									</tr>
+									<tr>
+										<td>terminalld</td>
+										<td>bm_pos1</td>
+									</tr>
+									<tr>
+										<td>receiptid</td>
+										<td>1574228583915</td>
+									</tr>
+									<tr>
+										<td>mobile no</td>
+										<td> select mobile no</td>
+									</tr> 
+								</table>
+							 
+							 </div>
+						</div>
+					</div> 
+				<br>
+				<br>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	<!-- End of Data Model for Populate Held bill -->
+  </div>
+	  <div class="pull-right bold" style="background-color: #fff;padding: 3px 15px;">
+	  	<b>Total Item 
+	  	<span id="total_item" th:if="${cartSize} != null" th:text="${cartSize}" style="color: red"></span>
+      	<span id="total_item" th:if="${cartSize} == null" style="color: red">0.0</span></b>
+	  </div>
+      </div>
+	  </div>
+	  <div class="col-md-3 col-sm-12 col-xs-12 table-container">
+	 <div class="panel-group">
+  <div class="panel panel-default">
+      <div class="panel-heading">Panel Header</div>
+      <div class="panel-body" style="height: 350px;">
+      <div class="row border-dotted">
+      	<div class="col-md-6">Bill Amount</div>
+      	<div id="bill_amount" class="bill_amount col-md-6 pull-right">
+      	<span th:text="${subTotal}"></span>
+      	</div>
+      </div>
+      <div class="row border-dotted">
+      	<div class="col-md-6">Item Discount</div>
+      	<div id="item_discount" class="item_discount col-md-6 pull-right">0.00</div>
+      </div>
+      <div class="row" style="display: flex;padding: 2% 0% 0% 0%;">
+      	<div class="col-md-6">Addl. Discount</div>
+      	<div class="col-md-6 pull-right" style="display: flex;">
+      	<input id="additional_discount" type="number" name="addl_disc" class="additional_discount input-box margin-right" style="width:50%">
+      	<select class="input-select">
+      		<option>%</option>
+      	</select>
+      	</div>
+      	</div>
+      	<div class="row border-dotted">
+      		<div class="col-md-6">Discount Amount</div>
+      	<div id="discount_amount" class="discount_amount col-md-6 pull-right">0.00</div>
+      	</div>
+      	<div class="row" style="display: flex;padding: 2% 0% 0% 0%;">
+      	<div class="col-md-6">Charges</div>
+      	<div class="col-md-6 pull-right" style="display: flex;">
+      	<select class="input-select">
+      		<option>%</option>
+      	</select>
+      	</div>
+      	</div>
+      	<div class="row border-dotted">
+      		<div class="col-md-6">Amount</div>
+      	<div id="amount" class="amount col-md-6 pull-right">0.00</div>
+      	</div>
+      	<div class="row border-dotted">
+      	<div class="col-md-6">Rounded Off</div>
+      	<div id="round_off" class="round_off col-md-6 pull-right">0.00</div>
+      </div>
+      	<div class="row border-dotted">
+      	<div class="col-md-6">Amount Taxable</div>
+      	<div id="amount_taxable" class="amount_taxable col-md-6 pull-right">
+      	<span th:text="${totalSalesTax}"></span>
+      	</div>
+      </div>
+      
+      	<div class="row border-dotted">
+      	<div class="col-md-6">Payable Amount</div>
+      	<div id="payable_amount" class="payable_amount col-md-6 pull-right">
+      	<span th:if="${balanceAmount} != null" th:text="${balanceAmount}"></span>
+      	<span th:if="${balanceAmount} == null" >0.0</span>
+      	</div>
+      </div>
+<!-- 	<div class="row" style="padding: 2% 0">
+	<div class="col-md-6">Rounded Off</div>
+	<div class="col-md-6 pull-right">
+	<span class="material-switch">No &nbsp; <input
+	id="someSwitchOptionWarning" name="someSwitchOption001"
+	type="checkbox"> <label for="someSwitchOptionWarning"
+	class="label-toggle"></label> &nbsp; Yes
+	</span>
+	</div>
+	</div> -->
+	</div>
+    </div>
+</div>
+<div>
+<form th:action="@{/payment}" method="post">
+		<input type="hidden" id="preceiptId" name="preceiptId" th:value="${session.receiptId}" />
+		<input type="hidden" id="pdayId" name="pdayId" th:value="${session.dayId}" />
+		
+  <button id="btn_checkout" type="submit" class="btn_checkout btn-theme btn-black" 
+style="height:36px margin-left:auto;margin-right:auto">Checkout</button>
+ </form>
+
+
+</div>
+</div>
+		</section>
+	<!-- ------content section ends here------- -->
+	
+	<!-- --- Add customer modal starts here --- -->
+<!-- --- Add customer modal starts here --- -->
+
+	<div id="addNew" class="modal fade in" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">×</button>
+					<h1 class="modal-title">Add Customer Details</h1>
+				</div>
+				<div class="modal-body">
+					<div class="col-md-12">
+						<fieldset>
+							<input class="modal-input" type="text" name="Contact Number"
+								id="contact_number" placeholder="Mobile Number *"
+								required="required" >
+						</fieldset>
+					</div>
+					
+					<div class="col-md-12">
+						<fieldset>
+							<input class="modal-input" type="text" name="Enter name"
+								id="enter_name" placeholder="Enter name *" required="required">
+						</fieldset>
+					</div>
+					<!-- <div class="col-md-12">
+						<fieldset>
+							<input class="modal-input" type="text" name="Email-id"
+								id="email_id" placeholder="Email id" required="required">
+						</fieldset>
+					</div> -->
+					
+					<div class="col-md-12">
+						<fieldset>
+							<textarea class="modal-input" cols="60" type="text"
+								name="Address" id="address" placeholder="Address"
+								style="height: 50px;"></textarea>
+						</fieldset>
+					</div>
+					<!-- <div class="col-md-12">
+						<fieldset>
+							<input class="modal-input" type="text" name="City" id="city"
+								placeholder="City" required="required">
+						</fieldset>
+					</div> -->
+					<div class="col-md-12">
+						<fieldset>
+							<input class="modal-input" type="text" name="Postal Code"
+								id="postal_code" placeholder="Postal Code" required="required">
+						</fieldset>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn-theme btn-black"
+						data-dismiss="modal">Cancel</button>
+					<button id="customerSubmit" class="btn-theme btn-black"
+						th:onclick="createCustomer()">Submit</button>
+				</div>
+			</div>
+			<!-- Customer success Modal -->
+			<div id="createCustomerSuccessModal" class="modal fade" role="dialog">
+				<div class="modal-dialog"
+					style="margin-top: 15%; width: 400px !important;">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-body text-center">
+							<b id="customerSuccess"></b>
+							<div class="confirmation-btn-div">
+								<button type="button" data-dismiss="modal"
+									class="btn-theme btn-go">Ok</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--  -->
+			<!-- Customer Error Modal -->
+			<div id="createCustomerErrorModal" class="modal fade" role="dialog">
+				<div class="modal-dialog"
+					style="margin-top: 15%; width: 400px !important;">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-body text-center">
+							<b id="customerError">Customer created Successfully!</b>
+							<div class="confirmation-btn-div">
+								<button type="button" data-dismiss="modal"
+									class="btn-theme btn-go">Ok</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--  -->
+		</div>
+	</div>
+
+	<!-- --- Add customer modal ends here --- -->
+		<!-- --- Add customer modal ends here --- -->
+		<!-- -------Add to stock modal starts here---------- -->
+	<div id="selectArticle" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h1 class="modal-title">Select Article</h1>
+				</div>
+				<div class="modal-body">
+					<div class="search-div">
+				<form class="" action="">
+					<i class="fa fa-search"></i> <input type="text"
+						placeholder="Scanned EAN Number" name="search">
+
+				</form>
+			</div>
+		<!-- ---------------search ends here----------- -->	
+		<!-- --- select article modal start here --- -->
+	  <div class="col-md-12 table-container">
+	  <table id="selectArticleTable" class="row-border order-column"
+		style="width: 100%">
+		<thead style="background:#1F1F1F;color:#fff;">
+			<tr>
+				<th>EAN Code</th>
+				<th>Item ID</th>
+				<th>Unit ID</th>
+				<th>Product name</th>
+				<th>LOT ID</th>
+				<th>No. Of Packs</th>
+				<th>Pack Size</th>
+				<th>Qty</th>
+				<th>Sale Rate</th>
+				<th>Co Batch No.</th>
+				<th>Expiry Date</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="productListEach,iter : ${productsList}" class="result">
+				<td id="eanCode" th:text="${productListEach.get('productIdEan')}"></td>
+				<td id="productId" th:text="${productListEach.get('productId')}"></td>
+				<td name="unit_id">EA</td>
+				<td id="productName" th:text="${productListEach.get('description')}"></td>
+				<td id="lotId"></td>
+				<td id="moOfPacks"></td>
+				<td id="packSize"></td>
+				<td></td>
+				<td id="saleRate" th:text="${productListEach.get('productSalePrice')}"></td>
+				<td id="coBatchNo"></td>
+	 			<td id="expiryDate" th:text="${productListEach.get('salesDiscontinuationDate')}"></td>
+	          <td><button class="fa fa-plus-square" th:onclick="addProductFunction([[${productListEach.get('productId')}]])"></button></td> 
+	            <!--class="fa fa-plus-square"-->
+	            
+	            
+			</tr>
+		</tbody>
+	</table>
+	  </div>
+	  <!-- fa fa-plus-square -->
+	  
+				</div>
+				<div class="clear"></div>
+				<div class="modal-footer"></div>
+			</div>
+
+		</div>
+	</div>
+		<script>
+		$(document).ready(function() {
+			/*var d = new Date();
+			var n = d.getTime();
+			
+			$('#receiptId').val(n);
+			$('#billNum').text(n);*/
+		});
+		
+		function createCustomer() {
+			var enter_name = $('#enter_name').val();
+			//var email_id = $('#email_id').val();
+			var contact_number = $('#contact_number').val();
+			var address = $('#address').val();
+			//var city = $('#city').val();
+			var city = "Mumbai";
+			var postal_code = $('#postal_code').val();
+			var username = $('#createdBy').val();
+			var password = "ofbiz";
+			if(postal_code == "" || postal_code == " " || postal_code == null) {
+				postal_code = "400000";
+			}
+			if(address == "" || address == " " || address == null) {
+				address = city;
+			}
+			var data0 = {
+				firstName : enter_name,
+				lastName : enter_name,
+				contactNumber : contact_number,
+				address1 : address,
+				city : city,
+				postalCode : postal_code,
+				stateProvinceGeoId : "IN-MH"
+			}
+			var json = JSON.stringify(data0);
+			$.ajax({
+				type : 'GET',
+				url : '/createCustomerBO',
+				data : {
+					json : json,
+					username : username,
+					password : password,
+				},
+				dataType : 'json',
+				success : function(data) {
+					if (data != "" && data != null) {
+						//$('#addNew').modal("hide");
+						$('#createCustomerSuccessModal').modal('toggle');
+						$("#customerSuccess").append(
+								"Customer created Successfully!");
+					} else {
+						$('#addNew').modal("hide");
+						$('#createCustomerErrorModal').modal('toggle');
+						$("#customerError").append(
+								"Error while Creating Customer");
+					}
+				}
+			});
+		}
+		
+		function addProductFunction(productId) {
+			var username = $('#createdBy').val();
+			var receiptId = $('#receiptId').val();
+			var dayId = $('#dayId').val();
+			var customerShipState = $('#customerShipState').val();
+			var customerMobileNo = $('#contactNumber').val();
+			var posTerminalId = $('#posTerminalId').val();
+			
+			if(customerMobileNo == "" || customerMobileNo == " " || customerMobileNo == null) {
+				alert("Please select Mobile Num");
+				return false;
+			}
+			if(customerShipState == "" || customerShipState == " " || customerShipState == null) {
+				alert("Customer State is Empty");
+				return false;
+			}
+			var data0 = {
+				add_product_id : productId,
+				quantity : "1",
+				receiptId : receiptId,
+				posTerminalId : posTerminalId,
+				dayId : dayId,
+				USERNAME : username,
+				customerShipState : customerShipState,
+				customerMobileNo : customerMobileNo,
+			};
+			
+			var json = JSON.stringify(data0);
+			$.ajax({
+				type : 'GET',
+				url : '/addPosCartItem',
+				dataType : 'json',
+				async : 'false',
+				data : {
+					json : json,
+					password : "ofbiz",
+					username : "sbadmin"
+				},
+				success : function(data) {
+					var result = JSON.parse(JSON.stringify(data));
+					populateDataTable(data);
+				}
+			});
+			function populateDataTable(data) {
+				var table = $('#pos_cart').DataTable();
+				table.clear();
+				var result = JSON.parse(JSON.stringify(data.cartItems));
+				
+				    $('div.bill_amount').text(data.subTotal);
+					$('div.item_discount').text("0.00");
+					$('div.additional_discount').text("0.00");
+					$('div.discount_amount').text("0.00");
+					$('div.amount').text(data.displayGrandTotal);
+					$('div.round_off').text("0.00");
+					$('div.amount_taxable').text("0.00");
+					$('div.payable_amount').text(data.displayGrandTotal);
+					$('#total_item').text(data.cartSize); 
+					
+				for (var j = 0, l = result.length; j < l; j++) {
+					var obj = result[j];
+				 
+				 var itemtax = JSON.parse(JSON.stringify(obj.itemTax));
+					var obj1 = itemtax; 
+					var price=parseFloat(obj.productTotalAmt);
+					var cgst=parseFloat(obj1.CGST_TAX);
+					var gst=parseFloat(obj1.SGST_TAX);
+					var total=price+cgst+gst;
+					total=Math.round(total);
+					//alert(obj1.CGST_TAX);
+					$('#pos_cart').dataTable().fnAddData([
+						obj.productName,
+						'<td></td>',
+						obj.productPrice,
+						obj1.CGST_TAX,
+						obj1.SGST_TAX,
+						'<td></td>',
+						obj.productQty,
+						'<td></td>',
+						'<td></td>',
+						  total,
+						'<td><span onclick="deleteproduct('+obj.productId+')" class="delete-span"><i class="fa fa-trash"></i></span></td>',
+					
+						]);
+				}
+			}
+		}
+		
+		function populateholdBill()
+		{
+			var username = $('#createdBy').val();
+			var dayId = $('#dayId').val();
+			var posTerminalId = $('#posTerminalId').val();
+			
+			var data0 = {
+					posTerminalId : posTerminalId,
+					dayId : dayId,
+					USERNAME : username,
+				};
+			var json = JSON.stringify(data0);
+			$.ajax({
+				type : 'GET',
+				url : '/getDayPosCartItems',
+				dataType : 'json',
+				async : 'false',
+				data : {
+					json : json,
+					password : "ofbiz",
+					username : "sbadmin"
+				},
+				success : function(data) {
+					var result = JSON.parse(JSON.stringify(data));
+				}
+			});
+			
+			
+		}
+		
+		
+		
+		function holdBill()
+		{
+			var username = $('#createdBy').val();
+			var receiptId = $('#receiptId').val();
+			var dayId = $('#dayId').val();
+			var customerShipState = $('#customerShipState').val();
+			var customerMobileNo = $('#contactNumber').val();
+			var posTerminalId = $('#posTerminalId').val();
+			
+			var data0 = {
+					posTerminalId : posTerminalId,
+					receiptId : receiptId,
+					dayId : dayId,
+					USERNAME : username,
+					posPaidAmount : "500",
+					customerShipState: customerShipState,
+					paymentType: "CASH",
+				};
+			
+			
+			var json = JSON.stringify(data0);
+			$.ajax({
+				type : 'GET',
+				url : '/holdBill',
+				dataType : 'json',
+				async : 'false',
+				data : {
+					json : json,
+					password : "ofbiz",
+					username : "sbadmin"
+				},
+				success : function(data) {
+					
+					$('#pos_cart').DataTable().clear().draw();
+					$('div.bill_amount').text("0.00");
+					$('div.item_discount').text("0.00");
+					$('div.additional_discount').text("0.00");
+					$('div.discount_amount').text("0.00");
+					$('div.amount').text("0.00");
+					$('div.round_off').text("0.00");
+					$('div.amount_taxable').text("0.00");
+					$('div.payable_amount').text("0.00");
+					$('#total_item').text("0.00");
+					$('#receiptId').val(data.receiptId);
+					$('#preceiptId').val(data.receiptId);
+  					$('#billNum').text(data.receiptId);
+  					
+  					$('#contactNumber').val('');
+  					$('#customerName').val('');
+  					$('#customerAddress').val('');
+					//$('#pos_cart tbody').empty();
+  					/*var d = new Date();
+  					var n = d.getTime();
+  					$('#receiptId').val(n);
+  					$('#billNum').text(n); */
+  					
+				}
+			});
+			
+			
+		}
+		
+		//Void Bill
+		function voidBill()
+		{
+			var username = $('#createdBy').val();
+			var receiptId = $('#receiptId').val();
+			var dayId = $('#dayId').val();
+			var customerShipState = $('#customerShipState').val();
+			var customerMobileNo = $('#contactNumber').val();
+			var posTerminalId = $('#posTerminalId').val();
+			
+			var data0 = {
+					posTerminalId : posTerminalId,
+					receiptId : receiptId,
+					dayId : dayId,
+					USERNAME : username,
+				};
+			
+			
+			var json = JSON.stringify(data0);
+			$.ajax({
+				type : 'GET',
+				url : '/voidBill',
+				dataType : 'json',
+				async : 'false',
+				data : {
+					json : json,
+					password : "ofbiz",
+					username : "sbadmin"
+				},
+				success : function(data) {
+					var result = JSON.parse(JSON.stringify(data));
+					populateVoidDataTable(data);
+				}
+			});
+			
+			function populateVoidDataTable(data) {
+				$('#pos_cart').DataTable().clear().draw();
+				if (typeof data.cartItems == 'undefined'){
+					$('#pos_cart tbody').empty();
+					$('div.bill_amount').text("0.00");
+					$('div.item_discount').text("0.00");
+					$('div.additional_discount').text("0.00");
+					$('div.discount_amount').text("0.00");
+					$('div.amount').text("0.00");
+					$('div.round_off').text("0.00");
+					$('div.amount_taxable').text("0.00");
+					$('div.payable_amount').text("0.00");
+					$('#total_item').text("0.00"); 
+				} else {
+				var result = JSON.parse(JSON.stringify(data.cartItems));
+				
+				    $('div.bill_amount').text(data.subTotal);
+					$('div.item_discount').text("0.00");
+					$('div.additional_discount').text("0.00");
+					$('div.discount_amount').text("0.00");
+					$('div.amount').text(data.displayGrandTotal);
+					$('div.round_off').text("0.00");
+					$('div.amount_taxable').text("0.00");
+					$('div.payable_amount').text(data.displayGrandTotal);
+					$('#total_item').text(data.cartSize); 
+				
+					
+				for (var j = 0, l = result.length; j < l; j++) {
+					var obj = result[j];
+					var price = "";
+					var cgst = "";
+					var gst = "";
+					var total = "";
+					
+					var itemtax = JSON.parse(JSON.stringify(obj.itemTax));
+					var obj1 = itemtax; 
+					price=parseFloat(obj1.productTotalAmt);
+					cgst=parseFloat(obj1.CGST_TAX);
+					gst=parseFloat(obj1.SGST_TAX);
+					total=price+cgst+gst;
+					
+					total=Math.round(total);
+					
+					$('#pos_cart').dataTable().fnAddData([
+						obj.productName,
+						'<td></td>',
+						obj.productPrice,
+						obj1.CGST_TAX,
+						obj1.SGST_TAX,
+						'<td></td>',
+						obj.productQty,
+						'<td></td>',
+						'<td></td>',
+						  total,
+						'<td><span onclick="deleteproduct('+obj.productId+')" class="delete-span"><i class="fa fa-trash"></i></span></td>',
+						]);
+				}
+				}
+			}
+		}
+		
+	
+		
+		
+		
+		function deleteproduct(productId)
+		{
+			var username = $('#createdBy').val();
+			var receiptId = $('#receiptId').val();
+			var dayId = $('#dayId').val();
+			var customerShipState = $('#customerShipState').val();
+			var customerMobileNo = $('#contactNumber').val();
+			var posTerminalId = $('#posTerminalId').val();
+			
+			var data0 = {
+					delete_product_id : productId,
+					posTerminalId : posTerminalId,
+					receiptId : receiptId,
+					dayId : dayId,
+					USERNAME : username,
+					customerShipState : customerShipState,
+					customerMobileNo : customerMobileNo,
+				};
+			
+			var json = JSON.stringify(data0);
+			$.ajax({
+				type : 'GET',
+				url : '/deletePosCartItem',
+				dataType : 'json',
+				async : 'false',
+				data : {
+					json : json,
+					password : "ofbiz",
+					username : "sbadmin"
+				},
+				success : function(data) {
+					var result = JSON.parse(JSON.stringify(data));
+					populateDataTable1(data);
+				}
+			});
+			
+			function populateDataTable1(data) {
+				var table = $('#pos_cart').DataTable();
+				table.clear();
+				if (typeof data.cartItems == 'undefined'){
+					table.clear();
+					$('#pos_cart tbody').empty();
+					$('div.bill_amount').text("0.00");
+					$('div.item_discount').text("0.00");
+					$('div.additional_discount').text("0.00");
+					$('div.discount_amount').text("0.00");
+					$('div.amount').text("0.00");
+					$('div.round_off').text("0.00");
+					$('div.amount_taxable').text("0.00");
+					$('div.payable_amount').text("0.00");
+					$('#total_item').text("0.00"); 
+				} else {
+				var result = JSON.parse(JSON.stringify(data.cartItems));
+				
+				    $('div.bill_amount').text(data.subTotal);
+					$('div.item_discount').text("0.00");
+					$('div.additional_discount').text("0.00");
+					$('div.discount_amount').text("0.00");
+					$('div.amount').text(data.displayGrandTotal);
+					$('div.round_off').text("0.00");
+					$('div.amount_taxable').text("0.00");
+					$('div.payable_amount').text(data.displayGrandTotal);
+					$('#total_item').text(data.cartSize);
+				
+					
+				for (var j = 0, l = result.length; j < l; j++) {
+					var obj = result[j];
+					var price = "";
+					var cgst = "";
+					var gst = "";
+					var total = "";
+					 var itemtax = JSON.parse(JSON.stringify(obj.itemTax));
+					var obj1 = itemtax; 
+					price=parseFloat(obj1.productTotalAmt);
+					cgst=parseFloat(obj1.CGST_TAX);
+					gst=parseFloat(obj1.SGST_TAX);
+					total=price+cgst+gst;
+					
+					total=Math.round(total);
+					
+					$('#pos_cart').dataTable().fnAddData([
+						obj.productName,
+						'<td></td>',
+						obj.productPrice,
+						obj1.CGST_TAX,
+						obj1.SGST_TAX,
+						'<td></td>',
+						obj.productQty,
+						'<td></td>',
+						'<td></td>',
+						  total,
+						'<td><span onclick="deleteproduct('+obj.productId+')" class="delete-span"><i class="fa fa-trash"></i></span></td>',
+					
+						]);
+				}
+				}
+			}
+			
+		}
+		
+		</script>
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			var message = /*[[${CustomerList}]]*/'default';
+			/*]]>*/
+		</script>
+	</section>
+	<!-- ------main section ends here------- -->
+	<!-- --- Add customer modal ends here --- -->
+	<script
+		src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script
+		src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script>
+	<script
+		src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
+	<script src="assets/js/table.js"></script>
+	<script>
+
+		$("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("active");
+        });
+		
+		
+		/* DropDown Customer Mobile no  Starts*/
+		function myFunction() {
+			document.getElementById("myDropdown").classList.toggle("show");
+			
+			var username = "admin";
+			var password = "ofbiz";
+			
+			var data0 = {
+					contactNumber : "",
+			}
+			var json = JSON.stringify(data0);
+			$.ajax({
+				type : 'GET',
+				url : '/findCustomerBO',
+				data : {
+					username : username,
+					password : password,
+				},
+				dataType : 'json',
+				success : function(data) {
+					
+				}
+			});
+			
+		}
+		
+		function getCustomer(contactNumber) {
+			var username = "admin";
+			var password = "ofbiz";
+			
+			var data0 = {
+				contactNumber : contactNumber,
+			}
+			var json = JSON.stringify(data0);
+			$.ajax({
+				type : 'GET',
+				url : '/findCustomerBO',
+				data : {
+					json : json,
+					username : username,
+					password : password,
+				},
+				dataType : 'json',
+				success : function(data) {
+					populateDataTable(data);
+				}
+			});
+			function populateDataTable(data) {
+				var result = JSON.parse(JSON.stringify(data.customerList));
+				for (var j = 0, l = result.length; j < l; j++) {
+					var obj = result[j];
+					$('#customerName').val(obj.firstName);
+					$('#customerAddress').val(obj.address1)
+				}
+			}
+		}
+		
+		
+		
+		
+		function filterFunction() {
+			var input, filter, ul, li, a, i;
+			input = document.getElementById("myInput");
+			filter = input.value.toUpperCase();
+			div = document.getElementById("myDropdown");
+			a = div.getElementsByTagName("a");
+			for (i = 0; i < a.length; i++) {
+				txtValue = a[i].textContent || a[i].innerText;
+				if (txtValue.toUpperCase().indexOf(filter) > -1) {
+					a[i].style.display = "";
+				} else {
+					a[i].style.display = "none";
+				}
+			}
+		}
+		
+	</script>
+</body>
+</html>

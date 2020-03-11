@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Credit')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Credit</title>
+    </head>
+    <body>
+        <section class="content-section">
+            <div class="row margin0">
+                <fieldset style="min-width: 88%;">
+                    <!-- <label for="Customer Number" style="margin-right: 3%;">Search Transaction</label> 
+                    <input id="Customer Number" class="search-input" type="text" name=""> -->
+                 </fieldset>
+            </div>
+          
+            <div class="col-md-12 col-sm-15 col-xs-15 table-container">
+                <table id="store-transfer" class="row-border order-column"
+                       style="width: 100%">
+                    <thead style="background:#1F1F1F;color:#fff;">
+                        <tr>
+                            <th>CUSTOMER NAME</th>
+                            <th>CUSTOMER NUMBER</th>
+                            <th>Total Sales</th>
+                            <th>BILL AMOUNT</th>
+                            <th>Paid by Cash</th>
+                            <th>Paid by Card</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                           <tr th:each="customerCreditTxnEach,iter : ${posCartCustomerList}">
+                            <td style="text-align: center;" th:text="${customerCreditTxnEach.get('customerName')}"></td>
+                            <td style="text-align: center;" th:text="${customerCreditTxnEach.get('customerMobileNo')}"></td>
+                            <td style="text-align: center;" th:text="${customerCreditTxnEach.get('totalSales')}"></td>
+                            <td style="text-align: center;" th:text="${customerCreditTxnEach.get('orderItemAmt')}"></td>
+                            <td style="text-align: center;" th:text="${customerCreditTxnEach.get('amtPaidByCash')}"></td>
+                            <td style="text-align: center;" th:text="${customerCreditTxnEach.get('amtPaidByCard')}"></td>
+                        </tr>
+                    
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </body>
+</html>

@@ -1,0 +1,73 @@
+@media only screen and (max-width: 768px) {
+ #sel1{
+ width:24% !important;
+ }
+label[for=Received_on]
+{
+margin-right:10% !important;
+}
+label[for=Reason_for_stock_transfer]
+{
+margin-right:0% !important;
+}
+label[for=Add_Reason]
+{
+margin-right:0% !important;
+}
+#Received_on{
+	width:42% !important;
+}
+#Received_From{
+	width:43% !important;
+}
+#Reason_for_stock_transfer{
+	width:42% !important;
+}
+#seldepartment {
+    margin-left: 23%;
+}
+}
+label[for=Add_Reason]
+{
+margin-right:3%;
+}
+#sel1{
+	width:16%;
+	}
+#Add_Reason{
+	height:45px;
+	width:35%;
+}
+#Transfer_Date{
+	width:16%;
+}
+@media only screen and (min-width:1024px)
+{
+#sel1{
+	width:20%;
+}
+#sel{
+	width:13%;
+}
+}
+
+@media screen and (max-width:1024px)
+{
+label[for=Add_Reason]
+{
+margin-right:1%;
+}	
+
+}
+
+@media only screen and (max-width:425px)
+{
+#Transfer_Date{
+	width:37%;
+}
+}
+
+
+input[type="date" i] {
+	padding:5px 5px;
+	}

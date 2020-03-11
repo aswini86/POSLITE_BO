@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html th:fragment="template(title, content, heading)" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel='stylesheet' th:href="@{assets/css/roboto.css}" media='all' type="text/css">
+        <link rel='stylesheet' th:href="@{assets/css/bootstrap.min.css}" media='all' type="text/css">
+        <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css}">
+        <link rel='stylesheet' th:href='@{assets/css/style.css}' media='all' type="text/css">
+        <link rel='stylesheet' th:href='@{assets/css/responsive.css}' media='all'	type="text/css">
+        <link rel='stylesheet' th:href='@{https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css}' media='all' type="text/css">
+        <!-- <link rel="stylesheet" th:href="@{https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css}">
+        <link rel="stylesheet" th:href="@{https://cdn.datatables.net/select/1.3.0/css/select.dataTables.min.css}"> -->
+        <!-- <link rel='stylesheet' th:href="@{assets/css/font-awesome.min.css}" media='all' type="text/css"> -->
+        <link rel='stylesheet' th:href="@{assets/css/jquery.dataTables.min.css}" media='all' type="text/css">
+        <link rel='stylesheet' th:href="@{assets/css/select.dataTables.min.css}" media='all' type="text/css">
+        <link rel='stylesheet' th:href="@{assets/css/style.css}" media="all" type="text/css">
+        <link rel='stylesheet' th:href="@{assets/css/table.css}" media="all" type="text/css">
+        <link rel='stylesheet' th:href="@{assets/css/responsive.css}" media='all' type="text/css">
+
+        <link rel='stylesheet' th:href="@{assets/css/login.css}" media='all' type="text/css" th:if="${heading == 'Login' || heading == 'Pos Login' || heading == 'Terminal'}">
+        <link rel='stylesheet' th:href="@{assets/css/stockadjustment.css}" media='all' type="text/css" th:if="${heading == 'Stock Adjustment List'}">
+        <link rel='stylesheet' th:href="@{assets/css/vendor.css}" media='all' type="text/css" th:if="${heading == 'Vendor Item Mapping' || heading == 'Vendor Master'}">	
+        <link rel='stylesheet' th:href="@{assets/css/purchase.css}" media='all' type="text/css" th:if="${heading == 'Purchase Outward List' || heading == 'Purchase Inward List' || heading == 'Admin Approval'|| heading == 'Purchase Order List' || heading == 'Create Purchase Inward' || heading == 'Create Purchase Outward' || heading == 'Create Purchase Order'}">
+        <link rel='stylesheet' th:href="@{assets/css/vendor.css}" media='all' type="text/css" th:if="${heading == 'Department Transfer' || heading == 'Inter Department Transfer List' || heading == 'Inter Department Transfer'}">  
+        
+ 
+        <!-- <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js}"></script>
+        <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js}" type="text/javascript"></script>
+        <script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js}"></script> -->
+        <script th:src="@{assets/js/jquery.min.js}"></script>
+        <script th:src="@{assets/js/jquery.validate.min.js}"></script>
+        <script th:src="@{assets/js/bootstrap.min.js}"></script>
+        <script th:src="@{assets/js/jquery.easy-autocomplete.min.js}"></script>
+
+        <!-- <link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/easy-autocomplete/1.3.5/easy-autocomplete.css}" rel="stylesheet" type="text/css"/> -->
+        <link rel='stylesheet' th:href='@{assets/css/easy-autocomplete.css}' media='all'	type="text/css">
+        <!-- <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/easy-autocomplete/1.3.5/jquery.easy-autocomplete.min.js}"></script> -->
+        
+        <script th:src="@{assets/js/cities.js}" th:if="${heading == 'Vendor Master'}"></script>
+        <link rel='stylesheet' th:href="@{assets/css/login.css}" media='all' type="text/css" th:if="${heading == 'Login' || heading == 'Terminal'}">
+        <link rel='stylesheet' th:href="@{assets/css/purchase.css}" media='all' type="text/css" th:if="${heading == 'Create Purchse Inward'}"> 
+        <link rel='stylesheet' th:href="@{assets/css/stockcheck.css}" media='all' type="text/css" th:if="${heading == 'Stock Check Entry'  || heading == 'Stock Adjustment'|| heading == 'Stock Check Criteria' || heading == 'Stock Check Verify'}">
+        <link rel='stylesheet' th:href="@{assets/css/store.css}" media='all' type="text/css" th:if="${heading == 'Store Transfer In' || heading == 'Store Transfer Out' || heading == 'Store Transfer In List' || heading == 'Inter Store Transfer : Out'}"> 
+        <link rel='stylesheet' th:href="@{assets/css/vendor.css}" media='all' type="text/css" th:if="${heading == 'Vendor Item Mapping' || heading == 'Vendor Master'}">
+        <link rel='stylesheet' th:href="@{assets/css/billing.css}" media='all' type="text/css" th:if="${heading == 'Pos Cart' || heading == 'Pos Transaction'}">
+        <title th:replace="${title}">Template Title</title>
+        <script>
+        var service_url="http://localhost:9082/";
+        var ui_url="http://localhost:9081/";
+        </script>
+    </head>
+    <body>
+        <section class="main-section" id="wrapper">
+            <header class="main-header">
+                <div class="left-section col-md-6 col-sm-6 col-xs-12">
+                    <span class="company-name">
+                        <h3>POS Mart.</h3>
+                        <h5>Retailer Solutions.</h5></span> <span class="content-heading"><h3 th:text="${heading}">LOGIN
+                        </h3>
+                    </span>
+                </div>
+                <div class="right-section col-md-6 col-sm-6 col-xs-12 hidden-xs">
+                    <div class="dropdown pull-right">
+                        <button class="btn dropdown-toggle header-dropdown" type="button" data-toggle="dropdown" th:text="${session.username}">
+                            Administrator <i class="fa fa-chevron-down pull-right"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a href="#">Profile</a></li>
+                            <li><a href="#">Settings</a></li>
+                            <li><a th:href="@{/logout}">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+           
+		<div id="sidebar-wrapper">
+		<ul id="sidebar_menu" class="sidebar-nav">
+		<li><img class="logo-img" src="assets/images/logo.png" alt=""/></li>
+		</ul>
+			<ul id="sidebar_menu" class="sidebar-nav">
+				<li class="sidebar-brand"><a id="menu-toggle" href="#">Menu<span
+						id="main_icon" class="glyphicon glyphicon-align-justify"></span></a></li>
+			</ul>
+			<ul class="sidebar-nav" id="sidebar">
+				<li><a th:href="@{/stock}"><span class="font-small">Stocks</span><span class="sub_icon" title="Stocks"><img th:src="@{/assets/images/stock.png}" class="nav-icon" /></span></a></li>
+				<li><a th:href="@{/posmartCashReport}"><span class="font-small">Report</span><span class="sub_icon" title="Reports"><img th:src="@{/assets/images/report.png}" class="nav-icon" /></span></a></li>
+				<!-- <li><a th:href="@{/vendorMaster}"><span class="font-small">Vendors</span><span class="sub_icon" title="Vendors"><img th:src="@{/assets/images/vendor.png}" class="nav-icon" /></span></a></li>
+				<li><a th:href="@{/stockCheckHistory}"><span class="font-small">Stock Check</span><span class="sub_icon" title="Stock Check"><img th:src="@{/assets/images/stock-check.png}" class="nav-icon" /></span></a></li>
+				<li><a th:href="@{/departmentTransferList}"><span class="font-small">Department Transfer</span><span class="sub_icon" title="Department Transfer"><img th:src="@{/assets/images/department-transfer.png}" class="nav-icon" /></span></a></li>
+				<li><a th:href="@{/storetransferoutlist}"><span class="font-small">Store Transfer List</span><span class="sub_icon" title="Transfer List"><img th:src="@{/assets/images/transfer-list.png}" class="nav-icon" /></span></a></li>
+				<li><a th:href="@{/stockAdjustmentList}"><span class="font-small">Stock Adjustment</span><span class="sub_icon" title="Stock Adjustment"><img th:src="@{/assets/images/adjustment.png}" class="nav-icon" /></span></a></li>
+				<li><a th:href="@{/rateAdjustmentList}"><span class="font-small">Rate Adjustment</span><span class="sub_icon" title="Rate Adjustment"><img th:src="@{/assets/images/rate-adujstmet.png}" class="nav-icon" /></span></a></li>
+				<li><a th:href="@{/purchaseOrderList}"><span class="font-small">Purchase Order</span><span class="sub_icon" title="Purchase Order"><img th:src="@{/assets/images/order.png}" class="nav-icon" /></span></a></li>
+				<li><a th:href="@{/purchaseInwardList}"><span class="font-small">Purchase Inwards</span><span class="sub_icon" title="Purchase Inwards"><img th:src="@{/assets/images/purchase_inward.png}" class="nav-icon" /></span></a></li>
+				<li><a th:href="@{/purchaseOutwardList}"><span class="font-small">Purchase Outwards</span><span class="sub_icon" title="Purchase Outwards"><img th:src="@{/assets/images/purchase_outward.png}" class="nav-icon" /></span></a></li> -->
+				<!-- <li><a th:href="@{/poslogin}"><span class="font-small">Cart</span><span class="sub_icon" title="Cart"><img th:src="@{/assets/images/cart.png}" class="nav-icon" /></span></a></li> -->
+				<!-- <li><a th:href="@{/cartView}"><span class="font-small">Cart</span><span class="sub_icon" title="Cart"><img th:src="@{/assets/images/cart.png}" class="nav-icon" /></span></a></li> -->				
+				<li><a th:href="@{/cartlite}"><span class="font-small">Cart</span><span class="sub_icon" title="Cart"><img th:src="@{/assets/images/cart.png}" class="nav-icon" /></span></a></li>
+				<li><a th:href="@{/credit}"><span class="font-small">Credit</span><span class="sub_icon" title="Credit"><img th:src="@{/assets/images/cc.png}" class="nav-icon" /></span></a></li>
+				<li><a th:href="@{/creditNote}"><span class="font-small">Credit Note</span><span class="sub_icon" title="Credit Note"><img th:src="@{/assets/images/credit-note.png}" class="nav-icon" /></span></a></li>
+			</ul>
+		</div>
+		<div class="clear"></div>
+            <div th:replace="${content}"></div>
+        </section>
+    </body>
+
+    <!-- <script th:src="@{https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js}"></script>
+    <script th:src="@{https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js}"></script>
+    <script th:src="@{https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js}"></script> -->
+    <script th:src="@{assets/js/jquery.dataTables.min.js}"></script>
+    <script th:src="@{assets/js/table.js}"></script>
+    <script th:src="@{assets/js/jquery.dataTables.min.js}"></script>
+    <script th:src="@{assets/js/dataTables.fixedColumns.min.js}"></script>
+    <script th:src="@{assets/js/dataTables.select.min.js}"></script>
+    <script th:if="${heading == 'Stock Adjustment List'}"></script>
+
+     <script th:src="@{assets/js/vendor.js}" th:if="${heading == 'Vendor Item Mapping' || heading == 'Vendor Master'}"></script>
+     <script th:src="@{assets/js/inventorytransfer.js}" th:if="${heading == 'Store Transfer List' || heading == 'Inter Department Transfer List'}"></script>
+     <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/easy-autocomplete/1.3.5/jquery.easy-autocomplete.min.js}"></script>
+	 <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.4.6/mousetrap-bind-dictionary.min.js}"></script> 
+     <script th:src="@{assets/js/interDeptTransfer.js}" th:if="${heading == 'Inter Department Transfer'}"></script>
+     <script th:src="@{assets/js/createInventorytransfer.js}" th:if="${heading == 'Create Store Transfer'}"></script>
+     <script th:src="@{assets/js/posCart.js}" th:if="${heading == 'Pos Cart'}"></script>
+     <script th:src="@{assets/js/issueCreditNote.js}" th:if="${heading == 'Issue Credit Note'}"></script>
+     <script th:src="@{assets/js/setCreditLimit.js}" th:if="${heading == 'SET_CREDIT_LIMIT'}"></script>
+    <script>
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("active");
+    });
+    </script>
+    
+</html>

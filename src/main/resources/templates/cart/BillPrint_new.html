@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<html th:replace="~{layout_new :: template(~{::title}, ~{::section}, 'Bill Print')}" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Retail BO :: Pos Cart</title>
+</head>
+<body>
+	<section class="main-section" id="wrapper">
+	<div class="wrapper" id="wrapper">
+		<div class="main-screen-panel">
+			<!-- <form action="" method="post" id="cart_form"> -->
+				<input type="hidden" id="receiptId" name="receiptId" th:value="${session.receiptId}" />
+				<input type="hidden" id="dayId" name="dayId" th:value="${session.dayId}" />
+				<input type="hidden" id="createdBy" name="createdBy" th:value="${session.username}">
+				<input type="hidden" id="customerShipState" name="customerShipState" th:value="${session.customerShipState}">
+				<input type="hidden" id="posTerminalId" name="posTerminalId" th:value="${session.posTerminalId}">
+				<input type="hidden" id="cartItems" name="cartItems" th:value="${cartItems}">
+				<input type="hidden" id="taxEnable" name="taxEnable" th:value="${taxEnable}" />
+				<input type="hidden" id="discount" name="discount" th:value="${discount}" />
+				<input type="hidden" id="isPercentage" name="isPercentage" th:value="${isPercentage}" />
+				<input type="hidden" id="addlcharges" name="addlcharges" th:value="${charges}" />
+				<input type="hidden" id="isChargePercentage" name="isChargePercentage" th:value="${isChargePercentage}" />
+				<input type="hidden" id="billAmount" name="billAmount" th:value="${subTotal}" />
+				<input type="hidden" id="billDiscAmount" name="billDiscAmount" th:value="${discAmount}" />
+				<input type="hidden" id="discountPer" name="discountPer" th:value="${discountPer}" />
+				<input type="hidden" id="chargePer" name="chargePer" th:value="${chargePercentage}" />
+				
+				<div class="row">
+					<div class="col-md-9">
+						<div class="main-topsection">
+							<div class="billdeatilsform">
+								<div class="form-row">
+									<div class="col-md-2">
+										<label class="frm-label">Bill No:</label>
+									</div>
+									<div class="col-md-3 frm-group">
+										<input type="text" id="billNum" th:value="${billReceiptId}" readonly>
+									</div>
+									<div class="col-md-3 frm-group">
+										<div class="frm-icon-input frm-icon-end autocomplete">
+											<input id="contactNumber" type="text" name="contactNumber"
+											autocomplete="on" placeholder="Customer Mobile Number" th:value="${contactNumber}" readonly>
+										</div>
+									</div>
+									<div class="col-md-4 frm-group">
+										<input type="text" placeholder="Customer Name" id="customerName" th:value="${customerName}" readonly> </div>
+								</div>
+								<div class="form-row">
+									<div class="col-md-2">
+										<label class="frm-label">Bill Date</label>
+									</div>
+									<div class="col-md-3 frm-group">
+										<div class="docs-datepicker">
+											<div class="input-group">
+												<input type="text" th:id="transfer_date" name="transfer_date" 
+													class="date-input-one" autocomplete="off" placeholder="DD/MM/YYYY" th:value="${billDate}">
+											</div>
+											<div class="docs-datepicker-container"></div>
+										</div>
+									</div>
+									<div class="col-md-7 frm-group">
+										<input type="text" placeholder="Customer Address" id="customerAddress" th:value="${contactAddress}" readonly> </div>
+								</div>
+							</div>
+						</div>
+						<div class="main-content">
+							<div class="tablepanel">
+								<div class="table-block">
+									<table id="pos_cart" class="customtable display scrollabletable" border="0" align="center" cellpadding="0"
+									 cellspacing="0" width="100%" style="width:100%">
+										<thead class="mainthead">
+											<tr>
+												<th width="15%">Barcode</th>
+												<th width="25%">Product Name</th>
+												<th width="15%">Qty</th>
+												<th width="15%">MRP</th>
+												<th width="15%">SP</th>
+												<th width="15%">Amount</th>
+											</tr>
+										</thead>
+
+										<tbody id="myBody" class="maintbody-content">
+											<tr th:each="cartItemsEach,iter : ${cartItems}" class="result">
+												<td width="15%" th:text="${cartItemsEach.get('bar_code')}">
+												
+												</td>
+												<td width="25%" th:text="${cartItemsEach.get('productName')}">
+												
+												</td>
+												
+												<td width="15%" th:text="${cartItemsEach.get('product_qty')}">
+												
+												</td>
+												
+												<td width="15%" th:text="${cartItemsEach.get('mrp')}">
+												
+												</td>
+												<td width="15%" th:text="${cartItemsEach.get('productPrice')}">
+												</td>
+												
+												<td width="15%" id="cartAmount" th:text="${cartItemsEach.get('cartAmount')}"></td>
+											</tr>
+										</tbody>
+									</table>
+
+								</div>
+							</div>
+						</div>
+						<div class="main-footer">
+							<div class="footer-button-panel">
+								<div class="detailbtnrow">
+									<div class="button-group">
+										<button class="button button-black button-normal" th:onclick="printBill()">Reprint BILL</button>
+									</div>
+								</div>
+								<div class="total-amt-ftr">
+									<div class="total-amt-block">
+										<span class="total-items-label">Total Items</span>
+										<span class="total-items-details" id="total_item" th:if="${cartSize} != null" th:text="${cartSize}"></span>
+      									<span class="total-items-details" id="total_item" th:if="${cartSize} == null" style="color: red">0.0</span></b>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="main-right-sidebar">
+							<div class="billing-deatil-sidebar">
+								<div class="bill-detailscol">
+									<div class="detailhead">
+										<div class="maindetailhead">Last Bill Details</div>
+										<div class="subdetailhead" >Customer : <span th:id="bill_customerName"></span></div>
+									</div>
+									<div class="details-des">
+										<div class="row desrow">
+											<div class="col-md-5 billabel">Bill Amount</div>
+											<div class="col-md-7 bilvalue">
+											<span th:id="last_bill_amt" th:if="${billReturnMap} != null" th:text="${billReturnMap.billAmt}"></span>
+									      	<span th:id="last_bill_amt" th:if="${billReturnMap} == null" style = "font-size:15px;">0.0</span>
+											</div>
+										</div>
+										<div class="row desrow">
+											<div class="col-md-5 billabel">Return Amount</div>
+											<div class="col-md-7 bilvalue" >
+											<span th:id="last_bill_returnamt" th:if="${billReturnMap} != null" th:text="${billReturnMap.billReturnAmt}"></span>
+									      	<span th:id="last_bill_returnamt" th:if="${billReturnMap} == null" style = "font-size:15px;">0.0</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="bill-detailscol">
+									<div class="detailhead">
+										<div class="maindetailhead">Current Bill Details</div>
+									</div>
+									<div class="details-des">
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel">Bill Amount</div>
+											<div class="col-md-7 bilvalue" id="bill_amt" th:text="${subTotal}"></div>
+										</div>
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel">Item Discount</div>
+											<div class="col-md-7 bilvalue" id="item_discount">0.00</div>
+										</div>
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel valign-middle-label">Addl. Discount</div>
+											<div class="col-md-7 bilvalue">
+												<input type="text" name="addldiscnt" id="addl_discount" th:onchange="calcAddlDiscount()"
+													placeholder="0" readonly>
+												<select id="addl_discount_opt" th:onchange="calcAddlDiscount()">
+													<option value="discount_per">%</option>
+													<option value="discount_amt">₹</option>
+												</select>
+											</div>
+											<div class="col-md-5 billabel">Total Discount</div>
+											<div class="col-md-7 bilvalue" id="discount_amount">
+											<span id="disc_amt" th:if="${discAmount} != null" th:text="${discAmount}"></span>
+      										<span id="disc_amt" th:if="${discAmount} == null" >0.0</span></b>
+											</div>
+										</div>
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel valign-middle-label">Charges</div>
+											<div class="col-md-7 bilvalue">
+												<input readonly type="text" name="charges" id="charges" th:onchange="calcAddlDiscount()" placeholder="0" value="">
+												<select id="charge_opt" th:onchange="calcAddlDiscount()">
+													<option value="charges_per">%</option>
+													<option value="charges_amt">₹</option>
+												</select>
+											</div>
+											<div class="col-md-5 billabel">Amount</div>
+											<div class="col-md-7 bilvalue" id="charge_amount">0.00</div>
+										</div>
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel">Rounded Off</div>
+											<div class="col-md-7 bilvalue" id="round_off">0.00</div>
+										</div>
+										<div class="row desrowborder payrow">
+											<div class="col-md-5 billabel">Payable Amount</div>
+											<div class="col-md-7 bilvalue" id="payable_amount">
+									      	<span th:if="${balanceAmount} != null" >0.0</span>
+									      	<span th:if="${balanceAmount} == null" style = "font-size:15px;">0.0</span>
+									      	</div>
+										</div>
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel font-wt-700 valign-middle-label">Tax Invoice?</div>
+											<div class="col-md-7 bilvalue">
+												<div class="switch-block">
+													<span class="switch-label font-wt-700">No</span>
+													<label class="switch">
+														<input type="checkbox">
+														<span class="slider"></span>
+													</label>
+													<span class="switch-label font-wt-700">Yes</span>
+												</div>
+											</div>
+										</div>
+										<div class="row desrowborder">
+											<div class="col-md-5 billabel">Apply Coupon</div>
+											<div class="col-md-7 bilvalue apcoupon">
+												<input type="text" name="apcoupon" placeholder="Coupon Code"> <span class="couponerror">Coupon code applied!</span> </div>
+										</div>
+									</div>
+								</div>
+								
+								 
+								<!-- <div class="checkoutrow">
+									<button class="button button-green button-normal">checkout</button>
+								</div> -->
+							</div>
+						</div>
+					</div>
+				</div>
+			<!-- </form> -->
+		</div>
+	</div>
+	
+	
+	<!-- --- Add customer modal starts here --- -->
+	<div class="modal add-customer">
+
+		<!-- <div class="stop_scan"> -->
+		<div class="modal-dialog modal-grid-wrapper">
+			<div class="modal-content">
+				<!-- Modal body -->
+				<div class="modal-body text-center modal-wrapper ">
+					<div class="split-flex">
+						<h4>Add Customer Details </h4>
+					</div>
+
+					<div class="wrapper-grid-paytype">
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Enter name</label>
+						</div>
+						<div class="grid-item-split-cash-btm">
+							<div class="frm-group"><input type="text" name="enter name" id="enter_name"
+								onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)" placeholder="Customer Name"></div>
+						</div>
+						
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Email-id</label>
+						</div>
+						<div class="grid-item-split-cash-btm paytype-detail-red">
+							<div class="frm-group"><input type="text" name="email id" id="email_id" placeholder="emalId"></div>
+						</div>
+						
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Contact Number</label>
+						</div>
+						<div class="grid-item-split-cash-btm paytype-detail-red">
+							<div class="frm-group"><input type="text" name="contact number" id="contact_number" 
+										onKeyPress="return onlyNumbersandSpecialChar()" placeholder="contact no"></div>
+						</div>
+						
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Address</label>
+						</div>
+						<div class="grid-item-split-cash-btm paytype-detail-red">
+							<div class="frm-group"><input type="text" name="email id" id="address" placeholder="Address"></div>
+						</div>
+						
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">City</label>
+						</div>
+						<div class="grid-item-split-cash-btm paytype-detail-red">
+							<div class="frm-group"><input type="text" name="city" id="city" placeholder="city"></div>
+						</div>
+						
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Postal Code</label>
+						</div>
+						<div class="grid-item-split-cash-btm paytype-detail-red">
+							<div class="frm-group"><input type="text" name="postalCode" id="postal_code" 
+							onKeyPress="return onlyNumbersandSpecialChar()" placeholder="Postal Code"></div>
+						</div>
+					</div>
+					
+					<!-- Modal footer buttons starts -->
+					<div class="button-group button-group-middle modal-footer-buttons">
+						<button type="button" class="button button-black button-normal" data-dismiss="modal"> CANCEL</button>
+						<button type="button" class=" button button-black button-normal" data-dismiss="modal" th:onclick="createCustomer()"> SUBMIT</button>
+					</div>
+					<!-- Modal footer buttons ends -->
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Customer success Modal -->
+			<div id="createCustomerSuccessModal" class="modal fade" role="dialog">
+				<div class="modal-dialog"
+					style="margin-top: 15%; width: 400px !important;">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-body text-center">
+							<b id="customerSuccess"></b>
+							<div class="confirmation-btn-div">
+								<button type="button" data-dismiss="modal"
+									class="btn-theme btn-go">Ok</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--  -->
+			<!-- Customer Error Modal -->
+			<div id="createCustomerErrorModal" class="modal fade" role="dialog">
+				<div class="modal-dialog"
+					style="margin-top: 15%; width: 400px !important;">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-body text-center">
+							<b id="customerError">Customer created Successfully!</b>
+							<div class="confirmation-btn-div">
+								<button type="button" data-dismiss="modal"
+									class="btn-theme btn-go">Ok</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="mrperror" class="modal fade" role="dialog">
+				<div class="modal-dialog"
+					style="margin-top: 15%; width: 400px !important;">
+					<!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-body text-center">
+							<b id="mrpError">Selling Price should not be greater than MRP!</b>
+							<div class="confirmation-btn-div">
+								<button type="button" data-dismiss="modal"
+									class="btn-theme btn-go">Ok</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--  -->
+	<!-- --- Add customer modal ends here --- -->
+	<div class="modal fade add-cartProduct">
+
+		<!-- <div class="stop_scan"> -->
+		<div class="modal-dialog modal-dialog-lg">
+			<div class="modal-content">
+
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div class="modal-heading">
+						<h4>Select Article</h4>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="frm-group">
+								<div class="frm-icon-input">
+									<span class="input-icon"><i class="fa fa-search"></i></span>
+									<input type="text" placeholder="Filter Results">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="tablepanel">
+								<div class="table-block">
+									<table class="customtable display scrollabletable" border="0" align="center" cellpadding="0" cellspacing="0" width="100%" style="width:100%">
+										<thead class="mainthead" style="width:100%">
+											<tr>
+												<th>Product name</th>
+												<th>Product Type</th>
+												<th>Mrp</th>
+												<th>Expiry Date</th>
+												<th>Co Batch No.</th>
+												<th></th>
+											</tr>
+										</thead>
+										
+										<tbody class="maintbody-content">
+											<tr th:each="productListEach,iter : ${productsList}" >
+												<td id="productName" th:text="${productListEach.get('productName')}"></td>
+												<td id="productTypeId" th:text="${productListEach.get('productTypeId')}">-</td>
+												<!-- <td id="saleRate" th:text="${productListEach.get('productPrice')}"></td> -->
+												<td id="saleRate" th:text="${productListEach.get('productPrice')}"></td>
+												<td id="expiryDate" th:text="${productListEach.get('expireDate')}"></td>
+												<td id="coBatchNo"></td>
+	          									<td><button class="fa fa-plus-square" th:onclick="addProductFunction([[${productListEach.get('productId')}]])"></button></td> 
+											</tr>
+										</tbody>
+									</table>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!-- -------Add to stock modal starts here---------- -->
+	
+	<!-- End of Add product -->
+	
+	<!-- Start of populate hold bill -->
+	<div class="modal populateHoldBillModal">
+		<!-- <div class="stop_scan"> -->
+		<div class="modal-dialog modal-grid-wrapper">
+			<div class="modal-content">
+				<!-- Modal body -->
+				<div class="modal-body text-center modal-wrapper ">
+					<div class="split-flex">
+						<h4>Hold Bill List</h4>
+					</div>
+					
+					<div class="wrapper-grid-paytype" th:each="holdPosCartEach : ${holdPosCartList}">
+						<div id="grp12" th:onclick="populateHoldCartItems([[${holdPosCartEach.get('dayId')}]],[[${holdPosCartEach.get('posTerminalId')}]],
+      [[${holdPosCartEach.get('posReceiptId')}]])" >
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">POS Status</label>
+						</div>
+						<div class="grid-item-split-cash-btm">
+							<div class="frm-group" th:text="${holdPosCartEach.get('posStatus')}"></div>
+						</div>
+						
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Day Id</label>
+						</div>
+						<div class="grid-item-split-cash-btm">
+							<div class="frm-group" th:text="${holdPosCartEach.get('dayId')}"></div>
+						</div>
+						
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Terminal Id</label>
+						</div>
+						<div class="grid-item-split-cash-btm">
+							<div class="frm-group" th:text="${holdPosCartEach.get('posTerminalId')}"></div>
+						</div>
+						
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Receipt Id</label>
+						</div>
+						<div class="grid-item-split-cash-btm">
+							<div class="frm-group" th:text="${holdPosCartEach.get('posReceiptId')}"></div>
+						</div>
+						
+						<div class="grid-item-paytype-label">
+							<label class="frm-label">Mobile No</label>
+						</div>
+						<div class="grid-item-split-cash-btm">
+							<div class="frm-group" th:text="${holdPosCartEach.get('customerMobileNo')}"></div>
+						</div>
+						
+					</div>
+						<!-- Modal footer buttons starts -->
+						<div class="button-group button-group-middle modal-footer-buttons">
+							<button type="button" class="button button-black button-normal" data-dismiss="modal"> CANCEL</button>
+						</div>
+						<!-- Modal footer buttons ends -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End of populate hold bill -->
+		<script th:inline="javascript">
+		function calcAdDiscount () {
+			var receiptId = $('#receiptId').val();
+			var addl_discount = $('#discount').val();
+			var isPercentage = $('#isPercentage').val();
+			var charges = $('#addlcharges').val();
+			var isChargePercentage = $('#isChargePercentage').val();
+			var actbillAmount = $('#billAmount').val();
+			var billAmount = $('#billAmount').val();
+			var discount_amount = $('#billDiscAmount').val();
+			var item_disc_amount = $('#billDiscAmount').val();
+			var discountPer = $('#discountPer').val();
+			var chargePer = $('#chargePer').val();
+			var overall_bill_discount_amt = "";
+			var percentage = "0.01";
+			var addlDisc = "0";
+			var addlCharges = "0";
+			var calcBillAmt = "";
+			var addl_discount_opt = ""
+			var charge_opt = "";
+			
+			if((billAmount === "")) {
+				billAmount = "0";
+			}
+			if((discount_amount === "")) {
+				discount_amount = "0";
+			}
+			if(isPercentage == "Y") {
+				addl_discount_opt = "discount_per";
+			}else{
+				addl_discount_opt = "discount_amt";
+			}
+			if(isChargePercentage == "Y") {
+				charge_opt = "charges_per";
+			}else{
+				charge_opt = "charges_amt";
+			}
+			if(addl_discount_opt == "discount_per") {
+				isDiscountPer = "Y";
+				if (addl_discount.length == 0){
+					addl_discount = "0";
+				}
+				if(discountPer.length != 0) {
+					addlDisc = parseFloat(billAmount) * parseFloat(discountPer) * parseFloat(percentage);
+				}else{
+					addlDisc = parseFloat(billAmount) * parseFloat(addl_discount) * parseFloat(percentage);
+				}
+				
+			}else{
+				if(addl_discount.length != 0) {
+					addlDisc = parseFloat(addl_discount);
+				}
+			}
+			
+			if(charge_opt == "charges_per") {
+				isChargePer = "Y";
+				if(charges.length == 0) {
+					charges = "0";
+				}
+				if(chargePer.length != 0) {
+					addlCharges = parseFloat(billAmount) * parseFloat(chargePer) * parseFloat(percentage);
+				}else{
+					addlCharges = parseFloat(billAmount) * parseFloat(charges) * parseFloat(percentage);
+				}
+				
+			}else {
+				if(charges.length != 0) {
+					addlCharges = parseFloat(charges)
+				}
+			}
+			if(addlDisc.length != 0) {
+				billAmount = parseFloat(billAmount) - parseFloat(addlDisc);
+			}
+			if(addlCharges.length != 0) {
+				billAmount = parseFloat(billAmount) + parseFloat(addlCharges);
+			}
+			//recalculate total disc per
+			if(addl_discount_opt == "discount_per") {
+				isDiscountPer = "Y";
+				if(addl_discount.length == 0) {
+					addl_discount = "0";
+				}
+				addlDisc = parseFloat(actbillAmount) * parseFloat(addl_discount) * parseFloat(percentage);
+			}else{
+				if(addl_discount.length != 0) {
+					addlDisc = parseFloat(addl_discount);
+				}
+			}
+			//end of recalculate total disc per
+			if(item_disc_amount.length != 0 && addl_discount.length != 0) {
+				overall_bill_discount_amt = parseFloat(addl_discount) + parseFloat(item_disc_amount);
+			}else if(addl_discount.length != 0) {
+				overall_bill_discount_amt = parseFloat(addl_discount);
+			}else{
+				overall_bill_discount_amt = parseFloat(item_disc_amount);
+			}
+			//overall_bill_discount_amt = parseFloat(addl_discount) + parseFloat(item_disc_amount);
+			$('#bill_amt').text(billAmount);
+			//$('#payable_amount').text(billAmount);
+			$('#discount_amount').text(overall_bill_discount_amt);
+			$('#charge_amount').text(addlCharges);
+			//$('#cash_bal_amt').text(billAmount);
+			//$('#card_bal_amt').text(billAmount);
+		}
+		$(document).ready(function() {
+		    var amountCash = $('#amountCash').val();
+		    var paidAmt = $('#paidAmount').val();
+		    var holdCustName = $('#holdCustName').val();
+		    var holdCustMobileNo = $('#holdCustMobileNo').val();
+		    
+			var isPercentage = $('#isPercentage').val();
+			var isChargePercentage = $('#isChargePercentage').val();
+			var discount = $('#discount').val();
+			var discountPer = $('#discountPer').val();
+			var addlcharges = $('#addlcharges').val();
+			var billAmount = $('#billAmount').val();
+			var discount_amount = $('#billDiscAmount').val();
+			var chargePer = $('#chargePer').val();
+			var percentage = "0.01";
+			
+			
+			if(discount.length != 0) {
+				billAmount = parseFloat(billAmount) - parseFloat(discount);
+			}
+			if(discountPer.length != 0) {
+				billAmount = parseFloat(billAmount) - parseFloat(discountPer);
+			}
+			if(addlcharges.length != 0) {
+				billAmount = parseFloat(billAmount) + parseFloat(addlcharges);
+			}
+		    if(parseFloat(paidAmt) >= parseFloat(amountCash)) {
+				$('#billingCheckout').prop('disabled', false);
+			} else {
+				$('#billingCheckout').prop('disabled', true);
+			}
+		    if(holdCustName != "" && holdCustName != null) {
+		    	$('#custname').val(holdCustName);
+		    }
+		    if(holdCustMobileNo != "" && holdCustMobileNo != null) {
+		    	$('#contactNumber').val(holdCustMobileNo);
+		    }
+		    var taxEnable = $('#taxEnable').val();
+		    if(taxEnable == "Y") {
+		    	$('#withTax').attr('checked','checked');
+		    }else {
+		    	$('#withTax').removeAttr('checked');
+		    }
+		    if(isPercentage == "Y") {
+		    	$('#addl_discount').val(discountPer);
+		    }else {
+		    	$('#addl_discount').val(discount);
+		    }
+			//$('#charges').val("3");
+			//$('#charge_amount').text(addlcharges);
+			
+			if(isPercentage == "Y") {
+		    	$('#addl_discount_opt').val("discount_per");
+		    }else {
+		    	$('#addl_discount_opt').val("discount_amt");
+		    }
+			if(chargePer != 0) {
+		    	$('#charges').val(chargePer);
+		    	$('#charge_amount').text(addlcharges);
+		    }else if(addlcharges.length != 0){
+		    	$('#charges').val(addlcharges);
+		    	$('#charge_amount').text(addlcharges);
+		    }
+			
+		    if(isChargePercentage == "Y") {
+		    	$('#charge_opt').val("charges_per");
+		    }else {
+		    	$('#charge_opt').val("charges_amt");
+		    }
+		    if(taxEnable == "Y") {
+		    	$('#withTax').attr('checked','checked');
+		    }else {
+		    	$('#withTax').removeAttr('checked');
+		    }
+		    calcAdDiscount();
+		    
+		  });
+		
+		function printBill() {
+		    var password = "ofbiz";
+		    var username = $('#createdBy').val();
+		    var receiptId = $('#receiptId').val();
+		    var dayId = $('#dayId').val();
+		    var posTerminalId = $('#posTerminalId').val();
+		    var cardCashToPay = $('#cardCashToPay').val();
+		    
+		    var data0 = {
+	  	      receiptId : receiptId,
+	  	      dayId : dayId,
+	  	      posTerminalId : posTerminalId,
+	  	      cashToPay : cardCashToPay,
+	  	      username : username,
+	  	      password : password
+	  	    }
+		    var json = JSON.stringify(data0);
+		    $.ajax({
+		      type : 'GET',
+		      url : '/printCartItem',
+		      data : {
+		        json : json,
+		        username : username,
+		        password : password,
+		      },
+		      dataType : 'text',
+		      success : function(data) {
+		    	if (data != "" && data != null) {
+		    		alert("bill printed");
+		    	} else {
+		    		alert("Connection Timedout");
+		    	}
+		      },
+		      error : function(data) {
+		    	  alert("Printer Connection Timedout");
+		      }
+		    });
+	  }
+		</script>
+	</section>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html th:fragment="template(title, content, heading)" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" type="image/x-icon" th:href="@{assets/images/favicon.png}">
+		<link rel="apple-touch-icon" th:href="@{assets/images/apple-touch-icon.png}">
+		<link rel="apple-touch-icon" sizes="72x72" th:href="@{assets/images/apple-touch-icon-72x72.png}">
+		<link rel="apple-touch-icon" sizes="114x114" th:href="@{assets/images/apple-touch-icon-114x114.png}">
+		
+		<link rel='stylesheet' th:href='@{https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap}' media='all' type="text/css">
+		<link rel='stylesheet' th:href="@{assets/css/pos/bootstrap.min.css}" media='all' type="text/css">
+		<link rel='stylesheet' th:href="@{assets/css/pos/line-awesome.min.css}" media='all' type="text/css">
+		<link rel='stylesheet' th:href="@{assets/css/pos/app.css}" media='all' type="text/css">
+		<link rel='stylesheet' th:href="@{assets/css/pos/datatables.css}" media='all' type="text/css">
+		<link rel='stylesheet' th:href="@{assets/css/pos/datepicker.css}" media='all' type="text/css">
+		<link rel='stylesheet' th:href="@{assets/css/pos/easy-responsive-tabs.css}" media='all' type="text/css">
+		<link rel='stylesheet' th:href="@{assets/css/pos/style.css}" media='all' type="text/css">
+		<link rel='stylesheet' th:href="@{assets/css/pos/responsive.css}" media='all' type="text/css">
+		<link rel='stylesheet' th:href='@{https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css}' media='all' type="text/css">
+		<link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/easy-autocomplete/1.3.5/easy-autocomplete.css}" rel="stylesheet" type="text/css"/>
+		<script th:src="@{assets/js/pos/jquery.min.js}"></script>
+		<script th:src="@{assets/js/pos/bootstrap.min.js}"></script>
+        <title th:replace="${title}">Template Title</title>
+    </head>
+    <body>
+    	<!-- Code for Topbar -->
+    	<div class="header_sidebar">
+		    <header id="header_logo">
+		        <div class="logo"> <img src="assets/images/logo.svg" alt="Posmart logo"> </div>
+		        <div class="navbar_three" id="navbar_three">
+		            <div class="menu cross menu--1" id="navigation">
+		                <label id="hamburger_label">
+		                    <input type="checkbox" id="hamburger">
+		                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" id="svg_nav">
+		                        <circle cx="50" cy="50" r="30" id="circle" />
+		                        <path class="line--1 path_circle" d="M0 40h62c13 0 6 28-4 18L35 35" id="line_nav_1" />
+		                        <path class="line--2 path_circle" d="M0 50h70" id="line_nav_2" />
+		                        <path class="line--3 path_circle" d="M0 60h62c13 0 6-28-4-18L35 65" id="line_nav_3" /> </svg>
+		                </label>
+		            </div>
+		        </div>
+		        <div id="mySidenav" class="sidenav"> <!--<a href="#" class="scroll active">About</a> <a href="#" class="scroll">Services</a> <a href="#" class="scroll">Clients</a> <a href="#" class="scroll">Contact</a>--> 
+		        <ul>
+		            <!-- <li><a href="index.php">Home</a></li>
+		            <li><a href="billing-screen.php">Billing</a></li>
+		            <li><a href="payment.php">Payments</a></li> -->
+		            
+		            <li><a th:href="@{/stock}">Stocks</a></li>
+		            <li><a th:href="@{/cartlite}">Cart</a></li>
+					<li><a th:href="@{/posmartCashReport}">Report</a></li>
+					<li><a th:href="@{/credit}">Credit</a></li>
+					<li><a th:href="@{/creditNote}">Credit Note</a></li>
+					
+		        </ul>
+		        </div>
+		    </header>
+		</div>
+		<!-- End of Code for Topbar -->
+    	<!-- Code for sidebar -->
+    	<div class="top_nav_div" id="top_nav_div">
+			 <div class="topbar" id="topbar">
+			    <div class="topbar-wrap">
+			        <div class="companyinfo">
+			            <div class="companydes">
+			                <h2>POS Mart.</h2>
+			                <p>Retailer Solutions.</p>
+			            </div>
+			            
+			        </div>
+			        <div class="admindropdown" id="adminstrator">
+			            <div class="adminusername" th:text="${session.username}"> <span><img src="assets/images/downarrow.svg" alt="downarrow"></span></div>
+			            <ul class="down_menu">
+			                <li><a href="#"><span><i class="fa fa-address-card"></i></span>Profile</a></li>
+			                <li><a href="#"><span><i class="fal fa-user-cog"></i></span>Settings</a></li>
+			                <li><a th:href="@{/logout}"><span><i class="fal fa-door-open"></i></span>Logout</a></li>
+			            </ul>
+			        </div>
+			    </div>
+			</div>
+		</div>
+    	<!-- End of code for sidebar -->
+    	<section class="main-section" id="wrapper">
+    		<div class="clear"></div>
+    		<div th:replace="${content}"></div>
+    		
+    	</section>
+    </body>
+    	<!-- <script th:src="@{assets/js/pos/jquery.min.js}"></script>
+		<script th:src="@{assets/js/pos/bootstrap.min.js}"></script> -->
+		<script th:src="@{assets/js/pos/jquery.mousewheel.js}"></script>
+		<script th:src="@{assets/js/pos/datatables.min.js}"></script>
+		<script th:src="@{assets/js/pos/datepicker.js}"></script>
+		<script th:src="@{assets/js/pos/easyResponsiveTabs.js}"></script>
+		<script th:src="@{assets/js/pos/general.js}"></script>
+		<script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/easy-autocomplete/1.3.5/jquery.easy-autocomplete.min.js}"></script>
+		 <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.4.6/mousetrap-bind-dictionary.min.js}"></script> 
+	 <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.4.6/mousetrap.min.js}"></script>
+		<script th:src="@{assets/js/posCart.js}" th:if="${heading == 'Pos Cart'}"></script>
+		<script th:src="@{assets/js/posCart-calc.js}" th:if="${heading == 'Pos Cart'}"></script>
+		<script th:src="@{assets/js/posPayment-calc.js}" th:if="${heading == 'Pos Payment'}"></script>
+    	<script>
+   $(window).keydown(function(event) {
+    if(event.altKey && event.keyCode == 79) {
+ //alt+o for logout
+   logout();
+   alert("Good Bye!");
+   
+ }
+   });
+   function logout() {
+var homeUrl = '/logout';
+window.location = homeUrl;
+}
+   </script>
+</html>

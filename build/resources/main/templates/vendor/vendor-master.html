@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Vendor Master')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Vendor Master</title>
+</head>
+    <body>
+        <section class="content-section">
+            <div class="row margin0">
+                <div class="col-md-8 col-sm-8 outer-wrapper">
+                    <div class="col-md-12 inner-wrapper">
+                        <label  class="search-labels col-lg-2 col-md-3 col-sm-4 col-xs-12">Search Vendor</label> 
+                        <input class="search-inputs col-lg-10 col-md-9 col-sm-8 col-xs-12" id="vendorName" type="text" name="vendorName" placeholder="Search By Vendor Name/GSTIN" list="Vendors">
+                    </div>
+                    <form id="vender_register" method="post">
+                        <div class="col-md-12 inner-wrapper vendor">
+                            <label class="search-labels col-lg-2 col-md-3 col-sm-4 col-xs-12">Vendor Name</label> 
+                            <input class="search-inputs col-lg-10 col-md-9 col-sm-8 col-xs-12" type="text" id="vendor_name" name="vendor_name" placeholder="Vendor Name" >
+                        </div>
+                        <div class="col-md-6 inner-wrapper details">
+                            <div>
+                                <label  class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12" >Address-1</label> 
+                                <input class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" id="address_1" type="text" name="address_1" placeholder="Address-1" >
+                            </div>
+                            <div>
+                                <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12">Address-3</label> 
+                                <input class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" type="text"  id="address_3" name="address_3" placeholder="Address-3" >
+                            </div>
+                            <div>
+                                <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12">States</label> 
+                                <select class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" onchange="print_city('state', this.selectedIndex);" id="sts" name ="stt"></select>
+                            </div> 
+                            <div>
+                                <label  class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12" >PinCode</label> 
+                                <input class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" id="pin_code" type="text" name="pin_code" placeholder="Enter Pincode">
+                            </div>
+                            <div>	
+                                <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12">Landline</label> 
+                                <input class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" id="landline" type="text" name="landline" placeholder="Phone Number">
+                            </div>
+                            <div>	
+                                <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12">Email Address</label> 
+                                <input class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" id="email_address" type="text" name="email_address" placeholder="Email Address" >
+                            </div>
+                            <div>
+                                <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12 clear-element">GSTIN Type</label> 
+                                <select class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" name="gstin" id="gstin">
+                                    <option>Please Select</option>
+                                    <option value="GST">GST</option>
+                                    <option value="SGST">SGST</option>
+                                    <option value="CGST">CGST</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12">FSSAI Number</label> 
+                                <input  class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" id="fssai" type="text" name="fssai"  placeholder="FSSAI Number" >
+                            </div>
+                            <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12">Order Required?</label> 
+                            <div class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" style="margin-top: 2%;">
+                                <span class="material-switch">No &nbsp; <input
+                                        id="someSwitchOptionWarning" name="someSwitchOption001"
+                                        type="checkbox"> <label for="someSwitchOptionWarning"
+                                        class="label-toggle"></label> &nbsp; Yes
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 inner-wrapper details">
+                            <div>
+                                <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12">Address-2</label> 
+                                <input class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" type="text" id="address_2" name="address_2" value="Address-2" >
+                            </div><div>
+                                <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12">Country</label> 
+                                <select class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12 " id="country" disabled>
+                                    <option selected>India</option>
+                                </select>
+                            </div><div>
+                                <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12">City</label> 
+                                <select class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" id ="state" name="city"></select>
+                                <script>print_state("sts");</script>
+                            </div><div>
+                                <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12">Contact Person</label> 
+                                <input class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" type="text" id="contact_person" name="contact_person" placeholder="Contact Person">
+                            </div><div>
+                                <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12 clear-element">Mobile</label> 
+                                <input class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" id="mobile" type="text" name="mobile" placeholder="Mobile Number" >
+                            </div><div>
+                                <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12">PAN</label> 
+                                <input class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" id="pan" type="text" name="pan" placeholder="PAN Number" >
+                            </div><div>
+                                <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12">GSTIN</label> 
+                                <input class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" id="gstin_no" type="text" name="gstin_no" placeholder="GSTIN Number" >
+                            </div><div>
+                                <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12">FSSAI Expiry Date</label> 
+                                <input class="search-inputs date-picker search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" id="fssai_expiry_date" name="fssai_expiry_date" type="date" placeholder="DD/MM/YYYY" />
+                                <input type="hidden" id="party_to" name="party_to" value="">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <input type='reset' id='reset' class="btn-theme btn-black" style="height: 30px;padding: 0 4%;margin-left: 15%;" value="Cancel"/>
+                            <input type="submit" id="register_button" class="btn-theme btn-green" style="height: 30px;padding: 0 4%;" value="Submit"/>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4 col-sm-4" style="border-left: 2px dotted #7c7c7c7d;padding: 3% 5% 3% 2%;">
+                    <fieldset>
+                        <label style="margin-right: 5%;">Created By</label> 
+                        <span class="form-span" th:text="${partyId}"></span>
+                    </fieldset> 
+                    <fieldset>
+                        <label style="margin-right: 14%;">Created On</label> 
+                        <span class="form-span" th:text="${#execInfo.now.time}"></span>
+                    </fieldset>
+                </div>
+            </div>
+
+
+            <!-- Search Vendor Model Start Here -->
+            <!-- Modal -->
+            <div id="searchVendorModel" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="width:1000px">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header" style="border-bottom:none">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h1 class="modal-title">Select Vendor</h1>
+                        </div>
+                        <div class="modal-body">
+                            <div class="padding0">
+                                <form class="" id="">
+                                    <fieldset>
+                                        <input class="search-input" type="text" name="Vendor" placeholder="Search By GSTIN" style="width: 25%;"/>
+                                        <input class="search-input" type="text" name="Vendor" placeholder="Search By Vendor Name" style="width: 25%;"/>	
+                                        <input class="search-input" type="text" name="Vendor" placeholder="Search By City" style="width: 25%;"/>	
+                                        <button type="button" class="btn-theme btn-black">Search</button>
+                                        <button type='reset' id='reset' class="btn-theme btn-black">Cancel</button>	  	
+                                    </fieldset>
+                                </form>
+                            </div>
+                            <!-- ---------------search ends here----------- -->	
+                            <div class="col-md-12 table-container">
+                                <table id="selectVendorTable" class="red-head row-border order-column"
+                                       style="width: 100%">
+                                    <thead style="background:#1F1F1F;color:#fff;">
+                                        <tr>
+                                            <th>Vendor Name</th>
+                                            <th>City</th>
+                                            <th>GSTIN</th>
+                                            <th>Contact Number</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="modal-footer"></div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Search Vendor Model End Here -->
+            <!-- Confirm Model Starts Here -->
+            <div id="confirmationModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b>Vendor Registered Successfully!</b>
+                            <div class="confirmation-btn-div">
+                            <button type="button" data-dismiss="modal" class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Confirm Model End Here -->
+             <!-- Already Exists Model Starts Here -->
+            <div id="alreadyExistModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b id="msgtext"></b>
+                            <div class="confirmation-btn-div">
+                                <button type="button" data-dismiss="modal" class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <!-- Already Exists Model End Here -->
+            <div class="clear"></div>
+		   <script th:inline="javascript">
+			/*<![CDATA[*/
+			var message = /*[[${partyList}]]*/'default';
+			var partyId = /*[[${partyId}]]*/'default';
+			/*]]>*/
+		</script>
+	</section>
+    </body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Opening Stock')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Open Stock</title>
+    </head>
+    <body>
+        <section class="content-section">
+            <div class="row margin0">
+                <form id="uploadForm" method="POST" th:action="@{/uploadInventory}" enctype="multipart/form-data">
+                    <input id="file" type="file" name="file" style="display: none;" />
+                </form>
+                <button class="btn-theme btn-white" onclick="uploadFile()">
+                    Upload <br>Inventory <img src="assets/images/loader.png" alt="" class="btn-img hidden-xs">
+                </button>
+                <script type="text/javascript">
+                    document.getElementById("file").onchange = function () {
+                        document.getElementById("uploadForm").submit();
+                    };
+                    function uploadFile() {
+                        $('#file').trigger('click');
+                    }
+                </script>
+                <button class="btn-theme btn-blue">
+                    Scan <img src="assets/images/scan.png" alt="" class="btn-img hidden-xs">
+                </button>
+                <form method="GET" th:action="@{/open-stock}">
+                    <button type="submit" class="btn-theme btn-red">
+                        Clear Data <img src="assets/images/clear.png" alt="" class="btn-img hidden-xs">
+                    </button>
+                </form>
+                <button class="btn-theme btn-confirm">
+                    <i class="fa fa-check hidden-xs" aria-hidden="true"></i> Confirm
+                </button>
+            </div>
+            <div class="tab-section">
+                <ul class="nav nav-pills">
+                    <li class="active"><a data-toggle="tab" href="#mapped">Mapped Articles</a></li>
+                    <li><a data-toggle="tab" href="#unmapped">Unmapped Articles</a></li>
+                    <div class="search-container hidden-xs">
+                        <form class="" action="">
+                            <i class="fa fa-search"></i> <input type="text" placeholder="Filter Result in mapped articles" name="search">
+                        </form>
+                    </div>
+                </ul>
+            </div>
+
+            <div class="tab-content">
+                <div id="mapped" class="tab-pane active">
+                    <div class="col-md-12 table-container">
+                        <table id="mapped-article" class="row-border order-column" style="width: 100%">
+                            <thead style="background: #1F1F1F; color: #fff;">
+                                <tr>
+                                    <th></th>
+                                    <th>UnMap</th>
+                                    <th>EAN Code</th>
+                                    <th>Retailer UID</th>
+                                    <th>Item Description</th>
+                                    <th>Qty</th>
+                                    <th>MRP</th>
+                                    <th>Sale Rate</th>
+                                    <th>Cost Rate</th>
+                                    <th>Co Batch No</th>
+                                    <th>Expiry Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="product: ${mappedProducts}">
+                                    <td></td>
+                                    <td>
+                                        <span class="material-switch margin-left"> 
+                                            <input id="someSwitchOptionWarning" name="someSwitchOption001" type="checkbox" /> 
+                                            <label for="someSwitchOptionWarning" class="label-toggle"></label>
+                                        </span>
+                                    </td>
+                                    <td th:text="${product.value.ean}"></td>
+                                    <td>1001</td>
+                                    <td th:text="${product.value.description}"></td>
+                                    <td th:text="${product.value.quantity}"></td>
+                                    <td th:text="${product.value.mrp}"></td>
+                                    <td th:text="${product.value.sp}"></td>
+                                    <td th:text="${product.value.cp}"></td>
+                                    <td th:text="${product.value.batchNo}"></td>
+                                    <td th:text="${product.value.expiryDate}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="unmapped" class="tab-pane">
+                    <div class="col-md-6 col-sm-12 table-container">
+                        <table id="unmapped-article" class="row-border order-column"
+                               style="width: 100%">
+                            <thead style="background: #1F1F1F; color: #fff;">
+                                <tr>
+                                    <th></th>
+                                    <th>EAN Code</th>
+                                    <th>Item Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="product: ${unmappedProducts}">
+                                    <td></td>
+                                    <td th:text="${product.value.ean}"></td>
+                                    <td th:text="${product.value.get('description')}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <div class="unmapped-div">
+                            <h3>Search Articles for</h3>
+                            <h3>Item name: ColdAid Syrup 60ml</h3>
+                            <div class="col-md-6" style="padding-left: 0">
+                                <fieldset>
+                                    <input class="form-input" type="text" name="quantity" placeholder="78945612307">
+                                </fieldset>
+                            </div>
+                            <div class="col-md-6" style="padding-right: 0">
+                                <fieldset>
+                                    <input class="form-input" type="text" name="quantity" placeholder="Manufacturer Name">
+                                </fieldset>
+                            </div>
+                            <div class="col-md-12 padding0">
+                                <fieldset>
+                                    <input class="form-input" type="text" name="quantity" placeholder="Manufacturer Name">
+                                </fieldset>
+                            </div>
+                            <div class="clear"></div>
+                            <hr>
+                            <div class="clear"></div>
+                            <div class="table-container">
+                                <table id="article-div" class="row-border order-column" style="width: 100%">
+                                    <thead style="background: #1F1F1F; color: #fff;">
+                                        <tr>
+                                            <th></th>
+                                            <th>Item Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="product: ${products}">
+                                            <td></td>
+                                            <td th:text="${product.get('description')}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </section>
+    </body>
+</html>	

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html
+	th:replace="~{layout :: template(~{::title}, ~{::section}, 'View Rate Adjustment')}"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Retail BO :: View Rate Adjustment</title>
+</head>
+<body>
+	<section class="content-section interdepartment-transfer">
+		<!-- <form id="saveRateAdjustment" method="get"> -->
+			<!-- <div class="search-container">
+				<div class="row margin0">
+					<div class="col-md-8">
+						<fieldset class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Adjustment
+								Date</label> 
+								<input
+								class="search-input col-lg-4 col-md-4 col-sm-4 col-xs-4"
+								type="date" name="fromDate" id="fromDate" placeholder="DD/MM/YYYY"
+								style="width: 25%; margin: 0px 5px 5px 5px;"> 
+								
+								
+								<label
+								class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Remark</label>
+								
+								 <input
+								class="search-input col-lg-4 col-md-4 col-sm-4 col-xs-4"
+								type="text" name="date-to" placeholder="Remarks" id="remark"
+								style="width: 25%; margin: 0px 5px 5px 5px;">
+								
+						</fieldset>
+						
+						<fieldset class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+								style="width: 16%;">Search Article</label> <input
+								class="search-input col-lg-9 col-md-9 col-sm-9 col-xs-9"
+								type="text" name="productId" id="productId"
+								placeholder="Search by EAN/Product Name/Item ID"
+								style="width: 35%; margin: 0px 5px 5px 5px;">
+								
+							<button type="button" class="btn-theme btn-go" data-toggle="modal"
+							data-target="#selectArticle" id="product_search">Go</button>
+						</fieldset>
+
+
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+
+							<fieldset style="float: left; margin-bottom: 0px;">
+								<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+									style="width: 34%; padding-top: 3%;">Item Criteria -1</label> 
+									<select class="form-control col-lg-4 col-md-4 col-sm-4 col-xs-4"
+									id="categoryitems" style="width: 20%;">
+									<option value="">Please Select One</option>
+									<div th:each="category : ${categoryList}">
+									<option class="categoryitem"
+										th:value="${category.productCategoryId}"
+										th:text="${category.categoryName }">
+									</option>
+									</div>
+								</select> <input class="search-input col-lg-4 col-md-4 col-sm-4 col-xs-4"
+									type="text" name="criteria_1" id="criteria_1"
+									placeholder="Category" style="width: 20%;">
+							</fieldset>
+							<fieldset style="float: left;">
+								<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+									style="width: 36%; padding-top: 3%;">Item Criteria -2</label> <select
+									class="form-control col-lg-4 col-md-4 col-sm-4 col-xs-4"
+									id="criteria2" name="criteria2"
+									style="width: 21%; padding-left: 16%;"></select> <input
+									class="search-input col-lg-4 col-md-4 col-sm-4 col-xs-4"
+									type="text" name="criteria_2" id="criteria_2"
+									placeholder="Manufacturer" style="width: 21%;">
+									
+								<button type="button" class="btn-theme btn-red col-lg-2 col-md-2 col-sm-2 col-xs-2"
+										data-toggle="modal" data-target="#selectArticle"
+										style="position: absolute; width: 49px; height: 76px; top: 8px; margin-left: 4%; background-color: #1F1F1F;"
+										id="criteriaSearchbtn">Go</button>
+							</fieldset>
+
+
+						</div>
+
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+							<fieldset>
+								<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+									style="width: 21%;">Mark up</label> <input
+									class="search-input mark_up col-lg-4 col-md-4 col-sm-4 col-xs-4"
+									type="text" name="amount" id="markup" placeholder="%"
+									style="margin: 0px 5px 5px 5px; width: 25%;">
+							</fieldset>
+							<fieldset>
+								<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+									style="width: 21%;">Mark Down</label> <input
+									class="search-input mark_down  col-lg-4 col-md-4 col-sm-4 col-xs-4"
+									type="text" name="mark-down" placeholder="%" id="markdown"
+									style="margin: 0px 5px 5px 5px; width: 25%;">
+
+								<button type="submit"
+									class="btn-theme btn-red col-lg-2 col-md-2 col-sm-2 col-xs-2"
+									style="position: absolute; width: 71px; height: 76px; top: 3px; margin-left: 3%; 
+									background-color: #1F1F1F;" onclick="calculateRatePercentage()">APPLY</button>
+
+							</fieldset>
+
+						</div>
+					</div>
+					<div class="col-md-4"
+						style="border-left: 2px dotted #7c7c7c7d; padding: 3% 5% 3% 2%;">
+						<fieldset>
+							<label style="margin-right: 5%;">Transaction No</label>
+								<span class="form-span" th:id="prdPriceTxnId" th:text="${rateAdjustmentTransId}"></span>
+						</fieldset>
+						<fieldset>
+							<label style="margin-right: 14%;">Entered By</label> <span
+								class="form-span" th:text="${session.username}"> </span> <br> <span
+								class="form-span" id="enterDate">05/05/2019 06:05:00 PM</span>
+						</fieldset>
+						<fieldset>
+							<label style="margin-right: 14%;">Approved By</label> <span
+								class="form-span">Admin </span> <br> <span
+								class="form-span" id="approveDate">05/05/2019 06:05:00 PM</span>
+						</fieldset>
+					</div>
+				</div>
+			</div>
+		
+		<div class="search-div col-md-12">
+			<form class="" action="">
+				<i class="fa fa-search"></i> <input type="text"
+					placeholder="Scanned EAN Number" name="search">
+			</form> -->
+		</div>
+		<div class="col-md-12 table-container">
+		<input type="hidden" id="productIdArray" name="productIdArray" th:value="${productIdArray}"/>
+		<input type="hidden" id="ratePerArray" name="ratePerArray" th:value="${ratePercentageArray}"/>
+		<input type="hidden" id="productPriceTxnId" name="productPriceTxnId" th:value="${productPriceTxnId}">
+			<table id="rateadjustment" class="row-border order-column"
+				style="width: 100%">
+				<thead style="background: #1F1F1F; color: #fff;">
+					<tr>
+						<th></th>
+						<th>EAN Code</th>
+						<th>UoM</th>
+						<th>Item Description</th>
+						<th>is Mrp Based</th>
+						<th>MRP</th>
+						<th>Sale Rate</th>
+						<th>Cost Rate</th>
+						<th>Co Batch No.</th>
+						<th>Rate Percentage</th>
+						<th>Expiry Date</th>
+						<th>Sale Rate New</th>
+						<th>Old Margin</th>
+						<th>New Margin</th>
+					</tr>
+				</thead>
+				<tbody id="myBody">
+                        <!-- <input type="text" id="amountval" name="amountval" value=""/>
+                        <input type="text" id="rateFromDate" name="rateFromDate" value=""/> -->
+                        <tr th:each="productListEach: ${productsList}">
+                        	 <td></td>
+                             <!-- <td><span class="delete-span"><i class="fa fa-trash"></i></span></td> -->
+                             <!-- <td><input type="checkbox" name="selectProduct" id="myCheck" th:value="${productListEach.get('productPrice')}"></td> -->
+                             <td id="productEan" th:text="${productListEach.get('productIdEan')}"></td>
+                             <td id="currencyUomId" th:text="${productListEach.get('currencyUomId')}"></td>
+                             <td id="prdDesc" th:text="${productListEach.get('description')}"></td>
+                             <td id="isMrp" >Y</td>
+                             <td id="mrp" th:text="${productListEach.get('productPrice')}"></td>
+                             <td id="saleRate" th:text="${productListEach.get('productSalePrice')}"></td>
+                             <td id="costRate"></td>
+                             <td id="batchNo"></td>
+                             <td id="ratePercentage" th:text="${productListEach.get('ratePercentage')}"></td>
+                             <td id="expiryDate" th:text="${productListEach.get('salesDiscontinuationDate')}"></td>
+                             <td id="saleRateNew" th:text="${productListEach.get('productNewSalePrice')}"></td>
+                             <td id="oldMargin" th:text="${productListEach.get('productPrice')}"></td>
+                             <td id="newMargin" th:text="${productListEach.get('newMargin')}"></td>
+                        </tr>
+
+                    </tbody>
+			</table>
+		</div>
+             <!-- -------Select Article modal starts here---------- -->
+	<div id="selectArticle" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h1 class="modal-title">Select Article</h1>
+				</div>
+				<div class="modal-body">
+					<div class="search-div">
+						<form class="" action="">
+							<i class="fa fa-search"></i> <input type="text"
+								placeholder="Filter Results" name="search">
+
+						</form>
+					</div>
+					<!-- ---------------search ends here----------- -->
+					<div class="col-md-12 table-container">
+						<table id="selectArticleTable"
+							class="red-head row-border order-column" style="width: 100%">
+							<thead style="background: #1F1F1F; color: #fff;">
+								<tr>
+									<th>EAN Code</th>
+									<th>Item ID</th>
+									<th>Unit ID</th>
+									<th>Product name</th>
+									<th>LOT ID</th>
+									<th>No. Of Packs</th>
+									<th>Pack Size</th>
+									<!-- <th>Qty</th> -->
+									<th>Sale Rate</th>
+									<th>Co Batch No.</th>
+									<th>Expiry Date</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="productListEach,iter : ${productsList}" class="result">
+									<td id="eanCode" th:text="${productListEach.get('productIdEan')}"></td>
+									<td id="productId" th:text="${productListEach.get('productId')}"></td>
+									<td name="unit_id" >EA</td>
+									<td id="productName" th:text="${productListEach.get('description')}"></td>
+									<td id="lotId"></td>
+									<td id="moOfPacks"></td>
+									<td id="packSize"></td>
+									<td id="saleRate" th:text="${productListEach.get('productSalePrice')}"></td>
+									<td id="coBatchNo"></td>
+						 			<td id="expiryDate" th:text="${productListEach.get('salesDiscontinuationDate')}"></td>
+						            <td><button th:onclick="addProductFunction([[${productListEach.get('productId')}]])">Click me</button></td>
+								</tr>
+								
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="modal-footer"></div>
+			</div>
+			<!-- --- add notification div starts here --- -->
+			<div id="RateAlreadyExistsModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    Modal content
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b>The following Article has been already Added.</b>
+                            <div class="confirmation-btn-div">
+                            <button  onclick="modalclose()"  class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	
+	</script>
+	</section>
+	<!-- content section ends here -->
+	
+
+	<!-- -------Select Reason modal starts here---------- -->
+	<div id="selectReason" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h1 class="modal-title">Select Reason</h1>
+				</div>
+				<div class="modal-body">
+					<div class="search-div">
+						<form class="" action="">
+							<i class="fa fa-search" style="width: 6%;"></i> <input
+								type="text" placeholder="Filter Results" name="search">
+
+						</form>
+					</div>
+					<!-- ---------------search ends here----------- -->
+					<div class="col-md-12 table-container">
+						<table id="selectReasonTable"
+							class="red-head row-border order-column" style="width: 100%">
+							<thead style="background: #1F1F1F; color: #fff;">
+								<tr>
+									<th>Reason Description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="modal-footer"></div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<!-- -------Select Reason modal starts here---------- -->
+	<div id="confimationModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+
+				<div class="modal-body text-center">
+					<b>Are you sure you want to approve the transaction?</b>
+					<div class="confirmation-btn-div">
+						<button type="submit" class="btn-theme btn-go">Yes</button>
+						<button type="submit" class="btn-theme btn-go">No</button>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="modal-footer"></div>
+			</div>
+
+		</div>
+	</div>
+	<!-- </form> -->
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Credit')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Credit</title>
+    </head>
+    <body>
+        <section class="content-section">
+            <div class="row margin0">
+                <fieldset style="min-width: 88%;">
+                    <!-- <label for="Customer Number" style="margin-right: 3%;">Search Transaction</label> 
+                    <input id="Customer Number" class="search-input" type="text" name=""> -->
+                 </fieldset>
+                <button class="btn-theme btn-green" style="margin-left: auto;border-radius: 0;padding: 0px 8px; margin-left: -534px; height: 31px;">
+                <a th:href="@{/setlimit}" >                 SET LIMIT
+                </a>
+                </button>
+            </div>
+          
+            <div class="col-md-12 col-sm-15 col-xs-15 table-container">
+                <table id="store-transfer" class="row-border order-column"
+                       style="width: 100%">
+                    <thead style="background:#1F1F1F;color:#fff;">
+                        <tr>
+                            <th>CUSTOMER NAME</th>
+                            <th>CUSTOMER NUMBER</th>
+                            <th>CREDIT DUE</th>
+                            <th>Total Credit</th>
+                            <th style="margin-left: 124px;" >Credit Limit</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                           <tr th:each="customerCreditTxnEach,iter : ${customerCreditTxnList}">
+                            <td style="text-align: center;" th:text="${customerCreditTxnEach.get('customerName')}"></td>
+                            <td style="text-align: center;" th:text="${customerCreditTxnEach.get('customerMobileNo')}"></td>
+                            <td style="text-align: center;" th:text="${customerCreditTxnEach.get('totCustomerCreditDue')}"></td>
+                            <td style="text-align: center;" th:text="${customerCreditTxnEach.get('totCustomerCreditAmt')}"></td>
+                            <td th:if="${customerCreditTxnEach.get('customerCreditLimit')} != null" style="text-align: center;" th:text="${customerCreditTxnEach.get('customerCreditLimit')}"></td>
+                            <td><a th:href="@{/creditedit(customerId=${customerCreditTxnEach.get('customerId')})}" ><img src="assets/images/icon-edit.png"></a></td>
+                            <td><a th:href="@{/creditview(customerId=${customerCreditTxnEach.get('customerId')})}"><img src="assets/images/button-view.png"></a></td>
+                        </tr>
+                    
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </body>
+</html>

@@ -1,0 +1,16 @@
+/*Roboto*/
+
+@font-face{
+	font-family:roboto medium;
+	src:local('Roboto Medium'),local('RobotoLt-Regular'),url(../fonts/Roboto-Medium.ttf) format('truetype')
+	}
+
+@font-face{
+	font-family:roboto regular;
+	src:local('Roboto Regular'),local('Roboto-Regular'),url(../fonts/Roboto-Regular.ttf) format('truetype')
+	}
+
+@font-face{
+	font-family:roboto bold;
+	src:local('Roboto Bold'),local('Roboto-Bold'),url(../fonts/Roboto-Bold.ttf) format('truetype')
+	}

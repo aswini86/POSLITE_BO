@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Pos Transaction')}" xmlns:th="http://www.thymeleaf.org">
+<!-- Pos Cart -->
+
+<head>
+<title>Retail BO :: Pos Daily Transaction</title>
+</head>
+<body>
+	<section class="main-section" id="wrapper">
+		<!-- --- header starts --- -->
+		
+		<div class="clear"></div>
+
+		<!-- --- header ends ----- -->
+		<div class="clear"></div>
+
+		<section class="billing content-section">
+		<!-- ---------------search starts here----------- -->
+		<div class="search-container">
+
+
+
+
+			<div class="row margin1">
+                <div class="col-md-8">
+                    <div class="col-md-6">
+
+                    <fieldset  align="center" >
+                        <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12" >Receipt Date</label>
+                        <input onclick="mydate()" id ="Receiptdate" class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12"  align="right" type="text"  readonly/>
+                    </fieldset>
+                       <fieldset align="center">
+                        <label  class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12">Reciept Id</label> 
+                       <input id="Receiptid"  onclick="myreceiptid()" class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12"  align="right" type="text" name="Vendor" placeholder="" readonly> 
+                    </fieldset>
+                    </div>
+                     <div class="col-md-6">
+                    <fieldset align="center">
+                        <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12"> Terminal Name</label> 
+                        <input id="terminalId" class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12"
+                        align="right" type="text" name="terminalId" placeholder="" th:value="${session.posTerminalId}">
+                    </fieldset>
+                    <!-- <fieldset align="center">
+                        <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12" >Day Id</label>
+                        <input  id ="Dayid"  class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12"  align="right" type="text" placeholder="" />
+                    </fieldset> -->
+                    </div>
+                    
+                    <div class="col-md-6">
+                    	<fieldset align="center">
+                        <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12">Day</label> 
+                        <select class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" id="daystatus">
+                            <option>Reciept Type</option>
+                            <option th:value="OPENED">Opened Day</option>
+                        </select> 
+                    	</fieldset>
+                    </div>
+			</div>
+		</div>
+	</div>	
+		
+		
+		
+		<!-- ---------------search ends here----------- -->	
+	  <div class="col-md-6 col-sm-10 col-xs-10 table-container">
+	  <table id="pos_cart" class="row-border order-column"
+		style="width: 100%" "height:20px">
+		<thead style="background:#1F1F1F;color:#fff;">
+			<tr>
+				<th>PaymentMode</th>
+				<th>TotalAmount</th>
+			</tr>
+		</thead>
+		<tbody>
+			
+	  <tr>    
+			  
+			   <td>Cash</td>
+               <td><input  okkeyup="Multiply()"  id = "entercash" class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12"  
+               align="right" type="text" placeholder="Enter Total Cash" /></td>
+                   
+      </tr>
+      
+     
+       
+     </tbody>
+	</table>
+	
+<!-- <button class="btn-theme btn-black" style="height:36px" align ="right">Save & create new </button>
+		
+<button class="btn-theme btn-black" style="height:36px" >Save & close</button> -->
+
+
+</div> 
+
+	  
+	  <div class="col-md-6 col-sm-50 col-xs-50 table-container">
+	  <table id="pos_cart" class="row-border order-column"
+		style="width: 100%; height:20px"> 
+		<thead style="background:#1F1F1F;color:#fff;">
+			<tr>
+				<th>Denome Rate</th>
+				<th>Count</th>
+				<th>Amount</th>
+			</tr>
+		</thead>
+		<tbody>
+
+	  <tr>    
+			   <td> <label>2000</label></td>
+               <td><input id="2000" class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-10"  
+               align="right" value="0" type="number" style="background-color:silver;" placeholder="0 "onkeyup="Multiply()"/></td>
+               
+               <td><input style =  "border: none;border-color: transparent;    background: transparent;
+               " type="text"  class="center" value="0" id="total2000" placeholder="Total" readonly/></td>
+      </tr>
+      
+
+      
+       	  <tr>    
+			   <td><label>500</label></td>
+			   
+               <td><input onkeyup="Multiply()" id="500" class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-10"  
+               align="right" type="number" value="0" style="background-color:silver;" placeholder="0"/></td>
+               
+                <td><input style =  "border: none;border-color: transparent;   background: transparent;
+               " type="text" class="center"  value="0" id="total500" placeholder="Total" readonly/></td>            
+      </tr>
+      <tr>    
+			   <td><label>200</label></td>
+			   
+               <td><input onkeyup="Multiply()" id="200" class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-10"  
+               align="right" type="number" value="0" style="background-color:silver;" placeholder="0"/></td>
+               
+                <td><input style =  "border: none;border-color: transparent;   background: transparent;
+               " type="text" class="center"  value="0" id="total200" placeholder="Total" readonly/></td>            
+      </tr>
+       <tr>    
+			   <td><label>100</label></td>
+			   
+               <td><input onkeyup="Multiply()" id ="100" class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-10"  
+               align="right" type="number" value="0" style="background-color:silver;" placeholder="0"/></td>
+               
+                <td><input style ="border: none; border-color: transparent; background: transparent;
+               " type="text" class="center" value="0" id="total100" placeholder="Total" readonly/></td>               
+      </tr>
+      <tr>    
+			   <td><label>50</label></td>
+			
+                <td><input onkeyup="Multiply()" id ="50" class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-10"  
+               align="right" type="number" value="0"  style="background-color:silver;" placeholder="0"/></td>
+                
+               <td><input style =  "border: none;border-color: transparent;    background: transparent;
+               " type="text" class="center"  value="0" id="total50" placeholder="Total" readonly/></td>              
+      </tr>
+       <tr>    
+			   <td><label>20</label></td>
+			   
+               <td><input onkeyup="Multiply()" id ="20" class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-10"  
+               align="right" type="number" value="0"style="background-color:silver;" placeholder="0"/></td>
+               
+               <td><input style =  "border: none;border-color: transparent;    background: transparent;
+                " type="text" class="center" value="0"  id="total20" placeholder="Total" readonly/></td>             
+      </tr>
+       <tr>    
+			   <td><label>10</label></td>
+			   
+               <td><input onkeyup="Multiply()"  id ="10" class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-10"  
+               align="right" type="number" value="0"style="background-color:silver;" placeholder="0" /></td>
+                
+                <td><input style =  "border: none;border-color: transparent;    background: transparent;
+               " type="text" class="center" value="0" id="total10" placeholder="Total" readonly/></td>              
+      </tr>
+      <tr>    
+			   <td><label>5</label></td>
+			   
+               <td><input onkeyup="Multiply()"  id ="5" class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-10"  
+               align="right" type="number" value="0"style="background-color:silver;" placeholder="0" /></td>
+                
+                <td><input style =  "border: none;border-color: transparent;    background: transparent;
+               " type="text" class="center" value="0" id="total5" placeholder="Total" readonly/></td>              
+      </tr>
+      <tr>    
+			   <td><label>2</label></td>
+			   
+               <td><input onkeyup="Multiply()"  id ="2" class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-10"  
+               align="right" type="number" value="0"style="background-color:silver;" placeholder="0" /></td>
+                
+                <td><input style =  "border: none;border-color: transparent;    background: transparent;
+               " type="text" class="center" value="0" id="total2" placeholder="Total" readonly/></td>              
+      </tr>
+      <tr>    
+			   <td><label>1</label></td>
+			   
+               <td><input onkeyup="Multiply()"  id ="1" class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-10"  
+               align="right" type="number" value="0"style="background-color:silver;" placeholder="0" /></td>
+                
+                <td><input style =  "border: none;border-color: transparent;    background: transparent;
+               " type="text" class="center" value="0" id="total1" placeholder="Total" readonly/></td>              
+      </tr>
+		</tbody>
+	</table>
+	
+	
+
+	
+	 <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12" style="margin-left: 40%;">Total Amount</label>
+	
+	
+    
+     <input   style = "margin-left:-7.5%; border: none;border-color: transparent;  background: transparent;" 
+     type="text" onkeyup="Multiply()" class="center" id="total" placeholder="0"/>
+	
+	
+
+	<div class="col-md-12">
+          
+
+
+ <button  class="btn-theme btn-green" data-toggle="modal"
+                 data-target="" style="height: 38px;padding: 0 4%;margin-left: 60%;">
+                   <a th:href="@{/poslogin}"> 
+                   <i></i> Cancel </a>
+                </button>
+
+
+      
+           <input type="submit"id="register_button" onclick="Multiply()" class="btn-theme btn-green"  modal style="height: 38px;padding: 0 4%;" value="Submit"/>
+   </div>
+	<!-- Confirm Model Starts Here -->
+            <div id="confirmationModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b id="msgtext"></b>
+                            <div class="confirmation-btn-div">
+                            <button type="button" data-dismiss="modal" class="btn-theme btn-go" id="redirect">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Confirm Model End Here -->
+	 
+	  <!-- Already Exists Model Starts Here -->
+            <div id="alreadyExistModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b id="qmsgtext"></b>
+                            <div class="confirmation-btn-div">
+                                <button type="button" data-dismiss="modal" class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <!-- Already Exists Model End Here -->
+	
+     <!-- code for current date  -->
+<script>
+function mydate() {
+/* document.getElementById('Receiptdate').value= Date(); */
+var dt = new Date();
+document.getElementById("Receiptdate").value = (dt.getFullYear()) +"-"+ (("0"+(dt.getMonth()+1)).slice(-2)) +"-"+ 
+(("0"+dt.getDate()).slice(-2));
+
+}
+</script>
+	
+
+
+<!-- code for receipt  id -->
+<script>
+function myreceiptid() {
+  var d = new Date();
+  var n = d.getTime();
+  document.getElementById("Receiptid").value = n;
+}
+</script>
+	
+	
+		 <!-- code for calculation  id -->
+
+
+	<script>
+	
+        function Multiply() {
+            var a = document.getElementById("2000").value;
+            
+            var result1 = parseInt(a) * 2000;
+            
+            var textcontrol =    document.getElementById("total2000");
+            
+            if (!isNaN(result1)) {
+            	
+            	 textcontrol.value = result1;
+            }
+           
+            var b = document.getElementById("500").value;
+
+            var result2 = parseInt(b) * 500;
+            
+            var textcontrol = document.getElementById("total500");
+            
+            
+            if (!isNaN(result2)) {
+            	
+                textcontrol.value = result2;
+            }
+            
+            var c = document.getElementById("200").value;
+
+            var result200 = parseInt(c) * 200;
+            
+            var textcontrol = document.getElementById("total200");
+            
+            
+            if (!isNaN(result200)) {
+            	
+                textcontrol.value = result200;
+            }
+            
+            
+            var d = document.getElementById("100").value;
+
+            var result3 = parseInt(d) * 100;
+            
+            var textcontrol =    document.getElementById("total100");
+            
+            
+            if (!isNaN(result3)) {
+            	
+                textcontrol.value = result3;
+            }            
+            
+            
+            
+            var e = document.getElementById("50").value;
+
+            var result4 = parseInt(e) * 50;
+            
+            var textcontrol =    document.getElementById("total50");
+            
+            
+            if (!isNaN(result4)) {
+            	
+                textcontrol.value = result4;
+            }
+            
+            
+            
+            var f = document.getElementById("20").value;
+
+            var result5 = parseInt(f) * 20;
+            
+            var textcontrol =    document.getElementById("total20");
+            
+            
+            if (!isNaN(result5)) {
+            	
+                textcontrol.value = result5;
+            }            
+            
+            var g = document.getElementById("10").value;
+
+            var result6 = parseInt(g) * 10;
+            
+            var textcontrol =    document.getElementById("total10");
+            
+            if (!isNaN(result1)) {
+            	
+                textcontrol.value = result6;
+            } 
+            
+            var h = document.getElementById("5").value;
+
+            var result_5 = parseInt(h) * 5;
+            
+            var textcontrol = document.getElementById("total5");
+            
+            if (!isNaN(result_5)) {
+            	
+                textcontrol.value = result_5;
+            } 
+            
+            var i = document.getElementById("2").value;
+
+            var result_2 = parseInt(i) * 2;
+            
+            var textcontrol = document.getElementById("total2");
+            
+            if (!isNaN(result_2)) {
+            	
+                textcontrol.value = result_2;
+            }
+            
+            var j = document.getElementById("1").value;
+
+            var result_1 = parseInt(j) * 1;
+            
+            var textcontrol = document.getElementById("total1");
+            
+            if (!isNaN(result_1)) {
+            	
+                textcontrol.value = result_1;
+            }
+
+            var totaldata = result1+result2+result200+result3+result4+result5+result6+result_5+result_2+result_1;
+            
+            var textcontrol = document.getElementById("total");
+            
+            textcontrol.value = totaldata;
+       
+            var entercash = document.getElementById("entercash").value; 
+
+            
+            $(document).ready(function(){
+	            $("#submit").click
+	            
+	            if(entercash==totaldata){
+            		var day = $('#Receiptdate').val();
+            		var terminalId = $('#terminalId').val();
+            		var receiptId = $('#Receiptid').val();
+            		var dayStatus = $('#daystatus').val();
+            		
+            		var val_2000 = $('#2000').val();
+            		var val_500 = $('#500').val();
+            		var val_200 = $('#200').val();
+            		var val_100 = $('#100').val();
+            		var val_50 = $('#50').val();
+            		var val_20 = $('#20').val();
+            		var val_10 = $('#10').val();
+            		var val_5 = $('#5').val();
+            		var val_2 = $('#2').val();
+            		var val_1 = $('#1').val();
+            		
+            		var openingDayCashDenomination = {
+           				2000 : val_2000,
+           				500 : val_500,
+           				200 : val_200,
+           				100 : val_100,
+           				50 : val_50,
+           				20 : val_20,
+           				10 : val_10,
+           				5 : val_5,
+           				2 : val_2,
+           				1 : val_1,
+            		};
+            		var data0 = {
+           				day : day,
+           				terminalId : terminalId,
+           				receiptId : receiptId,
+           				dayStatus : dayStatus,
+           				androidDeviceId : "WEB",
+           				androidDeviceVersion : "WEB",
+           				androidAPKVersion : "WEB",
+           				openingDayCashDenomination : openingDayCashDenomination,
+					};
+            		var json = JSON.stringify(data0);
+            		var cashjson = JSON.stringify(openingDayCashDenomination);
+            		
+            		$.ajax({
+						type : 'GET',
+						url : '/openingDay',
+						data : {
+							json : json,
+							cashjson : cashjson,
+							password : "ofbiz",
+							username : "admin",
+						},
+						dataType : 'json',
+						success : function(data) {
+							if (data != "" && data != null) {
+								$('#confirmationModal').modal('toggle');
+								$("#msgtext").append(data);
+							}
+						}
+					});
+            		$('#redirect').click(
+						function() {
+							var homeUrl = '/adminapproval';
+							window.location = homeUrl;
+					});
+	            	
+	            } else{
+	            	
+	            }
+    	    });
+        }
+        
+           
+        </script>
+
+    
+	
+		<!-- --- Add customer modal ends here --- -->
+		<!-- -------Add to stock modal starts here---------- -->
+	 <div id="selectArticle" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			Modal content
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h1 class="modal-title">Select Article</h1>
+				</div>
+				<div class="modal-body">
+					<div class="search-div">
+				<form class="" action="">
+					<i class="fa fa-search"></i> <input type="text"
+						placeholder="Scanned EAN Number" name="search">
+
+				</form>
+			</div> 
+	 
+		 <tbody>
+			<tr th:each="productListEach,iter : ${productsList}" class="result">
+				<td id="eanCode" th:text="${productListEach.get('productIdEan')}"></td>
+				<td id="productId" th:text="${productListEach.get('productId')}"></td>
+				<td name="unit_id">EA</td>
+				<td id="productName" th:text="${productListEach.get('description')}"></td>
+				<td id="lotId"></td>
+				<td id="moOfPacks"></td>
+				<td id="packSize"></td>
+				<td></td>
+				<td id="saleRate" th:text="${productListEach.get('productSalePrice')}"></td>
+				<td id="coBatchNo"></td>
+	 			<td id="expiryDate" th:text="${productListEach.get('salesDiscontinuationDate')}"></td>
+	            <td><button class="check_val" data-toggle="modal" data-target="#cartmodal" th:onclick="addProductFunction([[${productListEach.get('productId')}]])"><i class="fa fa-plus-square"></i></button></td> 
+	          
+	        
+			</tr>
+		</tbody>  
+	</table>
+	  </div>
+	      	
+		</div>
+	</div>
+	
+	
+</body>
+</html>

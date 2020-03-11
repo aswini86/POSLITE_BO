@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Store Transfer Out List')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Store Transfer Out List</title>
+    </head>
+    <body>
+        <section class="content-section">
+            <div class="row margin0">
+                <fieldset style="min-width: 88%;">
+                    <label style="margin-right: 3%;">Search Transaction</label> 
+                    <input class="search-input" type="text" name="quantity" placeholder="Search By Transaction ID">
+                    <select class="form-control" id="sel1">
+                        <option>Department From</option>
+                        <option>Department From</option>
+                        <option>Department From</option>
+                        <option>Department From</option>
+                    </select>
+                    <select class="form-control" id="sel1">
+                        <option>Department To</option>
+                        <option>Department To</option>
+                        <option>Department To</option>
+                        <option>Department To</option>
+                    </select>
+                    <select class="form-control" id="sel1">
+                        <option>Select Status</option>
+                        <option>Select Status</option>
+                        <option>Select Status</option>
+                        <option>Select Status</option>
+                    </select>
+                </fieldset>
+                <button class="btn-theme btn-green" style="margin-left: auto;">
+                    <i class="fa fa-plus hidden-sm hidden-xs" aria-hidden="true"></i>&nbsp; Create New
+                </button>
+            </div>
+            <div class="row margin0">
+                <fieldset style="min-width: 88%;">
+                    <label style="margin-right: 8%;">Date From</label> 
+                    <input class="search-input" type="date" name="date-from" placeholder="DD/MM/YYYY">
+                    <label style="margin-right: 9%;">Date To</label> 
+                    <input class="search-input" type="date" name="date-to" placeholder="DD/MM/YYYY">
+                    <button class="btn btn-go">GO</button>
+                </fieldset>
+            </div>
+            <div class="search-div">
+                <form class="" action="">
+                    <i class="fa fa-search"></i><input type="text" placeholder="Filter Results" name="search">
+                </form>
+            </div>
+            <div class="col-md-12 table-container">
+                <table id="store-transfer" class="row-border order-column"
+                       style="width: 100%">
+                    <thead style="background:#1F1F1F;color:#fff;">
+                        <tr>
+                            <th>Transaction Id</th>
+                            <th>Transferred To</th>
+                            <th>Remarks</th>
+                            <th>Date Prepared</th>
+                            <th>Prepared By</th>
+                            <th>Status</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>7894561230</td>
+                            <td>Vashi</td>
+                            <td>System Architect t.nixon@datatables.net</td>
+                            <td>22/10/18</td>
+                            <td>Edinburgh</td>
+                            <td>Approval Pending</td>
+                            <td><a href="#"><img src="assets/images/print.png"></a></td>
+                            <td><a href="#"><img src="assets/images/button-view.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>7894561231</td>
+                            <td>Vashi</td>
+                            <td>System Architect t.nixon@datatables.net</td>
+                            <td>22/10/18</td>
+                            <td>Edinburgh</td>
+                            <td>Approval Pending</td>
+                            <td><a href="#"><img src="assets/images/print.png"></a></td>
+                            <td><a href="#"><img src="assets/images/icon-edit.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>7894561231</td>
+                            <td>Vashi</td>
+                            <td>System Architect t.nixon@datatables.net</td>
+                            <td>22/10/18</td>
+                            <td>Edinburgh</td>
+                            <td>Approval Pending</td>
+                            <td><a href="#"><img src="assets/images/print.png"></a></td>
+                            <td><a href="#"><img src="assets/images/button-view.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>7894561231</td>
+                            <td>Vashi</td>
+                            <td>System Architect t.nixon@datatables.net</td>
+                            <td>22/10/18</td>
+                            <td>Edinburgh</td>
+                            <td>Approval Pending</td>
+                            <td><a href="#"><img src="assets/images/print.png"></a></td>
+                            <td><a href="#"><img src="assets/images/icon-edit.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>7894561231</td>
+                            <td>Vashi</td>
+                            <td>System Architect t.nixon@datatables.net</td>
+                            <td>22/10/18</td>
+                            <td>Edinburgh</td>
+                            <td>Approval Pending</td>
+                            <td><a href="#"><img src="assets/images/print.png"></a></td>
+                            <td><a href="#"><img src="assets/images/icon-edit.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>7894561231</td>
+                            <td>Vashi</td>
+                            <td>System Architect t.nixon@datatables.net</td>
+                            <td>22/10/18</td>
+                            <td>Edinburgh</td>
+                            <td>Approval Pending</td>
+                            <td><a href="#"><img src="assets/images/print.png"></a></td>
+                            <td><a href="#"><img src="assets/images/button-view.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>7894561231</td>
+                            <td>Vashi</td>
+                            <td>System Architect t.nixon@datatables.net</td>
+                            <td>22/10/18</td>
+                            <td>Edinburgh</td>
+                            <td>Approval Pending</td>
+                            <td><a href="#"><img src="assets/images/print.png"></a></td>
+                            <td><a href="#"><img src="assets/images/button-view.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>7894561231</td>
+                            <td>Vashi</td>
+                            <td>System Architect t.nixon@datatables.net</td>
+                            <td>22/10/18</td>
+                            <td>Edinburgh</td>
+                            <td>Approval Pending</td>
+                            <td><a href="#"><img src="assets/images/print.png"></a></td>
+                            <td><a href="#"><img src="assets/images/button-view.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>7894561231</td>
+                            <td>Vashi</td>
+                            <td>System Architect t.nixon@datatables.net</td>
+                            <td>22/10/18</td>
+                            <td>Edinburgh</td>
+                            <td>Approval Pending</td>
+                            <td><a href="#"><img src="assets/images/print.png"></a></td>
+                            <td><a href="#"><img src="assets/images/icon-edit.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>7894561231</td>
+                            <td>Vashi</td>
+                            <td>System Architect t.nixon@datatables.net</td>
+                            <td>22/10/18</td>
+                            <td>Edinburgh</td>
+                            <td>Approval Pending</td>
+                            <td><a href="#"><img src="assets/images/print.png"></a></td>
+                            <td><a href="#"><img src="assets/images/icon-edit.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>7894561231</td>
+                            <td>Vashi</td>
+                            <td>System Architect t.nixon@datatables.net</td>
+                            <td>22/10/18</td>
+                            <td>Edinburgh</td>
+                            <td>Approval Pending</td>
+                            <td><a href="#"><img src="assets/images/print.png"></a></td>
+                            <td><a href="#"><img src="assets/images/button-view.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>7894561231</td>
+                            <td>Vashi</td>
+                            <td>System Architect t.nixon@datatables.net</td>
+                            <td>22/10/18</td>
+                            <td>Edinburgh</td>
+                            <td>Approval Pending</td>
+                            <td><a href="#"><img src="assets/images/print.png"></a></td>
+                            <td><a href="#"><img src="assets/images/icon-edit.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>7894561231</td>
+                            <td>Vashi</td>
+                            <td>System Architect t.nixon@datatables.net</td>
+                            <td>22/10/18</td>
+                            <td>Edinburgh</td>
+                            <td>Approval Pending</td>
+                            <td><a href="#"><img src="assets/images/print.png"></a></td>
+                            <td><a href="#"><img src="assets/images/icon-edit.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>7894561231</td>
+                            <td>Vashi</td>
+                            <td>System Architect t.nixon@datatables.net</td>
+                            <td>22/10/18</td>
+                            <td>Edinburgh</td>
+                            <td>Approval Pending</td>
+                            <td><a href="#"><img src="assets/images/print.png"></a></td>
+                            <td><a href="#"><img src="assets/images/button-view.png"></a></td>
+                        </tr>
+                        <tr>
+                            <td>7894561231</td>
+                            <td>Vashi</td>
+                            <td>System Architect t.nixon@datatables.net</td>
+                            <td>22/10/18</td>
+                            <td>Edinburgh</td>
+                            <td>Approval Pending</td>
+                            <td><a href="#"><img src="assets/images/print.png"></a></td>
+                            <td><a href="#"><img src="assets/images/button-view.png"></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </body>
+</html>

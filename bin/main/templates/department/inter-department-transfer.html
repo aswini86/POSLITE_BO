@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html
+	th:replace="~{layout :: template(~{::title}, ~{::section}, 'Inter Department Transfer')}"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Retail BO :: Inter Department Transfert</title>
+</head>
+<body>
+
+	<section class="interdepartment-transfer content-section">
+		<!-- ---------------search starts here----------- -->
+		<div class="search-container">
+			<div class="search-options col-md-7 col-xs-12">
+				<fieldset>
+					<label class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Transfer
+						Date</label> <input type="date" name="transfer_date"
+						class="modal-input float-input col-lg-2 col-md-2 col-sm-2 col-xs-2"> <select
+						name="department_from"
+						class="modal-input float-input col-lg-2 col-md-2 col-sm-2 col-xs-2">
+						<option>Department From</option>
+					</select> <select name="department_to"
+						class="modal-input float-input col-lg-2 col-md-2 col-sm-2 col-xs-2">
+						<option>Department To</option>
+					</select>
+
+
+				</fieldset>
+
+				<fieldset>
+					<label class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Reason
+						For stock movement</label>
+					<textarea name="stock_movement_reason"
+						class="modal-input float-input col-lg-9 col-md-9 col-sm-9 col-xs-9" cols="63"></textarea>
+				</fieldset>
+
+				<fieldset>
+
+					<label class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="">Search
+						Article</label> <input type="search"
+						class="modal-input float-input col-lg-6 col-md-6 col-sm-6 col-xs-6"
+						placeholder="Search by EAN/Product Name/Item ID" size="53">
+					<button
+						class="btn-theme btn-go col-lg-1 col-md-1 col-sm-1 col-xs-1"
+						data-toggle="modal" data-target="#selectArticle">Go</button>
+
+				</fieldset>
+			</div>
+			<div class="search-info col-md-5 col-xs-12">
+				<fieldset>
+					<label>Transaction No</label><span class="modal-span-value">7894521034658</span>
+				</fieldset>
+				<fieldset>
+					<label>Entered By</label><span class="modal-span-value">Username</span><br>
+					<span class="modal-span-value">10/2/2018 6:05:24 pm</span>
+				</fieldset>
+			</div>
+		</div>
+		<div class="search-div">
+			<form class="" action="">
+				<i class="fa fa-search"></i> <input type="text"
+					placeholder="Scanned EAN Number" name="search">
+
+			</form>
+		</div>
+		<!-- ---------------search ends here----------- -->
+		<div class="col-md-12 table-container">
+			<table id="interdependent_transfer" class="row-border order-column"
+				style="width: 100%">
+				<thead style="background: #1F1F1F; color: #fff;">
+					<tr>
+						<th></th>
+						<th>EAN Code</th>
+						<th>Item ID</th>
+						<th>Unit ID</th>
+						<th>Product name</th>
+						<th>LOT ID</th>
+						<th>No. Of Packs</th>
+						<th>Pack Size</th>
+						<th>Qty</th>
+						<th>Sale Rate</th>
+						<th>Co Batch No.</th>
+						<th>Expiry Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+						<td>Tiger</td>
+						<td>Nixon</td>
+						<td><select name="unit_id" class="table-select">
+								<option>EA</option>
+						</select></td>
+						<td>Edinburgh</td>
+						<td>61</td>
+						<td><select name="pack_of_size"
+							class="pack-of-size table-select">
+								<option>1</option>
+						</select></td>
+						<td>$320,800</td>
+						<td>5421</td>
+						<td>t.nixon@datatables.net</td>
+						<td>$320,800</td>
+						<td>5421</td>
+					</tr>
+					<tr>
+						<td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+						<td>Tiger</td>
+						<td>Nixon</td>
+						<td><select name="unit_id" class="table-select">
+								<option>EA</option>
+						</select></td>
+						<td>Edinburgh</td>
+						<td>61</td>
+						<td><select name="pack_of_size"
+							class="pack-of-size table-select">
+								<option>1</option>
+						</select></td>
+						<td>$320,800</td>
+						<td>5421</td>
+						<td>t.nixon@datatables.net</td>
+						<td>$320,800</td>
+						<td>5421</td>
+					</tr>
+					<tr>
+						<td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+						<td>Tiger</td>
+						<td>Nixon</td>
+						<td><select name="unit_id" class="table-select">
+								<option>EA</option>
+						</select></td>
+						<td>Edinburgh</td>
+						<td>61</td>
+						<td><select name="pack_of_size"
+							class="pack-of-size table-select">
+								<option>1</option>
+						</select></td>
+						<td>$320,800</td>
+						<td>5421</td>
+						<td>t.nixon@datatables.net</td>
+						<td>$320,800</td>
+						<td>5421</td>
+					</tr>
+					<tr>
+						<td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+						<td>Tiger</td>
+						<td>Nixon</td>
+						<td><select name="unit_id" class="table-select">
+								<option>EA</option>
+						</select></td>
+						<td>Edinburgh</td>
+						<td>61</td>
+						<td><select name="pack_of_size"
+							class="pack-of-size table-select">
+								<option>1</option>
+						</select></td>
+						<td>$320,800</td>
+						<td>5421</td>
+						<td>t.nixon@datatables.net</td>
+						<td>$320,800</td>
+						<td>5421</td>
+					</tr>
+					<tr>
+						<td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+						<td>Tiger</td>
+						<td>Nixon</td>
+						<td><select name="unit_id" class="table-select">
+								<option>EA</option>
+						</select></td>
+						<td>Edinburgh</td>
+						<td>61</td>
+						<td><select name="pack_of_size"
+							class="pack-of-size table-select">
+								<option>1</option>
+						</select></td>
+						<td>$320,800</td>
+						<td>5421</td>
+						<td>t.nixon@datatables.net</td>
+						<td>$320,800</td>
+						<td>5421</td>
+					</tr>
+					<tr>
+						<td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+						<td>Tiger</td>
+						<td>Nixon</td>
+						<td><select name="unit_id" class="table-select">
+								<option>EA</option>
+						</select></td>
+						<td>Edinburgh</td>
+						<td>61</td>
+						<td><select name="pack_of_size"
+							class="pack-of-size table-select">
+								<option>1</option>
+						</select></td>
+						<td>$320,800</td>
+						<td>5421</td>
+						<td>t.nixon@datatables.net</td>
+						<td>$320,800</td>
+						<td>5421</td>
+					</tr>
+					<tr>
+						<td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+						<td>Tiger</td>
+						<td>Nixon</td>
+						<td><select name="unit_id" class="table-select">
+								<option>EA</option>
+						</select></td>
+						<td>Edinburgh</td>
+						<td>61</td>
+						<td><select name="pack_of_size"
+							class="pack-of-size table-select">
+								<option>1</option>
+						</select></td>
+						<td>$320,800</td>
+						<td>5421</td>
+						<td>t.nixon@datatables.net</td>
+						<td>$320,800</td>
+						<td>5421</td>
+					</tr>
+					<tr>
+						<td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+						<td>Tiger</td>
+						<td>Nixon</td>
+						<td><select name="unit_id" class="table-select">
+								<option>EA</option>
+						</select></td>
+						<td>Edinburgh</td>
+						<td>61</td>
+						<td><select name="pack_of_size"
+							class="pack-of-size table-select">
+								<option>1</option>
+						</select></td>
+						<td>$320,800</td>
+						<td>5421</td>
+						<td>t.nixon@datatables.net</td>
+						<td>$320,800</td>
+						<td>5421</td>
+					</tr>
+					<tr>
+						<td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+						<td>Tiger</td>
+						<td>Nixon</td>
+						<td><select name="unit_id" class="table-select">
+								<option>EA</option>
+						</select></td>
+						<td>Edinburgh</td>
+						<td>61</td>
+						<td><select name="pack_of_size"
+							class="pack-of-size table-select">
+								<option>1</option>
+						</select></td>
+						<td>$320,800</td>
+						<td>5421</td>
+						<td>t.nixon@datatables.net</td>
+						<td>$320,800</td>
+						<td>5421</td>
+					</tr>
+					<tr>
+						<td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+						<td>Tiger</td>
+						<td>Nixon</td>
+						<td><select name="unit_id" class="table-select">
+								<option>EA</option>
+						</select></td>
+						<td>Edinburgh</td>
+						<td>61</td>
+						<td><select name="pack_of_size"
+							class="pack-of-size table-select">
+								<option>1</option>
+						</select></td>
+						<td>$320,800</td>
+						<td>5421</td>
+						<td>t.nixon@datatables.net</td>
+						<td>$320,800</td>
+						<td>5421</td>
+					</tr>
+					<tr>
+						<td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+						<td>Tiger</td>
+						<td>Nixon</td>
+						<td><select name="unit_id" class="table-select">
+								<option>EA</option>
+						</select></td>
+						<td>Edinburgh</td>
+						<td>61</td>
+						<td><select name="pack_of_size"
+							class="pack-of-size table-select">
+								<option>1</option>
+						</select></td>
+						<td>$320,800</td>
+						<td>5421</td>
+						<td>t.nixon@datatables.net</td>
+						<td>$320,800</td>
+						<td>5421</td>
+					</tr>
+					<tr>
+						<td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+						<td>Tiger</td>
+						<td>Nixon</td>
+						<td><select name="unit_id" class="table-select">
+								<option>EA</option>
+						</select></td>
+						<td>Edinburgh</td>
+						<td>61</td>
+						<td><select name="pack_of_size"
+							class="pack-of-size table-select">
+								<option>1</option>
+						</select></td>
+						<td>$320,800</td>
+						<td>5421</td>
+						<td>t.nixon@datatables.net</td>
+						<td>$320,800</td>
+						<td>5421</td>
+					</tr>
+					<tr>
+						<td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+						<td>Tiger</td>
+						<td>Nixon</td>
+						<td><select name="unit_id" class="table-select">
+								<option>EA</option>
+						</select></td>
+						<td>Edinburgh</td>
+						<td>61</td>
+						<td><select name="pack_of_size"
+							class="pack-of-size table-select">
+								<option>1</option>
+						</select></td>
+						<td>$320,800</td>
+						<td>5421</td>
+						<td>t.nixon@datatables.net</td>
+						<td>$320,800</td>
+						<td>5421</td>
+					</tr>
+					<tr>
+						<td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+						<td>Tiger</td>
+						<td>Nixon</td>
+						<td><select name="unit_id" class="table-select">
+								<option>EA</option>
+						</select></td>
+						<td>Edinburgh</td>
+						<td>61</td>
+						<td><select name="pack_of_size"
+							class="pack-of-size table-select">
+								<option>1</option>
+						</select></td>
+						<td>$320,800</td>
+						<td>5421</td>
+						<td>t.nixon@datatables.net</td>
+						<td>$320,800</td>
+						<td>5421</td>
+					</tr>
+					<tr>
+						<td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+						<td>Tiger</td>
+						<td>Nixon</td>
+						<td><select name="unit_id" class="table-select">
+								<option>EA</option>
+						</select></td>
+						<td>Edinburgh</td>
+						<td>61</td>
+						<td><select name="pack_of_size"
+							class="pack-of-size table-select">
+								<option>1</option>
+						</select></td>
+						<td>$320,800</td>
+						<td>5421</td>
+						<td>t.nixon@datatables.net</td>
+						<td>$320,800</td>
+						<td>5421</td>
+					</tr>
+					<tr>
+						<td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+						<td>Tiger</td>
+						<td>Nixon</td>
+						<td><select name="unit_id" class="table-select">
+								<option>EA</option>
+						</select></td>
+						<td>Edinburgh</td>
+						<td>61</td>
+						<td><select name="pack_of_size"
+							class="pack-of-size table-select">
+								<option>1</option>
+						</select></td>
+						<td>$320,800</td>
+						<td>5421</td>
+						<td>t.nixon@datatables.net</td>
+						<td>$320,800</td>
+						<td>5421</td>
+					</tr>
+
+
+				</tbody>
+			</table>
+		</div>
+		<!-- --- add notification div starts here --- -->
+		<div class="add-notify">
+			<h2>
+				<i class="fa fa-times" aria-hidden="true"></i>
+				<button class="btn-theme btn-black">Approve & create New</button>
+				<button class="btn-theme btn-black">Save & Create View</button>
+				<button class="btn-theme btn-black">Save & Close</button>
+				<button class="btn-theme btn-green">Save</button>
+			</h2>
+		</div>
+		<!-- --- add notification div ends here --- -->
+		<!-- --- add notification div starts here --- -->
+		<div class="warning-notify">
+			<h2>
+				<i class="fa fa-times" aria-hidden="true"></i> <img
+					src="assets/images/icon-info.png" alt="" class="">Are You
+				sure you want to approve this transaction.
+				<button class="btn-theme btn-black">
+					<img src="assets/images/icon-yes.png" alt="icon for yes"> Yes
+				</button>
+				<button class="btn-theme btn-black">
+					<img src="assets/images/icon-no.png" alt="icon for no">No
+				</button>
+			</h2>
+		</div>
+		<!-- --- add notification div ends here --- -->
+	</section>
+	<!-- -------Add to stock modal starts here---------- -->
+	<div id="selectArticle" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h1 class="modal-title">Select Article</h1>
+				</div>
+				<div class="modal-body">
+					<div class="search-div">
+						<form class="" action="">
+							<i class="fa fa-search"></i> <input type="text"
+								placeholder="Scanned EAN Number" name="search">
+
+						</form>
+					</div>
+					<!-- ---------------search ends here----------- -->
+					<div class="col-md-12 table-container">
+						<table id="selectArticleTable" class="row-border order-column"
+							style="width: 100%">
+							<thead style="background: #1F1F1F; color: #fff;">
+								<tr>
+									<th>EAN Code</th>
+									<th>Item ID</th>
+									<th>Unit ID</th>
+									<th>Product name</th>
+									<th>LOT ID</th>
+									<th>No. Of Packs</th>
+									<th>Pack Size</th>
+									<th>Qty</th>
+									<th>Sale Rate</th>
+									<th>Co Batch No.</th>
+									<th>Expiry Date</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Tiger</td>
+									<td>Nixon</td>
+									<td>EA</td>
+									<td>Edinburgh</td>
+									<td>61</td>
+									<td>1</td>
+									<td>$320,800</td>
+									<td>5421</td>
+									<td>t.nixon@.net</td>
+									<td>$320,800</td>
+									<td>5421</td>
+								</tr>
+								<tr>
+									<td>Tiger</td>
+									<td>Nixon</td>
+									<td>EA</td>
+									<td>Edinburgh</td>
+									<td>61</td>
+									<td>1</td>
+									<td>$320,800</td>
+									<td>5421</td>
+									<td>t.nixon@.net</td>
+									<td>$320,800</td>
+									<td>5421</td>
+								</tr>
+								<tr>
+									<td>Tiger</td>
+									<td>Nixon</td>
+									<td>EA</td>
+									<td>Edinburgh</td>
+									<td>61</td>
+									<td>1</td>
+									<td>$320,800</td>
+									<td>5421</td>
+									<td>t.nixon@.net</td>
+									<td>$320,800</td>
+									<td>5421</td>
+								</tr>
+								<tr>
+									<td>Tiger</td>
+									<td>Nixon</td>
+									<td>EA</td>
+									<td>Edinburgh</td>
+									<td>61</td>
+									<td>1</td>
+									<td>$320,800</td>
+									<td>5421</td>
+									<td>t.nixon@.net</td>
+									<td>$320,800</td>
+									<td>5421</td>
+								</tr>
+								<tr>
+									<td>Tiger</td>
+									<td>Nixon</td>
+									<td>EA</td>
+									<td>Edinburgh</td>
+									<td>61</td>
+									<td>1</td>
+									<td>$320,800</td>
+									<td>5421</td>
+									<td>t.nixon@.net</td>
+									<td>$320,800</td>
+									<td>5421</td>
+								</tr>
+								<tr>
+									<td>Tiger</td>
+									<td>Nixon</td>
+									<td>EA</td>
+									<td>Edinburgh</td>
+									<td>61</td>
+									<td>1</td>
+									<td>$320,800</td>
+									<td>5421</td>
+									<td>t.nixon@.net</td>
+									<td>$320,800</td>
+									<td>5421</td>
+								</tr>
+								<tr>
+									<td>Tiger</td>
+									<td>Nixon</td>
+									<td>EA</td>
+									<td>Edinburgh</td>
+									<td>61</td>
+									<td>1</td>
+									<td>$320,800</td>
+									<td>5421</td>
+									<td>t.nixon@.net</td>
+									<td>$320,800</td>
+									<td>5421</td>
+								</tr>
+								<tr>
+									<td>Tiger</td>
+									<td>Nixon</td>
+									<td>EA</td>
+									<td>Edinburgh</td>
+									<td>61</td>
+									<td>1</td>
+									<td>$320,800</td>
+									<td>5421</td>
+									<td>t.nixon@.net</td>
+									<td>$320,800</td>
+									<td>5421</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="modal-footer"></div>
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>

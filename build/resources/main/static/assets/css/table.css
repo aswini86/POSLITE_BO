@@ -1,0 +1,92 @@
+table{
+	width:100% !important;
+	}
+.table-container{
+    color: #1F1F1F;
+    padding-left:0;
+    margin-top: 7px;
+}
+/* .dataTables_filter{
+	display: none;
+} */
+table.dataTable thead .sorting_desc {
+    background-image: none;
+}
+table.dataTable thead .sorting {
+    background-image: none;
+}
+table.dataTable thead .sorting_asc {
+    background-image: none;
+}
+table.dataTable {
+    border-collapse: separate;
+    border-spacing: 0 5px;
+}
+tr td:first-child,tr th:first-child { border-top-left-radius: 6px;border-bottom-left-radius: 6px; }
+tr td:last-child,tr th:last-child { border-top-right-radius: 6px;border-bottom-right-radius: 6px; }
+table.dataTable tbody>tr.selected, table.dataTable tbody>tr>.selected {
+    background: #FFF4DF !important;
+}
+table.dataTable.order-column tbody>tr.selected>.sorting_1, table.dataTable.order-column tbody>tr.selected>.sorting_2, table.dataTable.order-column tbody>tr.selected>.sorting_3, table.dataTable.order-column tbody>tr>.selected, table.dataTable.display tbody>tr.selected>.sorting_1, table.dataTable.display tbody>tr.selected>.sorting_2, table.dataTable.display tbody>tr.selected>.sorting_3, table.dataTable.display tbody>tr>.selected {
+    background-color: #fff4df;
+}
+table.dataTable thead th, table.dataTable thead td {
+    padding: 6px 18px;
+    font-size: 12px !important;
+    border-bottom: 0px solid #111;
+    font-family: Roboto Bold;
+    text-align: center;
+}
+table.dataTable tbody th, table.dataTable tbody td {
+    padding: 16px 10px;
+    font-size: 12px;
+    font-weight:bold;
+}
+.dataTables_wrapper.no-footer .dataTables_scrollBody {
+    border-bottom: none;
+}
+.dataTables_scrollBody::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+     display: none;
+}
+table.dataTable.order-column tbody tr>.sorting_1, table.dataTable.order-column tbody tr>.sorting_2, table.dataTable.order-column tbody tr>.sorting_3, table.dataTable.display tbody tr>.sorting_1, table.dataTable.display tbody tr>.sorting_2, table.dataTable.display tbody tr>.sorting_3 {
+    background-color: #ffffff;
+}
+table.dataTable tbody td.select-checkbox:before, table.dataTable tbody td.select-checkbox:after, table.dataTable tbody th.select-checkbox:before, table.dataTable tbody th.select-checkbox:after {
+    display: block;
+    position: absolute;
+    top: 1.2em;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    box-sizing: border-box;
+}
+table.dataTable tbody td.select-checkbox:before, table.dataTable tbody th.select-checkbox:before {
+    content: '';
+    margin-top: 0px;
+    margin-left: -8px;
+    border: none;
+    background: #EFE4D4;
+    border-radius: 10px;
+}
+table.dataTable tr.selected td.select-checkbox:after, table.dataTable tr.selected th.select-checkbox:after {
+    content: '\2714';
+    margin-top: 0px;
+    margin-left: -8px;
+    text-align: center;
+    border: none;
+    text-shadow: none;
+    font-size: 13px;
+    color: #fff;
+    text-shadow: none;
+}
+.margin-left{
+    margin-left: 8%;
+}
+.dataTables_scrollHeadInner{
+	width:100% !important;
+}
+table#interdependent_transfer tbody th, table#interdependent_transfer tbody td {
+    padding: 8px 10px;
+    }

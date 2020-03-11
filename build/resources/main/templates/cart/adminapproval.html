@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Admin Approval')}" xmlns:th="http://www.thymeleaf.org">
+    
+    <!-- Purchase Outward List -->
+    <head>
+        <title>Retail BO ::Admin Approval</title>
+    </head>
+    <body>
+        <section class="content-section">
+            <div class="row margin0">
+                <div class="col-md-8">
+                    <div class="col-md-6">
+                    
+                    <fieldset>
+                        <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12">Search Session</label> 
+                        <input class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" type="text" name="Vendor" placeholder="Search by Session Number" >
+                    </fieldset>
+                   
+                    
+                    <fieldset>
+                        <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12" >From Date</label>
+                        <input class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" type="date" placeholder="DD/MM/YYYY"/>
+                    </fieldset>
+                    
+                    
+                   </div>
+                    
+                    <div class="col-md-6">
+                    
+                         <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-11">Status</label> 
+                        <select class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-11" id="sel1">
+                            <option selected>Select Status</option>
+                            <option>Pending</option>
+                            <option>Approve</option>
+                        </select> 
+                        
+                             
+                           
+                       <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12" >To Date</label>
+                       
+                        <button class="btn-theme btn-black pull-right"style= "margin-right:-90px; width: 80px;">Go</button>
+                           
+                       <input class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" type="date" placeholder="DD/MM/YYYY"/>                        
+                   
+                    
+                       
+                     </div> 
+           
+           
+
+                     </div>   
+
+
+
+            <div>
+              <label class="search-labels col-lg-4 col-md-4 col-sm-4 col-xs-12">Day</label> 
+                        <select class="search-inputs col-lg-8 col-md-8 col-sm-8 col-xs-12" id="daystatus">
+                            <option>Recipt Type</option>
+                            <option>Opened Day</option>
+                            <option>Closed Day</option>
+                        </select> 
+            </div>
+         
+            
+            
+                         
+            
+                  <form  onclick="daystatus()" class="form-horizontal" name="f" th:action="@{/postransaction}"> 
+            
+                    <button class="btn-theme btn-green pull-right" data-toggle="modal" 
+                     style= "margin-right:40px;height:38px;  width: 150px;"  onclick="daystatus()">
+                        <i class="fa fa-plus hidden-xs" aria-hidden="true"></i> Create New
+                    </button>
+                    
+                     
+                    <script>
+                    
+                    </script>
+                  
+                    
+                </div>       
+                         
+            </div>
+            <div class="col-md-12 table-container">
+                <table id="purchaseOrderTable" class="row-border order-column"
+                       style="width: 100%">
+                    <thead style="background:#1F1F1F;color:#fff;">
+                        <tr>
+                            <th>Day ID</th>
+                            <th>Receipt No</th>
+                            <th>Terminal Name</th>
+                            <th>Status</th>
+                            <th>Date Prepared</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       <tr th:each="dayDetailsEach,iter : ${dayDetailsList}" class="result">
+                           <td id="dayId" th:text="${dayDetailsEach.get('day')}"></td>
+                           <td id="receiptId" th:text="${dayDetailsEach.get('receiptId')}"></td>
+                           <td id="terminalId" th:text="${dayDetailsEach.get('terminalId')}"></td>
+                           <td id="dayStatus" th:text="${dayDetailsEach.get('dayStatus')}"></td>
+                           <td id="createdStamp" th:text="${dayDetailsEach.get('createdStamp')}"></td>
+                           <td th:if="${dayDetailsEach.get('adminOpeningDayStatus')} != 'APPROVED'">
+                           <a th:href="@{/editadminapproval(dayId=${dayDetailsEach.get('dayId')})}">Approve</a></td>
+                           
+                           <td th:if="${dayDetailsEach.get('adminOpeningDayStatus')} == 'APPROVED' and ${dayDetailsEach.get('dayStatus')} != 'CLOSED'">
+                           <a th:href="@{/cartView(dayId=${dayDetailsEach.get('dayId')})}">Cart</a></td>
+                           
+                           <td th:if="${dayDetailsEach.get('dayStatus')} == 'CLOSED' or (${dayDetailsEach.get('dayStatus')} == 'OPENED' and ${dayDetailsEach.get('adminOpeningDayStatus')} == null)"></td>
+                           <td th:if="${dayDetailsEach.get('dayStatus')} == 'OPENED' and ${dayDetailsEach.get('adminOpeningDayStatus')} == 'APPROVED'">
+                           <a th:href="@{/dayClose(dayId=${dayDetailsEach.get('dayId')})}">Day Close</a></td>
+                           
+                           <td th:if="${dayDetailsEach.get('dayStatus')} == 'CLOSED'"></td>
+                       </tr>
+              </tbody>
+                </table>
+            </div>
+
+        </section>
+    </body>
+    
+</html>

@@ -1,0 +1,470 @@
+.modal-content{
+	width:112%;
+	}
+	
+/* create-purchase-inward */
+.InputAddOn-field {
+        width: 10.5% !important;
+    margin-right: 0px !important;
+}
+button.InputAddOn-item{
+    background: #B0171D;
+    color: #fff;
+    border-radius: 0 6px 6px 0;
+    border: none;
+    padding: .4em .75em;
+    }
+.red-head thead tr {
+    background: #000;
+}
+table.dataTable thead th, table.dataTable thead td {
+    padding: 5px 8px;
+    font-size: 11px !important;
+    }
+table.red-head.dataTable tbody th, table.red-head.dataTable tbody td {
+    padding: 0px 5px;
+}
+.grey-bg{
+     background: #dedada;
+    border-radius: 8px;
+    padding: 8px 14px;
+}
+.outerspan{
+		width: 126px;
+		padding:10px 18px;
+		background-color:#fff;
+		margin-right:5px;
+}
+.innerspan{
+	color:#45BFC1;
+	margin-left:15px;
+}
+td input{
+    border: none;
+    font-size: 12px;
+    border-radius: 4px;
+    height: 32px;
+    padding: 0 7px;
+    margin: 5px;
+    }
+    table.footer-info thead th, table.footer-info thead td {
+    border-bottom: none;
+    padding: 0;
+   
+    }
+   table.footer-info {
+    border-spacing: 0;
+    }
+    .table-select{
+        width: 55px;
+    }
+    input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    -webkit-appearance: none;
+}
+
+
+@media screen and (min-width: 1024px){
+.big-input{
+width:30%;
+}
+.small-input{
+width:14%;
+}
+#invoice_no,#delivery_chalan{
+    margin-right: 10px;
+}
+label[for=VendorList]{
+margin-right: 40px;
+}
+
+label[for=someSwitchOptionWarning]{
+margin-right: 50px;
+}
+
+label[for=po_number]{
+margin-right: 75px;
+}
+label[for=scan_search]{
+margin-right: 16px;
+}
+label[for=remark]{
+    margin-right: 71px;
+    }
+label[for=invoice_no]{
+   margin-right: 57px;
+    }
+label[for=delivery_chalan], label[for=item_discount_after_tax]{
+   margin-right: 9px;
+    } 
+label[for=bill_discount_bef],label[for=bill_discount_aft_tax]{
+     margin-right: 24px;
+    }
+ label[for=net_others]{
+ margin-right: 45px;
+     }   
+     label[for=bill_amount]{
+ margin-right: 41px;
+     }  
+  label[for=tax_amount]{
+    margin-right: 38px;
+    }
+    
+}
+
+@media screen and (min-width:1403px){
+label[for=net_bill_amount]
+{
+margin-right:17px;
+}
+}
+    
+
+ @media (min-width: 991px) and (max-width:1402px){
+ label {
+    font-size: 11px !important;
+}
+
+.big-input{
+width:23%;
+}
+.small-input{
+width:11%;
+}
+label[for=VendorList] {
+    margin-right: 28px;
+}
+label[for=item_discount_after_tax]{
+    margin-right: 8px;
+}
+#invoice_no, #delivery_chalan {
+    margin-right: 0px;
+}
+label[for=invoice_no] {
+    margin-right: 43px;
+}
+label[for=bill_discount_aft_tax] {
+    margin-right: 21px;
+}
+label[for=tax_amount] {
+    margin-right: -4px;
+}
+label[for=bill_discount_bef], label[for=bill_discount_aft_tax] {
+    margin-right: 21px;
+}
+label[for=bill_amount] {
+    margin-right: 0px;
+}
+label[for=remark] {
+    margin-right: 56px;
+}
+label[for=net_others] {
+    margin-right: 0px;
+}
+label[for=scan_search] {
+    margin-right: 6px;
+}
+label[for=po_number] {
+    margin-right: 70px;
+}
+label[for=delivery_chalan] {
+    margin-right: 0px;
+}
+label[for=net_bill_amount]
+    {
+        margin-right: 17px;
+    }
+} 
+
+/*mobile devices*/
+@media screen and (max-width: 990px){
+.big-input{
+width:100%;
+}
+.small-input{
+width:100%;
+}
+.InputAddOn-field {
+    width: 85% !important;
+    }
+    label[for=someSwitchOptionWarning]{
+    display: table-cell;
+}
+}
+
+label {
+    font-size: 12px;
+}
+
+.big-input,.small-input{
+    border: none;
+    font-size: 12px;
+    border-radius: 4px;
+    height: 32px;
+    padding: 0 7px;
+    margin: 5px;
+}
+
+/* create purchase-outward*/
+.InputAddOn-field {
+        width: 10.5% !important;
+    margin-right: 0px !important;
+}
+button.InputAddOn-item{
+    background: #B0171D;
+    color: #fff;
+    border-radius: 0 6px 6px 0;
+    border: none;
+    padding: .4em .75em;
+    }
+.red-head thead tr {
+    background: #000;
+}
+table.dataTable thead th, table.dataTable thead td {
+    padding: 5px 8px;
+    font-size: 11px !important;
+    }
+table.red-head.dataTable tbody th, table.red-head.dataTable tbody td {
+    padding: 0px 5px;
+}
+.grey-bg{
+     background: #dedada;
+    border-radius: 8px;
+    padding: 8px 14px;
+}
+.outerspan{
+		width: 126px;
+		padding:10px 18px;
+		background-color:#fff;
+		margin-right:5px;
+}
+.innerspan{
+	color:#45BFC1;
+	margin-left:15px;
+}
+td input{
+    border: none;
+    font-size: 12px;
+    border-radius: 4px;
+    height: 32px;
+    padding: 0 7px;
+    margin: 5px;
+    }
+    table.footer-info thead th, table.footer-info thead td {
+    border-bottom: none;
+    padding: 0;
+   
+    }
+   table.footer-info {
+    border-spacing: 0;
+    }
+    .table-select{
+        width: 55px;
+    }
+    input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    -webkit-appearance: none;
+}
+
+
+@media screen and (min-width: 1024px){
+.big-input{
+width:30%;
+}
+.small-input{
+width:14%;
+}
+#invoice_no,#delivery_chalan{
+    margin-right: 10px;
+}
+label[for=VendorList]{
+margin-right: 40px;
+}
+
+label[for=someSwitchOptionWarning]{
+margin-right: 50px;
+}
+
+label[for=po_number]{
+margin-right: 75px;
+}
+label[for=scan_search]{
+margin-right: 16px;
+}
+label[for=remark]{
+    margin-right: 71px;
+    }
+label[for=invoice_no]{
+   margin-right: 57px;
+    }
+label[for=delivery_chalan], label[for=item_discount_after_tax]{
+   margin-right: 9px;
+    } 
+label[for=bill_discount_bef],label[for=bill_discount_aft_tax]{
+     margin-right: 24px;
+    }
+ label[for=net_others]{
+ margin-right: 45px;
+     }   
+     label[for=bill_amount]{
+ margin-right: 41px;
+     }  
+  label[for=tax_amount]{
+    margin-right: 38px;
+    }
+}
+    
+
+ @media (min-width: 991px) and (max-width:1402px){
+ label {
+    font-size: 11px !important;
+}
+.big-input{
+width:23%;
+}
+.small-input{
+width:11%;
+}
+label[for=VendorList] {
+    margin-right: 28px;
+}
+label[for=item_discount_after_tax]{
+    margin-right: 8px;
+}
+#invoice_no, #delivery_chalan {
+    margin-right: 0px;
+}
+label[for=invoice_no] {
+    margin-right: 43px;
+}
+label[for=bill_discount_aft_tax] {
+    margin-right: 21px;
+}
+label[for=tax_amount] {
+    margin-right: -4px;
+}
+label[for=bill_discount_bef], label[for=bill_discount_aft_tax] {
+    margin-right: 21px;
+}
+label[for=bill_amount] {
+    margin-right: 0px;
+}
+label[for=remark] {
+    margin-right: 56px;
+}
+label[for=net_others] {
+    margin-right: 0px;
+}
+label[for=scan_search] {
+    margin-right: 6px;
+}
+label[for=po_number] {
+    margin-right: 70px;
+}
+label[for=delivery_chalan] {
+    margin-right: 0px;
+}
+} 
+
+/*mobile devices*/
+@media screen and (max-width: 990px){
+.big-input{
+width:100%;
+}
+.small-input{
+width:100%;
+}
+.InputAddOn-field {
+    width: 85% !important;
+    }
+    label[for=someSwitchOptionWarning]{
+    display: table-cell;
+}
+}
+
+label {
+    font-size: 12px;
+}
+
+.big-input,.small-input{
+    border: none;
+    font-size: 12px;
+    border-radius: 4px;
+    height: 32px;
+    padding: 0 7px;
+    margin: 5px;
+}
+
+/* purchase-inward-list */
+ .search-inputs{
+ border: none;
+    font-size: 12px;
+    border-radius: 4px;
+    height: 32px;
+    padding: 0 7px;
+        margin: 5px 0px;
+ }
+ .search-labels{
+     padding: 10px 15px;
+    margin-bottom: 0;
+    font-size: 12px;
+ }
+ .outer-wrapper{
+ padding:0;
+ }
+ .inner-wrapper{
+ padding-left:0;
+ }
+ .clear-element{
+ clear:both;
+ }
+
+ /* purchase-order-list */
+ .search-inputs{
+ border: none;
+    font-size: 12px;
+    border-radius: 4px;
+    height: 32px;
+    padding: 0 7px;
+        margin: 5px 0px;
+ }
+ .search-labels{
+     padding: 10px 15px;
+    margin-bottom: 0;
+    font-size: 12px;
+ }
+ .outer-wrapper{
+ padding:0;
+ }
+ .inner-wrapper{
+ padding-left:0;
+ }
+ .clear-element{
+ clear:both;
+ }
+ 
+ /* purchase-outward-list */
+  .search-inputs{
+ border: none;
+    font-size: 12px;
+    border-radius: 4px;
+    height: 32px;
+    padding: 0 7px;
+        margin: 5px 0px;
+ }
+ .search-labels{
+     padding: 10px 15px;
+    margin-bottom: 0;
+    font-size: 12px;
+ }
+ .outer-wrapper{
+ padding:0;
+ }
+ .inner-wrapper{
+ padding-left:0;
+ }
+ .clear-element{
+ clear:both;
+ }
+ 
+ 

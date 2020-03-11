@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html
+	th:replace="~{layout :: template(~{::title}, ~{::section}, 'Create Rate Adjustment')}"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Retail BO :: Create Rate Adjustment</title>
+</head>
+<body>
+	<section class="content-section interdepartment-transfer">
+		<!-- <form id="saveRateAdjustment" method="get"> -->
+			<div class="search-container">
+				<div class="row margin0">
+					<div class="col-md-8">
+						<fieldset class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Adjustment
+								Date</label> 
+								<input
+								class="search-input col-lg-4 col-md-4 col-sm-4 col-xs-4"
+								type="date" name="fromDate" id="fromDate" placeholder="DD/MM/YYYY"
+								style="width: 25%; margin: 0px 5px 5px 5px;"> 
+								
+								
+								<label
+								class="col-lg-2 col-md-2 col-sm-2 col-xs-2">Remark</label>
+								
+								 <input
+								class="search-input col-lg-4 col-md-4 col-sm-4 col-xs-4"
+								type="text" name="date-to" placeholder="Remarks" id="remark"
+								style="width: 25%; margin: 0px 5px 5px 5px;">
+								
+						</fieldset>
+						
+						<fieldset class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+								style="width: 16%;">Search Article</label> <input
+								class="search-input col-lg-9 col-md-9 col-sm-9 col-xs-9"
+								type="text" name="productId" id="productId"
+								placeholder="Search by EAN/Product Name/Item ID"
+								style="width: 35%; margin: 0px 5px 5px 5px;">
+							<!-- <button type="button"
+								class="btn-theme btn-go col-lg-1 col-md-1 col-sm-1 col-xs-1"
+								style="padding: 0px 6px;" id="product_search">Go</button> -->
+								
+							<button type="button" class="btn-theme btn-go" data-toggle="modal"
+							data-target="#selectArticle" id="product_search">Go</button>
+						</fieldset>
+
+
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
+
+							<fieldset style="float: left; margin-bottom: 0px;">
+								<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+									style="width: 34%; padding-top: 3%;">Item Criteria -1</label> 
+									<select class="form-control col-lg-4 col-md-4 col-sm-4 col-xs-4"
+									id="categoryitems" style="width: 20%;">
+									<option value="">Please Select One</option>
+									<div th:each="category : ${categoryList}">
+									<option class="categoryitem"
+										th:value="${category.productCategoryId}"
+										th:text="${category.categoryName }">
+									</option>
+									</div>
+								</select> <input class="search-input col-lg-4 col-md-4 col-sm-4 col-xs-4"
+									type="text" name="criteria_1" id="criteria_1"
+									placeholder="Category" style="width: 20%;">
+							</fieldset>
+							<fieldset style="float: left;">
+								<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+									style="width: 36%; padding-top: 3%;">Item Criteria -2</label> <select
+									class="form-control col-lg-4 col-md-4 col-sm-4 col-xs-4"
+									id="criteria2" name="criteria2"
+									style="width: 21%; padding-left: 16%;"></select> <input
+									class="search-input col-lg-4 col-md-4 col-sm-4 col-xs-4"
+									type="text" name="criteria_2" id="criteria_2"
+									placeholder="Manufacturer" style="width: 21%;">
+									
+								<button type="button" class="btn-theme btn-red col-lg-2 col-md-2 col-sm-2 col-xs-2"
+										data-toggle="modal" data-target="#selectArticle"
+										style="position: absolute; width: 49px; height: 76px; top: 8px; margin-left: 4%; background-color: #1F1F1F;"
+										id="criteriaSearchbtn">Go</button>
+							</fieldset>
+
+
+						</div>
+
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+							<fieldset>
+								<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+									style="width: 21%;">Mark up</label> <input
+									class="search-input mark_up col-lg-4 col-md-4 col-sm-4 col-xs-4"
+									type="text" name="amount" id="markup" placeholder="%"
+									style="margin: 0px 5px 5px 5px; width: 25%;">
+							</fieldset>
+							<fieldset>
+								<label class="col-lg-2 col-md-2 col-sm-2 col-xs-2"
+									style="width: 21%;">Mark Down</label> <input
+									class="search-input mark_down  col-lg-4 col-md-4 col-sm-4 col-xs-4"
+									type="text" name="mark-down" placeholder="%" id="markdown"
+									style="margin: 0px 5px 5px 5px; width: 25%;">
+
+								<button type="submit"
+									class="btn-theme btn-red col-lg-2 col-md-2 col-sm-2 col-xs-2"
+									style="position: absolute; width: 71px; height: 76px; top: 3px; margin-left: 3%; 
+									background-color: #1F1F1F;" onclick="calculateRatePercentage()">APPLY</button>
+
+							</fieldset>
+
+						</div>
+					</div>
+					<div class="col-md-4"
+						style="border-left: 2px dotted #7c7c7c7d; padding: 3% 5% 3% 2%;">
+						<fieldset>
+							<label style="margin-right: 5%;">Transaction No</label>
+								<span class="form-span" th:id="prdPriceTxnId" th:text="${rateAdjustmentTransId}"></span>
+						</fieldset>
+						<fieldset>
+							<label style="margin-right: 14%;">Entered By</label> <span
+								class="form-span" th:text="${session.username}"> </span> <br> <span
+								class="form-span" id="enterDate">05/05/2019 06:05:00 PM</span>
+						</fieldset>
+						<fieldset>
+							<label style="margin-right: 14%;">Approved By</label> <span
+								class="form-span">Admin </span> <br> <span
+								class="form-span" id="approveDate">05/05/2019 06:05:00 PM</span>
+						</fieldset>
+					</div>
+				</div>
+			</div>
+		
+		<script type="text/javascript">
+		$(document).ready(
+			function() {
+				$('#criteriaSearchbtn').click(
+					function() {
+						var categoryId = $('#categoryitems').val();
+						var productId = "";
+						var data0 = {
+							categoryId : categoryId,
+							productId : productId
+						}
+						var json = JSON.stringify(data0);
+						$.ajax({
+							type : 'GET',
+							url : '/searchArticlesByCategory',
+							data : {
+								json : json,
+								password : "ofbiz",
+								username : "admin",
+							},
+							dataType : 'json',
+							success : function(data) {
+								populateCatDataTable(data);
+							}
+						});
+					});
+				
+				function populateCatDataTable(data) {
+					var table = $('#selectArticleTable').DataTable();
+					table.clear();
+					//$("#productIdArray").val(data.finalPrdIdArray);
+					var result = JSON.parse(JSON.stringify(data.finalProductPriceInfoList));
+					for (var j = 0, l = result.length; j < l; j++) {
+						var obj = result[j];
+						$('#selectArticleTable').dataTable().fnAddData([
+								obj.productIdEan,
+								obj.productId,
+								'<td name="unit_id" >EA</td>',
+								obj.productName,
+								'<td></td>',
+								'<td></td>',
+								'<td></td>',
+								obj.productSalePrice,
+								'<td></td>',
+								obj.salesDiscontinuationDate,
+								'<td><button onclick="addProductFunction('+obj.productId+')">Click me</button></td>',
+								 ]);
+					}
+				}
+				$('#product_search').click(
+					function() {
+						var categoryId = "";
+						var productId = $('#productId').val();
+						var data0 = {
+								categoryId : categoryId,
+								productId : productId
+						}
+						var json = JSON.stringify(data0);
+						$.ajax({
+							type : 'GET',
+							url : '/searchArticlesByCategory',
+							data : {
+								json : json,
+								password : "ofbiz",
+								username : "admin",
+							},
+							dataType : 'json',
+							success : function(data) {
+								populateDataTable(data);
+							}
+						});
+					});
+				
+				function populateDataTable(data) {
+					var table = $('#selectArticleTable').DataTable();
+					table.clear();
+					//$("#productIdArray").val(data.finalPrdIdArray);
+					var result = JSON.parse(JSON.stringify(data.finalProductPriceInfoList));
+					for (var j = 0, l = result.length; j < l; j++) {
+						var obj = result[j];
+						$('#selectArticleTable').dataTable().fnAddData([
+								obj.productIdEan,
+								obj.productId,
+								'<td name="unit_id" >EA</td>',
+								obj.productName,
+								'<td></td>',
+								'<td></td>',
+								'<td></td>',
+								obj.productSalePrice,
+								'<td></td>',
+								obj.salesDiscontinuationDate,
+								'<td><button onclick="addProductFunction('+obj.productId+')">Click me</button></td>',
+								 ]);
+					}
+				}
+				var productIdArray = "";
+				var ratePerArray = "";
+				var amountval = "";
+				$('#approveyes').click(
+					function() {
+						var rateFromDate = $('#fromDate').val();
+						var amountval = $('#markup').val();
+						productIdArray = $('#productIdArray').val();
+						ratePerArray = $('#ratePerArray').val();
+						productPriceRuleTrxId = $('#prdPriceTxnId').text();
+						var remark = $('#remark').val();
+						var productPriceTxnId = $('#productPriceTxnId').val();
+						if(rateFromDate == "" || rateFromDate == null || rateFromDate == " ") {
+							alert("Please select Adjustment Date");
+							return false;
+						}
+						if(amountval == "" || amountval == null || amountval == " ") {
+							amountval = $('#markdown').val();
+						}
+						/* if(amountval == "" || amountval == null || amountval == " ") {
+							alert("Please Enter Mark Up");
+							return false;
+						} */
+						if(remark == "" || remark == null || remark == " ") {
+							alert("Please Enter Remark");
+							return false;
+						}
+						var data0 = {
+							rateFromDate : rateFromDate,
+							amountval : amountval,
+							remark : remark,
+							productPriceRuleTrxId : productPriceRuleTrxId,
+							productPriceTxnId : productPriceTxnId,
+						};
+						var json = JSON.stringify(data0);
+						$.ajax({
+							type : 'GET',
+							url : '/approveRateAdjustmentTxn',
+							dataType : 'json',
+							async : 'false',
+							data : {
+								json : json,
+								productIdArray : productIdArray,
+								ratePerArray : ratePerArray,
+								password : "ofbiz",
+								username : "admin"
+							},
+							success : function(data) {
+								if (data != "" && data != null) {
+									$('#approveconfirmationModal').modal('toggle');
+								} else {
+									$('#alreadyExistModal').modal('toggle');
+									$("#msgtext").append("Error while Approving Rate Adjustment");
+								}
+							},
+							error : function(data) {
+								$('#alreadyExistModal').modal('toggle');
+								$("#msgtext").append("Error while Approving Rate Adjustment");
+							}
+
+						});
+						$('#redirect').click(
+							function() {
+								var homeUrl = '/rateAdjustmentList';
+								window.location = homeUrl;
+						});
+					});
+				var amountval = "";
+				$('#saveyes').click(
+						function() {
+							var rateFromDate = $('#fromDate').val();
+							amountval = $('#markup').val();
+							productIdArray = $('#productIdArray').val();
+							ratePerArray = $('#ratePerArray').val();
+							var productPriceRuleTrxId = $('#prdPriceTxnId').text();
+							var remark = $('#remark').val();
+							if(rateFromDate == "" || rateFromDate == null || rateFromDate == " ") {
+								alert("Please select Adjustment Date");
+								return false;
+							}
+							if(amountval == "" || amountval == null || amountval == " ") {
+								amountval = $('#markdown').val();
+							}
+							/* if(amountval == "" || amountval == null || amountval == " ") {
+								alert("Please Enter Mark Up");
+								return false;
+							} */
+							if(remark == "" || remark == null || remark == " ") {
+								alert("Please Enter Remark");
+								return false;
+							}
+							var data0 = {
+								rateFromDate : rateFromDate,
+								amountval : amountval,
+								remark : remark,
+								productPriceRuleTrxId : productPriceRuleTrxId,
+							};
+							var json = JSON.stringify(data0);
+							$.ajax({
+								type : 'GET',
+								url : '/newSaveRateAdjustmentTrx',
+								dataType : 'json',
+								async : 'false',
+								data : {
+									json : json,
+									productIdArray : productIdArray,
+									ratePerArray : ratePerArray,
+									password : "ofbiz",
+									username : "admin"
+								},
+								success : function(data) {
+									if (data != "" && data != null) {
+										$('#confirmationModal').modal('toggle');
+									} else {
+										$('#alreadyExistModal').modal('toggle');
+										$("#msgtext").append("Error while Creating Rate Adjustment");
+									}
+								},
+								error : function(data) {
+									$('#alreadyExistModal').modal('toggle');
+									$("#msgtext").append("Error while Creating Rate Adjustment");
+								}
+
+							});
+							$('#redirectSave').click(
+								function() {
+									var homeUrl = "/rateAdjustmentList";
+									window.location = homeUrl;
+							});
+						});
+				var myVar = setInterval(myTimer, 1000);
+				function myTimer() {
+					var d = new Date();
+					var t = d.toLocaleString();
+					document.getElementById("enterDate").innerHTML = t;
+					document.getElementById("approveDate").innerHTML = t;
+				}
+		});
+		</script>
+		<div class="search-div col-md-12">
+			<form class="" action="">
+				<i class="fa fa-search"></i> <input type="text"
+					placeholder="Scanned EAN Number" name="search">
+			</form>
+		</div>
+		<div class="col-md-12 table-container">
+		<input type="hidden" id="productIdArray" name="productIdArray" th:value="${productIdArray}"/>
+		<input type="hidden" id="ratePerArray" name="ratePerArray" th:value="${ratePercentageArray}"/>
+		<input type="hidden" id="productPriceTxnId" name="productPriceTxnId" th:value="${productPriceTxnId}">
+			<table id="rateadjustment" class="row-border order-column"
+				style="width: 100%">
+				<thead style="background: #1F1F1F; color: #fff;">
+					<tr>
+						<th></th>
+						<th>EAN Code</th>
+						<th>UoM</th>
+						<th>Item Description</th>
+						<th>is Mrp Based</th>
+						<th>MRP</th>
+						<th>Sale Rate</th>
+						<th>Cost Rate</th>
+						<th>Co Batch No.</th>
+						<th>Rate Percentage</th>
+						<th>Expiry Date</th>
+						<th>Sale Rate New</th>
+						<th>Old Margin</th>
+						<th>New Margin</th>
+					</tr>
+				</thead>
+				<tbody id="myBody">
+                        <!-- <input type="text" id="amountval" name="amountval" value=""/>
+                        <input type="text" id="rateFromDate" name="rateFromDate" value=""/> -->
+                        <tr th:each="productListEach: ${productsList}">
+                             <!-- <td><span class="delete-span"><i class="fa fa-trash"></i></span></td> -->
+                             <td><input type="checkbox" name="selectProduct" id="myCheck" onClick="calculateRatePercentage()"
+                             th:value="${productListEach.get('productId')}" 
+                             th:checked="true"></td>
+                             <!-- <td><input type="checkbox" name="selectProduct" id="myCheck" th:value="${productListEach.get('productPrice')}"></td> -->
+                             <td id="productEan" th:text="${productListEach.get('productIdEan')}"></td>
+                             <td id="currencyUomId" th:text="${productListEach.get('currencyUomId')}"></td>
+                             <td id="prdDesc" th:text="${productListEach.get('description')}"></td>
+                             <td id="isMrp" >Y</td>
+                             <td id="mrp" th:text="${productListEach.get('productPrice')}"></td>
+                             <td id="saleRate" th:text="${productListEach.get('productSalePrice')}"></td>
+                             <td id="costRate"></td>
+                             <td id="batchNo"></td>
+                             <td id="ratePercentage" th:text="${productListEach.get('ratePercentage')}"></td>
+                             <td id="expiryDate" th:text="${productListEach.get('salesDiscontinuationDate')}"></td>
+                             <td id="saleRateNew" th:text="${productListEach.get('productNewSalePrice')}"></td>
+                             <td id="oldMargin" th:text="${productListEach.get('productPrice')}"></td>
+                             <td id="newMargin" th:text="${productListEach.get('newMargin')}"></td>
+                        </tr>
+
+                    </tbody>
+			</table>
+		</div>
+		 <div class="pull-right">
+			<!-- <button class="btn-theme btn-black" style="height: 30px">Cancel</button>
+			<button class="btn-theme btn-black" style="height: 30px" id="approve">Save</button> -->
+			<!-- <button class="btn-theme btn-black" style="height: 30px">Save
+				& Create New</button>
+			<button class="btn-theme btn-black" style="height: 30px">Save
+				& Close</button> -->
+		</div> 
+		<!-- --- add notification div starts here --- -->
+			<div id="saveConfirmation" class="form-popup">
+				<div class="warning-notify">
+					<h2>
+						<i onclick="closeSaveConfirmation()" class="fa fa-times"
+							aria-hidden="true"></i> <img src="assets/images/icon-info.png"
+							alt="" class="">Are You sure you want to Save this transaction.
+						<button onclick="closeSaveConfirmation()" class="btn-theme btn-black" id="saveyes">
+							<img src="assets/images/icon-yes.png" alt="icon for yes">Yes
+						</button>
+						<button class="btn-theme btn-black" onclick="closeConfirmation()">
+							<img src="assets/images/icon-no.png" alt="icon for no">No
+						</button>
+					</h2>
+				</div>
+
+			</div>
+			
+			<div id="approveConfirmation" class="form-popup">
+				<div class="warning-notify">
+					<h2>
+						<i onclick="closeApproveConfirmation()" class="fa fa-times"
+							aria-hidden="true"></i> <img src="assets/images/icon-info.png"
+							alt="" class="">Are You sure you want to Approve this transaction.
+						<button onclick="closeApproveConfirmation()" class="btn-theme btn-black" id="approveyes">
+							<img src="assets/images/icon-yes.png" alt="icon for yes">Yes
+						</button>
+						<button class="btn-theme btn-black" onclick="closeConfirmation()">
+							<img src="assets/images/icon-no.png" alt="icon for no">No
+						</button>
+					</h2>
+				</div>
+
+			</div>
+			<div id="approve1" class="form-popup">
+
+				<div class="add-notify">
+					<h2>
+						<i onclick="closeForm()" class="fa fa-times" aria-hidden="true"></i>
+						<button onclick="approveCloseConfirmation()" class="btn-theme btn-black">Approve</button>
+						<!-- <button onclick="saveCloseConfirmation()" class="btn-theme btn-black">Save & Close</button> -->
+						<button onclick="saveCloseConfirmation()" class="btn-theme btn-green">Save</button>
+					</h2>
+				</div>
+
+			</div>
+		<!-- Confirm Model Starts Here -->
+			<div id="approveconfirmationModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b>Rate Adjustment Approved Successfully!</b>
+                            <div class="confirmation-btn-div">
+                            <button type="button" data-dismiss="modal" class="btn-theme btn-go" id="redirect">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="confirmationModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b>Rate Adjustment created Successfully!</b>
+                            <div class="confirmation-btn-div">
+                            <button type="button" data-dismiss="modal" class="btn-theme btn-go" id="redirectSave">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Confirm Model End Here -->
+            <!-- Already Exists Model Starts Here -->
+            <div id="alreadyExistModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b id="msgtext"></b>
+                            <div class="confirmation-btn-div">
+                                <button type="button" data-dismiss="modal" class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <!-- Already Exists Model End Here -->
+             <!-- -------Select Article modal starts here---------- -->
+	<div id="selectArticle" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h1 class="modal-title">Select Article</h1>
+				</div>
+				<div class="modal-body">
+					<div class="search-div">
+						<form class="" action="">
+							<i class="fa fa-search"></i> <input type="text"
+								placeholder="Filter Results" name="search">
+
+						</form>
+					</div>
+					<!-- ---------------search ends here----------- -->
+					<div class="col-md-12 table-container">
+						<table id="selectArticleTable"
+							class="row-border order-column" style="width: 100%">
+							<thead style="background: #1F1F1F; color: #fff;">
+								<tr>
+									<th>EAN Code</th>
+									<th>Item ID</th>
+									<th>Unit ID</th>
+									<th>Product name</th>
+									<th>LOT ID</th>
+									<th>No. Of Packs</th>
+									<th>Pack Size</th>
+									<!-- <th>Qty</th> -->
+									<th>Sale Rate</th>
+									<th>Co Batch No.</th>
+									<th>Expiry Date</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="productListEach,iter : ${productsList}" class="result">
+									<td id="eanCode" th:text="${productListEach.get('productIdEan')}"></td>
+									<td id="productId" th:text="${productListEach.get('productId')}"></td>
+									<td name="unit_id" >EA</td>
+									<td id="productName" th:text="${productListEach.get('description')}"></td>
+									<td id="lotId"></td>
+									<td id="moOfPacks"></td>
+									<td id="packSize"></td>
+									<td id="saleRate" th:text="${productListEach.get('productSalePrice')}"></td>
+									<td id="coBatchNo"></td>
+						 			<td id="expiryDate" th:text="${productListEach.get('salesDiscontinuationDate')}"></td>
+						            <td><button th:onclick="addProductFunction([[${productListEach.get('productId')}]])">Click me</button></td>
+								</tr>
+								
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="modal-footer"></div>
+			</div>
+			<!-- --- add notification div starts here --- -->
+			<div id="RateAlreadyExistsModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    Modal content
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b>The following Article has been already Added.</b>
+                            <div class="confirmation-btn-div">
+                            <button  onclick="modalclose()"  class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	document.getElementById("approve1").style.display = "none";
+	document.getElementById("approveConfirmation").style.display = "none";
+	document.getElementById("saveConfirmation").style.display = "none";
+	function approveCloseConfirmation() {
+		document.getElementById("approveConfirmation").style.display = "block";
+		document.getElementById("approve1").style.display = "none";
+	}
+	function saveCloseConfirmation() {
+		document.getElementById("saveConfirmation").style.display = "block";
+		document.getElementById("approve1").style.display = "none";
+	}
+	
+	function closeApproveConfirmation() {
+		document.getElementById("approveConfirmation").style.display = "none";
+	}
+	function closeSaveConfirmation() {
+		document.getElementById("saveConfirmation").style.display = "none";
+	}
+	function modalclose() {
+		$('#RateAlreadyExistsModal').modal('hide');
+	}
+	function isInArray(value, array) {
+		var len = array.length;
+		for (var i=0;i < len; i++) {
+			if(array[i] == value) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+		const productIdArray = [];
+		const ratePerArray = [];
+		var prdIds = $("#productIdArray").val();
+		var ratePercentage = $("#ratePerArray").val();
+		
+		var res = prdIds.split(",");
+		var ratePer = ratePercentage.split(",");
+		for (var i=0; i < res.length; i++) {
+			productIdArray.push(res[i]);
+		}
+		for (var i=0; i < ratePer.length; i++) {
+			ratePerArray.push(ratePer[i]);
+		}
+		
+		function addProductFunction(productId) {
+			var categoryId = "";
+			var password = "ofbiz";
+			var username = "admin";
+			var productIdExists = isInArray(productId, productIdArray);
+			if(productIdExists){
+				$('#RateAlreadyExistsModal').modal('show');
+				return false;
+			}
+			var data0 = {
+				productId : productId,
+				categoryId : categoryId
+			}
+			var json = JSON.stringify(data0);
+			$.ajax({
+				type : 'GET',
+				url : '/searchArticlesByCategory',
+				data : {
+					json : json,
+					username : username,
+					password : password,
+				},
+				dataType : 'json',
+				success : function(data) {
+					populateDataTable(data);
+				}
+			});
+			function populateDataTable(data) {
+				var table = $('#rateadjustment').DataTable();
+				//table.clear();
+				var result = JSON.parse(JSON.stringify(data.finalProductPriceInfoList));
+				for (var j = 0, l = result.length; j < l; j++) {
+					var obj = result[j];
+					productIdArray.push(obj.productId);
+					$('#rateadjustment').dataTable().fnAddData([
+					'<input type="checkbox" name="selectProduct" id="myCheck" onClick="calculateRatePercentage()" value='+obj.productId+'>',
+					obj.productIdEan,
+					'<td>Y</td>',
+					obj.productName,
+					'<td>Y</td>',
+					obj.productPrice,
+					obj.productSalePrice,
+					'<td></td>',
+					'<td></td>',
+					'<td></td>',
+					obj.salesDiscontinuationDate,
+					obj.productNewSalePrice,
+					obj.productPrice,
+					'<td></td>', ]);
+				}
+				$("#productIdArray").val(productIdArray);
+			}
+		}
+		$('#myBody').on('click','tr',
+			function() {
+				var table = $('#rateadjustment').DataTable();
+				openForm();
+		});
+		function openForm() {
+			document.getElementById("approve1").style.display = "block";
+		}
+		function closeForm() {
+			document.getElementById("approve1").style.display = "none";
+		}
+		function calculateRatePercentage() {
+			const productIdArray = [];
+			const ratePerArray = [];
+			
+			var productMrp = "";
+			var markupVal = "";
+			var markdown = "";
+			var newMargin = "";
+			var ratePercentage = "";
+			
+			var productId = "";
+			var rateId = "";
+			
+			var prdIdArray = $("#productIdArray").val();
+			var rateArray = $("#ratePerArray").val();
+			
+			$("#rateadjustment input[type=checkbox]:checked").each(function () {
+				var row = $(this).closest("tr")[0];
+				productId = row.cells[0].childNodes[0].value;
+				
+				productMrp = row.cells[5].innerHTML;
+				ratePercentage = row.cells[10].innerHTML;
+				markupVal = document.getElementById("markup").value;
+				markdown = document.getElementById("markdown").value;
+				
+				if(ratePercentage != ""){
+					newMargin = Math.round((parseFloat(productMrp)+parseFloat(productMrp)*parseFloat(ratePercentage/100)));
+					row.cells[9].innerHTML = ratePercentage;
+					ratePerArray.push(ratePercentage);
+				}else if(markupVal != "") {
+					newMargin = Math.round((parseFloat(productMrp)+parseFloat(productMrp)*parseFloat(markupVal/100)));
+					row.cells[9].innerHTML = markupVal;
+					ratePerArray.push(markupVal);
+				} else if(markdown != "") {
+					newMargin = Math.round((parseFloat(productMrp)-parseFloat(productMrp)*parseFloat(markdown/100)));
+					row.cells[9].innerHTML = markdown;
+					ratePerArray.push(markdown);
+				}
+				productIdArray.push(productId)
+				row.cells[13].innerHTML = newMargin;
+				if(ratePerArray != ""){
+					$("#ratePerArray").val(ratePerArray);
+				}
+			});
+			$("#ratePerArray").val(ratePerArray);
+			$("#productIdArray").val(productIdArray);
+		}
+	</script>
+	</section>
+	<!-- content section ends here -->
+	
+
+	<!-- -------Select Reason modal starts here---------- -->
+	<div id="selectReason" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h1 class="modal-title">Select Reason</h1>
+				</div>
+				<div class="modal-body">
+					<div class="search-div">
+						<form class="" action="">
+							<i class="fa fa-search" style="width: 6%;"></i> <input
+								type="text" placeholder="Filter Results" name="search">
+
+						</form>
+					</div>
+					<!-- ---------------search ends here----------- -->
+					<div class="col-md-12 table-container">
+						<table id="selectReasonTable"
+							class="red-head row-border order-column" style="width: 100%">
+							<thead style="background: #1F1F1F; color: #fff;">
+								<tr>
+									<th>Reason Description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="modal-footer"></div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<!-- -------Select Reason modal starts here---------- -->
+	<div id="confimationModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+
+				<div class="modal-body text-center">
+					<b>Are you sure you want to approve the transaction?</b>
+					<div class="confirmation-btn-div">
+						<button type="submit" class="btn-theme btn-go">Yes</button>
+						<button type="submit" class="btn-theme btn-go">No</button>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="modal-footer"></div>
+			</div>
+
+		</div>
+	</div>
+	<!-- </form> -->
+</body>
+</html>

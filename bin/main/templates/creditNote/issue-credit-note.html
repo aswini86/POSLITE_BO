@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Issue Credit Note')}" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Retail BO :: Issue Credit Note</title>
+<style type=text/css>
+	.leftdiv 
+         { 
+         float: left; 
+         } 
+          
+         .rightdiv 
+         { 
+         float: left; 
+         } 
+         div{ 
+         padding : 1%; 
+         color: white; 
+         background-color: 009900; 
+         width: 30%; 
+         border: solid black; 
+         }
+</style>
+</head>
+<body>
+		<section class="main-section" id="wrapper">
+		<!-- --- header starts --- -->
+		<div class="clear"></div>
+		<!-- --- header ends ----- -->
+		<div class="clear"></div>
+		<section class="billing content-section">
+		<!-- ---------------search starts here----------- -->
+		<input type="hidden" id="createdBy" name="createdBy" th:value="${session.username}">
+   	<br>
+   	<br>
+   	<br>	
+	
+	<div id="IssueCreditNote" class="col-md-12 table-container" >
+	<input type="hidden" id="productIdArray" name="productIdArray" value=""/>
+	<input type="hidden" id="returnQtyArray" name="returnQtyArray" value=""/>
+	<input type="hidden" id="productMrpArray" name="productMrpArray" value=""/>
+	<input type="hidden" id="totalPriceArray" name="totalPriceArray" value=""/>
+	<input type="hidden" id="receiptId" name="receiptId" th:value="${receiptId}"/>
+	<input type="hidden" id="customerId" name="customerId" th:value="${customerId}"/>
+	
+	
+	<div class="leftdiv">
+	<table id="issue_credit_list" class="row-border order-column" style="width: 100%">
+		<thead style="background: #1F1F1F; color: #fff;">
+			<tr>
+				<th></th>
+				<th>Product Name</th>
+ 				<th>Quantity</th>
+				<th>Return Qty</th>
+				<th>MRP</th>
+				<th>SP</th>
+				<th>Total Price</th>
+			</tr>
+			
+		</thead>
+		<tbody>
+    	 <tr th:each="billItemEach,iter : ${posCartItemList}" >
+    	 	<td><input type="checkbox" name="selectProduct" id="myCheck"
+                             th:value="${billItemEach.get('productId')}"></td>
+    	 	<td style="text-align:center" id="productName" th:text="${billItemEach.get('productName')}"></td>
+    	 	<td style="text-align:center" id="quantity" th:text="${billItemEach.get('quantity')}"></td>
+    	 	
+    	 	<td><input type="text" name="returnQty" value="1" 
+							 th:id="${'returnQty_'+iter.index}" style="width:150px;"></td>
+			<td style="text-align:center" id="mrp" th:text="${billItemEach.get('mrp')}"></td>		
+			<td style="text-align:center" id="sp" th:text="${billItemEach.get('sp')}"></td>  
+			<td style="text-align:center"id="totalPrice" th:text="${billItemEach.get('totalPrice')}"></td>
+		</tr>
+		</tbody>
+	</table>
+	</div>
+	
+	</div>
+   	<div id="approve1" class="form-popup">
+		<div class="add-notify">
+			<h2>
+				<i onclick="closeForm()" class="fa fa-times" aria-hidden="true"></i>
+				<!-- <button onclick="approveConfirmation()" class="btn-theme btn-black">Approve & create New</button> -->
+				<button onclick="saveCloseConfirmation()" class="btn-theme btn-black">Issue Credit Note</button>
+			</h2>
+		</div>
+	</div>
+   	<div id="saveCloseConfirmation" class="form-popup">
+		<div class="warning-notify">
+			<h2>
+				<i onclick="closeSaveConfirmation()" class="fa fa-times"
+					aria-hidden="true"></i> <img src="assets/images/icon-info.png"
+					alt="" class="">Are You sure you want to Save this transaction.
+				<button onclick="closeSaveConfirmation()" class="btn-theme btn-black" id="savecloseyes">
+					<img src="assets/images/icon-yes.png" alt="icon for yes">Yes
+				</button>
+				<button class="btn-theme btn-black" onclick="closeSaveConfirmation()">
+					<img src="assets/images/icon-no.png" alt="icon for no">No
+				</button>
+			</h2>
+		</div>
+	</div>
+	<div id="confirmationModal" class="modal fade" role="dialog">
+         <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+             <!-- Modal content-->
+             <div class="modal-content">
+                 <div class="modal-body text-center">
+                     <b id="successmsgtext"></b>
+                     <div class="confirmation-btn-div">
+                     <button type="button" data-dismiss="modal" class="btn-theme btn-go" id="redirect">Ok</button>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+     <div id="alreadyExistModal" class="modal fade" role="dialog">
+        <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <b id="msgtext"></b>
+                    <div class="confirmation-btn-div">
+                        <button type="button" data-dismiss="modal" class="btn-theme btn-go">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="quantityHighModal" class="modal fade" role="dialog">
+        <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <b id="msgtext">Return Quantity should be less than Quantity</b>
+                    <div class="confirmation-btn-div">
+                        <button type="button" data-dismiss="modal" class="btn-theme btn-go">Ok</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

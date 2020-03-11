@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Pos</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel='stylesheet' href='assets/css/roboto.css' media='all'
+	type="text/css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<link rel='stylesheet' href='assets/css/style.css' media='all'
+	type="text/css">
+<link rel='stylesheet' href='assets/css/responsive.css' media='all'
+	type="text/css">
+<link rel='stylesheet' href='assets/css/billing.css' media='all'
+	type="text/css">
+<link rel='stylesheet'
+	href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
+	media='all' type="text/css">
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/select/1.3.0/css/select.dataTables.min.css">
+<link rel='stylesheet' href='assets/css/table.css' media='all'
+	type="text/css">
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<!--[if lt IE 9]>
+  	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<section class="main-section" id="wrapper">
+		<!-- --- header starts --- -->
+		<header class="main-header">
+			<div class="left-section col-md-6 col-sm-6 col-xs-12">
+				<span class="company-name"><h3>Wellness Healthcare Ltd.</h3>
+					<h5>Terminal Id: 100234</h5></span> <span class="content-heading"><h3>FLOAT/CASH DECLARATION SUMMARY</h3></span>
+			</div>
+			<div class="right-section col-md-6 col-sm-6 col-xs-12 hidden-xs">
+				<div class="dropdown pull-right">
+					<button class="btn dropdown-toggle header-dropdown" type="button"
+						data-toggle="dropdown">
+						Administrator <i class="fa fa-chevron-down pull-right"></i>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a href="#">Admin</a></li>
+						<li><a href="#">Logout</a></li>
+					</ul>
+				</div>
+			</div>
+		</header>
+		<div id="sidebar-wrapper">
+		<ul id="sidebar_menu" class="sidebar-nav">
+		<li><img class="logo-img" src="assets/images/logo.png" alt=""/></li>
+		</ul>
+			<ul id="sidebar_menu" class="sidebar-nav">
+				<li class="sidebar-brand"><a id="menu-toggle" href="#">Menu<span
+						id="main_icon" class="glyphicon glyphicon-align-justify"></span></a></li>
+			</ul>
+			<ul class="sidebar-nav" id="sidebar">
+				<li><a href="#"><span>Payment<span></span><span class="sub_icon glyphicon glyphicon-link"></span></a></li>
+				<li><a href="#">Cart<span class="sub_icon glyphicon glyphicon-link"></span></a></li>
+			</ul>
+		</div>
+		<div class="clear"></div>
+
+		<!-- --- header ends ----- -->
+		<div class="clear"></div>
+
+		<section class="billing content-section">
+		<!-- ---------------search starts here----------- -->
+		<div class="row margin0">
+	  <div class="col-md-12 padding0">
+		<fieldset style="padding-right: 1%;">
+			<label style="margin-right: 5%;">Search Reciepts</label> 
+			<input class="search-input" type="text" name="quantity" placeholder="Search By Reciept No." size="30">
+			<select class="form-control" id="sel1">
+			    <option>Reciept Type</option>
+			    <option>Reciept Type</option>
+			 </select>
+			<select class="form-control" id="sel1">
+			    <option>Select Status</option>
+			    <option>Select Status</option>
+			 </select>
+			 <button class="btn-theme btn-green pull-right" data-toggle="modal" data-target="#addNew" style="margin-right:0px;height: 38px;">
+					<i class="fa fa-plus hidden-xs" aria-hidden="true"></i> Create New
+		</button>
+		</fieldset>
+	 </div>
+	  </div>
+	  <div class="row margin0">
+	  <div class="col-md-12 padding0">
+		<fieldset>
+			<label style="margin-right: 7.4%;">Date From</label> 
+			<input class="search-input" type="date" name="date-from" placeholder="DD/MM/YYYY">
+		    <label>Date To</label> 
+			<input class="search-input" type="date" name="date-to" placeholder="DD/MM/YYYY">
+			<button class="btn btn-go">GO</button>
+		</fieldset>
+	 </div>
+	  </div>
+      <div class="search-div col-md-12">
+		 <form class="" action="">
+			<i class="fa fa-search"></i><input type="text" placeholder="Search Declarations" name="search">
+		 </form>
+		 <button class="btn-clear-search pull-right"><i class="fa fa-times" aria-hidden="true"></i> CLEAR SEARCH</button>
+		</div>
+	  <div class="col-md-12 table-container">
+	  <table id="trans_summary" class="red-head row-border order-column" style="width: 100%">
+		<thead>
+			<tr>
+				<th>Session Id</th>
+				<th>Reciept No</th>
+				<th>Terminal Name</th>
+				<th>Reciept Type</th>
+				<th>Date Prepared</th>
+				<th>Prepared By</th>
+				<th>Status</th>
+				<th></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>789456</td>
+				<td>78965412302</td>
+				<td class="text-center">Desk-1</td>
+				<td>Float Decl</td>
+				<td>12/08/2019</td>
+				<td>Vinay Acharaya</td>
+				<td>Approval Pending</td>
+				<td></td>
+				<td><a href="#"><img src="assets/images/button-view.png" width="24"></a></td>
+			</tr>
+			<tr>
+				<td>789451</td>
+				<td>78965422302</td>
+				<td>Desk-2</td>
+				<td>Cash Decl</td>
+				<td>12/08/2019</td>
+				<td>Vinay Acharaya</td>
+				<td>Approved</td>
+				<td><a href="#"><img src="assets/images/print.png" width="24"></a></td>
+				<td><a href="#"><img src="assets/images/button-view.png" width="24"></a></td>
+			</tr>
+			<tr>
+				<td>789452</td>
+				<td>78965412305</td>
+				<td>Desk-2</td>
+				<td>Float Decl</td>
+				<td>12/08/2019</td>
+				<td>Vinay Acharaya</td>
+				<td>Approval Pending</td>
+				<td></td>
+				<td><a href="#"><img src="assets/images/button-view.png" width="24"></a></td>
+			</tr>
+			<tr>
+				<td>789454</td>
+				<td>78965412002</td>
+				<td>Desk-3</td>
+				<td>Float Decl</td>
+				<td>12/08/2019</td>
+				<td>Vinay Acharaya</td>
+				<td>Approval Pending</td>
+				<td></td>
+				<td><a href="#"><img src="assets/images/button-view.png" width="24"></a></td>
+			</tr>
+			<tr>
+				<td>789450</td>
+				<td>78965422300</td>
+				<td>Desk-2</td>
+				<td>Float Decl</td>
+				<td>12/08/2019</td>
+				<td>Vinay Acharaya</td>
+				<td>Approved</td>
+				<td><a href="#"><img src="assets/images/print.png" width="24"></a></td>
+				<td><a href="#"><img src="assets/images/button-view.png" width="24"></a></td>
+			</tr>
+			<tr>
+				<td>789457</td>
+				<td>78965412055</td>
+				<td>Desk-4</td>
+				<td>Cash Decl</td>
+				<td>12/08/2019</td>
+				<td>Vinay Acharaya</td>
+				<td>Approval Pending</td>
+				<td></td>
+				<td><a href="#"><img src="assets/images/button-view.png" width="24"></a></td>
+			</tr>
+		</tbody>
+	</table>
+	  </div>
+		<!-- --- Add customer modal ends here --- -->
+	</section>
+	</section>
+	<script
+		src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script
+		src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script>
+	<script
+		src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
+	<script src="assets/js/table.js"></script>
+	<script>
+		$("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("active");
+        });
+	</script>
+</body>
+</html>

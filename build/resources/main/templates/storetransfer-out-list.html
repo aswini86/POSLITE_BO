@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Store Transfer List')}" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Retail BO :: Store Transfer List</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel='stylesheet' href='assets/css/roboto.css' media='all'
+	type="text/css">
+	<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+	<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<link rel='stylesheet' href='assets/css/style.css' media='all'
+	type="text/css">
+<link rel='stylesheet' href='assets/css/responsive.css' media='all'
+	type="text/css">
+
+<link rel='stylesheet' href='assets/css/style.css' media='all'
+	type="text/css">
+<link rel='stylesheet' href='assets/css/table.css' media='all'
+	type="text/css">
+<link rel='stylesheet' href='assets/css/responsive.css' media='all'
+	type="text/css">
+
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	<script src="assets/js/table.js"></script>
+
+
+</head>
+<body>
+	<section class="main-section">
+	
+		<div class="clear"></div>
+		<section class="content-section">
+			<div class="row margin0">
+				<fieldset style="min-width: 88%;">
+					<label style="margin-right: 3%;">Search Transaction</label> <input
+						class="search-input" type="text" id="transactionId"
+						name="quantity" placeholder="Search By Transaction ID"> <select
+						class="form-control" name="store_from">
+						<option value="">Store From</option>
+						<div th:each="facility : ${result1}">
+							<option id="facilityId" 
+								th:value="${facility.inventoryFacilityId}"
+								th:text="${facility.facilityName}"></option>
+						</div>
+					</select> <select class="form-control" name="Store_to">
+						<option value="">Store To</option>
+						<div th:each="facility : ${result1}">
+							<option class="facilityIdTo" id="facilityIdTo"
+								th:value="${facility.inventoryFacilityId}"
+								th:text="${facility.facilityName}"></option>
+						</div>
+					</select> <select class="form-control" id="status" name="status">
+						<option value="">Select Status</option>
+						<option value="IXF_REQUESTED">Approval Pending</option>
+						<option value="IXF_COMPLETE">Approved</option>
+
+					</select>
+				</fieldset>
+				<button id="" class="btn-theme btn-green" style="margin-left: auto;">
+					<a th:href="@{/createStoreTransfer}"> <i
+						class="fa fa-plus hidden-sm hidden-xs" aria-hidden="true"></i>&nbsp;
+						Create New
+					</a>
+				</button>
+			</div>
+
+			<div class="row margin0">
+			
+			
+				<fieldset style="min-width: 88%;">
+					<label style="margin-right: 8%;">Date From</label> <input
+						class="search-input" type="date" name="date-from"
+						placeholder="DD/MM/YYYY"> <label style="margin-right: 9%;">Date
+						To</label> <input class="search-input" type="date" name="date-to"
+						placeholder="DD/MM/YYYY">
+					<button id="go" class="btn btn-go">GO</button>
+				</fieldset>
+			</div>
+			<div class="search-div">
+				<form class="" action="">
+					<i class="fa fa-search"></i><input type="text"
+						placeholder="Filter Results" name="search">
+				</form>
+			</div>
+
+			<div class="col-md-12 table-container">
+				<table id="store-transfer" class="row-border order-column"
+					style="width: 100%">
+					<thead style="background: #1F1F1F; color: #fff;">
+						<tr>
+							<th>Transaction Id</th>
+							<th>Transferred To</th>
+							<th>Remarks</th>
+							<th>Date Prepared</th>
+							<th>Prepared By</th>
+							<th>Status</th>
+							<th></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody id="myBody">
+						<tr th:each="product : ${result}" id="result">
+							<td class="inventoryTransferId"
+								th:text="${product.inventoryTransferId}"></td>
+							<td th:text="${product.facilityIdTo}"></td>
+							<td th:text="${product.comments}"></td>
+							<td th:text="${product.sendDate}"></td>
+							<td th:text="${product.facilityId}"></td>
+							<td th:switch="${product.statusId}"><span
+								th:case="'IXF_COMPLETE'">Approved</span> <span
+								th:case="'IXF_REQUESTED'" class="approval" id="approval">Approval
+									Pending</span></td>
+							<td><a href="#"><img src="assets/images/print.png"></a></td>
+							<td><a href="#"><img src="assets/images/button-view.png"></a></td>
+						</tr>
+
+
+
+					</tbody>
+				</table>
+			</div>
+			<div id="comfirmation1" class="form-popup">
+
+				<!-- onclick="closeConfirmation()" -->
+				<div class="warning-notify">
+					<h2>
+						<i onclick="closeConfirmation()" class="fa fa-times"
+							aria-hidden="true"></i> <img src="assets/images/icon-info.png"
+							alt="" class="">Are You sure you want to approve this
+						transaction.
+						<button onclick="closeConfirmation()" class="btn-theme btn-black"
+							id="yes">
+							<img src="assets/images/icon-yes.png" alt="icon for yes">
+							Yes
+						</button>
+						<button class="btn-theme btn-black" onclick="closeConfirmation()">
+							<img src="assets/images/icon-no.png" alt="icon for no">No
+						</button>
+					</h2>
+				</div>
+
+			</div>
+			
+			 <!-- Confirm Model Starts Here -->
+            <div id="confirmationModal1" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b>Approved !</b>
+                            <div class="confirmation-btn-div">
+                            <button  onclick="modalclose()" data-dismiss="modal" class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Confirm Model End Here -->
+                 <!-- Already Exists Model Starts Here -->
+            <div id="alreadyExistModal1" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b id="msgtext"></b>
+                            <div class="confirmation-btn-div">
+                                <button type="button" data-dismiss="modal" class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <!-- Already Exists Model End Here -->
+              
+		</section>
+	</section>
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	<script
+		src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script
+		src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script>
+	<script
+		src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
+	
+	<script>
+		function changeIcon(x) {
+			x.classList.toggle("change");
+		}
+	</script>
+	
+</body>
+</html>

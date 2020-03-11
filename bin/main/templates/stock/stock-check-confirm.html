@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Stock Check Entry')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Stock Check Entry</title>
+    </head>
+    <body>
+        <section class="content-section">
+            <div class="row margin0">
+
+
+                <div class="col-lg-8 col-md-7 col-sm-6 col-xs-12 form-inline">
+                    <div class="form-group">
+                        <label class="control-label" for="department">For Department</label>
+                        
+                        <select class="form-control" id="department" >
+                            <option>Select Status</option>
+                            <option th:value="${stockFacility.facilityId}" th:text="${stockFacility.facilityName}" selected></option>
+                            <option th:each="failityListEach: ${failityList}"
+                					th:value="${failityListEach.facilityId}"
+                					th:text="${failityListEach.facilityName}"></option>
+                        </select>
+                        <label class="control-label" for="type">Type</label> 
+                        <input class="form-control" type="text" id="type" name="date-to" value="Completed">
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label" for="remark">Stock Check Remark</label> 
+                        <input class="form-control" type="text" name="" placeholder="Remarks" id="remark">
+                    </div>
+                    <div class="row margin1">
+                        <label style="margin-right: 1.5%;"class="control-label">Stock Check Scanning Users </label>
+                        <select class="form-control" id="department">
+                            <option th:each="failityUserListEach: ${failityUserList}"
+                					th:value="${failityUserListEach.partyId}"
+                					th:text="${failityUserListEach.firstName}">
+                			</option>
+                        </select>
+                        <!-- <input class="form-control" type="text" name="date-to"  placeholder="Search by EAN/Product Name/Item ID"> -->
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12" style="border-left: 2px dotted #7c7c7c7d;padding: 3% 5% 3% 2%;margin-right:10%;">
+                    <fieldset>
+                        <label class="status" style="margin-right: 5%;">Status</label> 
+                        <span class="form-span"><b>Completed</b></span>
+                    </fieldset>
+                    <fieldset>
+                        <label class="status" style="margin-right: 14%;">Initiated By</label> 
+                        <span class="form-span"><b>Admin</b></span> 
+                    </fieldset>
+                    <fieldset>
+                        <label class="status" style="margin-right: 0%;">Initiated Date</label> 
+                        <span class="form-span"><b>
+                        
+                     
+                      
+          
+                         <!--  code for dynamic date and time starts here --> 
+               
+                 <p><span id="datetime"></span></p>
+       
+              <script>
+               var dt = new Date();
+               document.getElementById("datetime").innerHTML = (("0"+dt.getDate()).slice(-2)) +"/"+
+               (("0"+(dt.getMonth()+1)).slice(-2)) +"/"+ (dt.getFullYear()) +" "+ (("0"+dt.getHours()).slice(-2))
+               +":"+ (("0"+dt.getMinutes()).slice(-2));
+              </script>
+                          <!--  code for dynamic date and time ends here --> 
+                         </span> 
+                    </fieldset>
+                </div> 
+            </div>
+            <div class="search-div col-md-12">
+                <form class="" action="">
+                    <i class="fa fa-search"></i> <input type="text" placeholder="Scanned EAN Number" name="search">
+                </form>
+            </div>
+            <div class="col-md-12 table-container">
+            <!-- <form id="saveRateAdjustment" th:action="@{/updateWorkEffort}" method="get"> -->
+            	<input type="hidden" id="facilityId" name="facilityId" th:value="${workEffortList.facilityId}">
+            	<input type="hidden" id="workEffortId" name="workEffortId" th:value="${workEffortList.workEffortId}">
+            	<input type="hidden" id="statusId" name="statusId" value="CAL_COMPLETED">
+                <table id="stockadjustment" class="red-head row-border order-column" style="width: 100%">
+                    <thead>
+                      <tr>
+                            
+                            <th></th>
+                           <th>EAN Code</th>
+                            <th>Item ID</th>
+                            <th>UoM</th>
+                            <th>Product Name</th>
+                            <th>MRP</th>
+                            <th>Co Batch No</th>
+                            <th>Expiry Date</th>
+                            <th>Scan Qty.</th>
+                            <th>System Qty.</th>
+                            <th>Difference</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       <tr th:each="inventoryItemListEach,iterStat: ${inventoryItemList}">
+                           <td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+                           <!-- <td th:text="${iterStat.index}"></td> -->
+                           <td th:text="${inventoryItemListEach.productId}"></td>
+                           <td th:text="${inventoryItemListEach.productId}"></td>
+                           <td th:text="${inventoryItemListEach.currencyUomId}"></td>
+                           <td th:text="${inventoryItemListEach.productName}"></td>
+                           <td></td>
+                           <td></td>
+                           <td th:text="${inventoryItemListEach.salesDiscontinuationDate}"></td>
+                           <td><input type="text" name="scanQty" th:value="${inventoryItemListEach.attrValue}" th:id="${iterStat.index}" class="scanQtyClass"></td>
+                           <!-- <td><input type="hidden" name="sysQty" th:value="${inventoryItemListEach.quantityOnHandTotal}" id="sysQty"></td> -->
+                           <td th:text="${inventoryItemListEach.quantityOnHandTotal}" th:id="${'sysQty_'+iterStat.index}" ></td>
+                           <input type="hidden" name="inventoryItemId" th:value="${inventoryItemListEach.inventoryItemId}" id="inventoryItemId">
+                           <input type="hidden" name="sysQty" th:value="${inventoryItemListEach.quantityOnHandTotal}" id="sysQty">
+                           <td th:id="${'diff_'+iterStat.index}"></td>
+                        </tr>
+                      
+                    </tbody>
+                </table>
+                <script>
+                	$(document).ready(function() {
+                		var inventoryItemId = document.getElementsByName("inventoryItemId");
+                		var scanQty = document.getElementsByName("scanQty");
+                		var sysQty = document.getElementsByName("sysQty");
+	                    for (var i=0; i < inventoryItemId.length; i++) {
+	                    	var scQty = scanQty[i].value;
+	                    	var sysQtyVal = sysQty[i].value;
+	                    	var diff = scQty - sysQtyVal;
+	                    	$('#diff_'+i).text(diff);
+	                    }
+	                    $('.scanQtyClass').change(function(){
+	                      var currentVal = $(this).val();
+	                      var eleId = $(this).attr("id");
+	                      var currentSysQty = $('#sysQty_'+eleId).text();
+	                      var diff = parseInt(currentVal) - parseInt(currentSysQty);
+	                      $('#diff_'+eleId).text(diff);
+	                    });
+                     });
+                </script>
+            </div>
+            <div style="float:right;">
+                <!-- <button class="btn-theme btn-black">RE-INITIATE SCAN</button> -->
+                <button class="btn-theme btn-black" data-toggle="modal" data-target="#cancelstockcheck">CANCEL</button>
+                <button class="btn-theme btn-black" id="approve">APPROVE</button>
+            </div>
+            <!-- Confirm Model Starts Here -->
+            <div id="confirmationModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b>Stock Check Approved Successfully!</b>
+                            <div class="confirmation-btn-div">
+                            <button type="button" data-dismiss="modal" class="btn-theme btn-go" id="redirect">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Confirm Model End Here -->
+            <!-- Already Exists Model Starts Here -->
+            <div id="alreadyExistModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b id="msgtext"></b>
+                            <div class="confirmation-btn-div">
+                                <button type="button" data-dismiss="modal" class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <!-- Already Exists Model End Here -->
+            <!-- </form> -->
+            <script>
+            $(document).ready(function() {
+				$('#approve').click(
+					function() {
+						var workEffortId = $('#workEffortId').val();
+						var inventoryItemId = document.getElementsByName("inventoryItemId");
+						var statusId = $('#statusId').val();
+						var scanQty = document.getElementsByName("scanQty");
+						var sysQty = document.getElementsByName("sysQty");
+						var scanQtyArray = new Array();
+						var invItemArray = new Array();
+						var sysQtyArray = new Array();
+						var username = "";
+						var password = "";
+						var url = '/updateWorkEffort';
+						for (var i=0; i < inventoryItemId.length; i++) {
+							var scQty = scanQty[i].value;
+							var invItemVal = inventoryItemId[i].value;
+							var sysQtyVal = sysQty[i].value;
+							invItemArray.push(invItemVal);
+							scanQtyArray.push(scQty);
+							sysQtyArray.push(sysQtyVal);
+						}
+						var data0 = {
+							workEffortId : workEffortId,
+							statusId : statusId,
+							invItemArray : invItemArray,
+							scanQtyArray : scanQtyArray,
+							sysQtyArray : sysQtyArray,
+						};
+						var json = JSON.stringify(data0);
+						$.ajax({
+							type : 'GET',
+							url : url,
+							dataType : 'json',
+							async : 'false',
+							data : {
+								json : json,
+								password : "ofbiz",
+								username : "admin",
+							},
+							success : function(data) {
+								if (data != "" && data != null) {
+									$('#confirmationModal').modal('toggle');
+								} else {
+									$('#alreadyExistModal').modal('toggle');
+									$("#msgtext").append("Error while Approving Stock Check");
+								}
+							},
+							error : function(data) {
+								$('#alreadyExistModal').modal('toggle');
+								$("#msgtext").append("Error while Approving Stock Check");
+							}
+						});
+					});
+				$('#redirect').click(
+					function() {
+						var homeUrl = '/stockCheckHistory';
+						window.location = homeUrl;
+				});
+            });
+	        	
+            </script>
+        </section>
+
+        <div id="cancelstockcheck" class="modal fade" role="dialog">
+            <div class="modal-dialog"/>
+
+                <!-- Modal content-->
+                <div class="modal-content process">
+
+                    <div class="modal-body text-center" style="font-size:116%; padding:0%;">
+                        <h2><b class="sure">Are you sure you want to cancel stock check entry?</b></h2>
+                        <div class="confirmation-btn-div"  data-dismiss="modal" data-toggle="modal">
+                            <button type="submit" class="btn-theme btn-go" data-toggle="modal" data-target="#overwritestock">YES</button>
+                            <button class="btn-theme btn-go" >NO</button>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="modal-footer"></div>
+                </div>
+
+            </div>
+        </div>
+        <!-- -------Select Reason modal starts here---------- -->
+        <div id="overwritestock" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+
+                    <div class="modal-body text-center">
+                        <b style="font-size:125%;">This will overwrite stock inventory</b><br>
+                        <b>Are you sure you want to confirm?</b>
+                        <div class="confirmation-btn-div">
+                            <button type="submit" class="btn-theme btn-go" data-dismiss="modal" >Yes</button>
+                            <button type="submit" class="btn-theme btn-go" data-dismiss="modal" >No</button>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="modal-footer"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>

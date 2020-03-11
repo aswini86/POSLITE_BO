@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html
+	th:replace="~{layout :: template(~{::title}, ~{::section}, 'Stock Adjustment')}"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Retail BO :: Stock Adjustment</title>
+</head>
+<body>
+	<section class="content-section interdepartment-transfer">
+		<div class="search-container">
+			<div class="row margin0">
+				<div class="col-md-8">
+					<fieldset>
+						<label for="Transfer_Date" style="margin-right: 4%;">Transfer
+							Date</label> <input id="Transfer_Date" class="search-input" type="date"
+							name="date-from" placeholder="DD/MM/YYYY" style="width: 20%;">
+					</fieldset>
+					<fieldset>
+						<label for="Remark" style="margin-right: 7%;">Remark</label> <input
+							id="comment" class="search-input" type="text" name="date-to"
+							placeholder="Please enter remark" style="width: 35%;">
+					</fieldset>
+					<fieldset>
+						<label for="Search_Article" style="margin-right: 3%;">Search
+							Article</label> <input id="Search_Article" class="search-input"
+							type="text" name="search-article"
+							placeholder="Search by EAN/Product Name/Item ID"
+							style="width: 35%;">
+						<button type="button" class="btn-theme btn-go" data-toggle="modal"
+							data-target="#selectArticle" id="product_search">Go</button>
+					</fieldset>
+					<!-- <fieldset>
+						<label for="Quantity" style="margin-right: 7%;">Quantity</label> <input
+							id="quantity" class="search-input" type="text" name="quantity"
+							placeholder="Quantity" style="width: 35%;">
+					</fieldset> -->
+
+				</div>
+				<div class="col-md-4"
+					style="border-left: 2px dotted #7c7c7c7d; padding: 3% 5% 3% 2%;">
+					<fieldset>
+						<label style="margin-right: 5%;">Transaction No</label> <span
+							class="form-span">2345678910</span>
+					</fieldset>
+					<fieldset>
+						<label style="margin-right: 14%;">Entered By</label> <span
+							class="modal-span-value" th:text="${session.username}"></span> <br>
+						<span class="form-span" id="demo">05/05/2019 06:05:00 PM</span>
+					</fieldset>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" id="department_from" name="department_from" value="">
+		<input type="hidden" id="inventoryItemArray" name="inventoryItemArray" >
+		<input type="hidden" id="varReasonIdArray" name="varReasonIdArray" >
+		<input type="hidden" id="quantityArray" name="quantityArray" >
+		<input type="hidden" id="createdBy" name="createdBy" th:value="${session.username}">
+		<script type="text/javascript">
+			$(document).ready(
+							function() {
+								document.getElementById("saveDiv").style.display = "none";
+								$('#product_search').click(
+									function() {
+										var type = $('#Search_Article').val();
+										var department_from = $('#department_from').val();
+										$.ajax({
+												type : 'GET',
+												url : '/findinventoryItem',
+												data : {
+													type : type,
+													department_from : department_from
+												},
+												dataType : 'json',
+												success : function(
+														data) {
+													populateDataTable(data);
+												}
+											});
+									});
+
+								function populateDataTable(data) {
+									var table = $('#stockadjustment').DataTable();
+									table.clear();
+									var result = JSON.parse(JSON.stringify(data));
+									for (var j = 0, l = result.length; j < l; j++) {
+										var obj = result[j];
+										$('#stockadjustment').dataTable().fnAddData([
+											'<span class="delete-span"><i class="fa fa-trash"></i></span',
+											obj.inventoryItemId,
+											'<td><select name="unit_id" class="table-select"><option>EA</option></select></td>',
+											obj.productId,
+											'<td>Some Reason which will be populated from the database.</td>',
+											'<select name="unit_id" class="table-select"><option>Reciept</option><option>Issue</option></select>',
+											//'<td class="qoh" contentEditable="true"><input type="text" class="qohClass" name="qoh" id="qoh" value="'+obj.quantityOnHandTotal+'" ></td>',
+											obj.quantityOnHandTotal,
+											obj.quantityOnHandTotal,
+											obj.unitCost,
+											obj.serialNumber,
+											obj.expireDate, ]);
+									}
+								}
+								var inventoryItemId = "";
+								var productId = "";
+								var facilityId = "";
+								var password = "";
+								var username = "";
+								var quantity = "";
+								var comment = "";
+
+								$('#myBody').on('click', 'tr',
+									function() {
+										var table = $('#stockadjustment').DataTable();
+										var rowIndex = $(this).closest('tr').index();
+										var currentRow = $(this).closest("tr");
+										inventoryItemId = table.row(this).data()[1];
+										productId = table.row(this).data()[3];
+										//quantity = currentRow.find("input.qohClass").val();
+										//quantity = $('#quantity').val();
+										openForm();
+									});
+								$('#approve').click(
+									function() {
+										quantity = $('#quantity').val();
+										comment = $('#comment').val();
+										createdBy = $('#createdBy').val();
+										
+										var data0 = {
+											inventoryItemId : inventoryItemId,
+											varianceReasonId : "VAR_LOST",
+											quantityOnHandVar : quantity,
+											status : "Approved",
+											comments : comment,
+										};
+										var json = JSON.stringify(data0);
+										$.ajax({
+											type : 'GET',
+											url : '/inventoryItemVariance/create',
+											dataType : 'json',
+											async : 'false',
+											data : {
+												json : json,
+												password : "ofbiz",
+												username : createdBy
+											},
+											success : function(data) {
+												document.getElementById("saveDiv").style.display = "none";
+												if (data != "" && data != null) {
+													$('#confirmationModal').modal('toggle');
+												} else {
+													$('#alreadyExistModal').modal('toggle');
+													$("#msgtext").append("Error while Creating Stock Adjustment");
+												}
+											}
+
+												});
+										$('#redirect').click(
+												function() {
+													var homeUrl = '/stockAdjustmentList';
+													window.location = homeUrl;
+											});
+									});
+								//Code for save and close
+								var inventoryItemArray = "";
+								var quantityArray = "";
+								var varReasonIdArray = "";
+								
+								$('#saveandclose').click(
+										function() {
+											comment = $('#comment').val();
+											varReasonIdArray = $('#varReasonIdArray').val();
+											quantityArray = $('#quantityArray').val();
+											inventoryItemArray = $('#inventoryItemArray').val();
+											createdBy = $('#createdBy').val();
+											
+											var data0 = {
+												varReasonIdArray : varReasonIdArray,
+												quantityArray : quantityArray,
+												inventoryItemArray : inventoryItemArray,
+												status : "CREATED",
+												comments : comment,
+												
+											};
+											var json = JSON.stringify(data0);
+											$.ajax({
+												type : 'GET',
+												url : '/inventoryItemVariance/create',
+												dataType : 'json',
+												async : 'false',
+												data : {
+													json : json,
+													password : "ofbiz",
+													username : createdBy
+												},
+												success : function(data) {
+													document.getElementById("saveDiv").style.display = "none";
+													if (data != "" && data != null) {
+														$('#confirmationModal').modal('toggle');
+													} else {
+														$('#alreadyExistModal').modal('toggle');
+														$("#msgtext").append("Error while Creating Stock Adjustment");
+													}
+												}
+
+												});
+											$('#redirect').click(
+													function() {
+														var homeUrl = '/stockAdjustmentList';
+														window.location = homeUrl;
+											});
+										});
+								
+								//End of save and close
+								function openForm() {
+									document.getElementById("saveDiv").style.display = "block";
+
+								}
+								$('#cancel')
+										.click(
+												function() {
+													document
+															.getElementById("saveDiv").style.display = "none";
+												});
+								var myVar = setInterval(myTimer, 1000);
+								function myTimer() {
+									var d = new Date();
+									var t = d.toLocaleString();
+									document.getElementById("demo").innerHTML = t;
+								}
+							});
+			function modalclose() {
+				$('#StockAdjAlreadyExistsModal').modal('hide');
+			}
+			function isInArray(value, array) {
+				var len = array.length;
+				for (var i=0;i < len; i++) {
+					if(array[i] == value) {
+						return true;
+					}
+				}
+				return false;
+			}
+			const productIdArray = [];
+			function addProductFunction(productId) {
+				var categoryId = "";
+				var password = "ofbiz";
+				var username = "admin";
+				var productIdExists = isInArray(productId, productIdArray);
+				if(productIdExists){
+					$('#StockAdjAlreadyExistsModal').modal('show');
+					return false;
+				}
+				var data0 = {
+					productId : productId,
+				}
+				var json = JSON.stringify(data0);
+				$.ajax({
+					type : 'GET',
+					url : '/searchInventoryArticles',
+					data : {
+						json : json,
+						username : username,
+						password : password,
+					},
+					dataType : 'json',
+					success : function(data) {
+						populateDataTable(data);
+					}
+				});
+				function populateDataTable(data) {
+					var table = $('#stockadjustment').DataTable();
+					//table.clear();
+					var result = JSON.parse(JSON.stringify(data.finalProductPriceInfoList));
+					var invItemVarianceList = JSON.parse(JSON.stringify(data.invItemVarianceList));
+					for (var j = 0, l = result.length; j < l; j++) {
+						var obj = result[j];
+						//inventoryItemArray.push(obj.inventoryItemId);
+						productIdArray.push(obj.productId)
+						$('#stockadjustment').dataTable().fnAddData([
+						'<input type="checkbox" name="selectProduct" id="myCheck" onClick="populateInventoryItems()" value='+obj.inventoryItemId+'>',
+						obj.productIdEan,
+						//'<td>Y</td>',
+						obj.productName,
+						'<select id="var_reason_id">'+
+						'<option value="">Please Select One</option>'+
+						'<option value="VAR_DAMAGED">Damaged</option>'+
+						'<option value="VAR_FOUND">Found</option>'+
+						'<option value="VAR_LOST">Lost</option>'+
+						'<option value="VAR_STOLEN">Stolen</option>'+
+						'</select>',
+						'<input type="text" name="quantity" id="quantity" value='+obj.productAtp+' />',
+						//'<td></td>',
+						//obj.productSalePrice,
+						obj.productPrice,
+						'<td></td>',
+						'<td></td>',
+						obj.salesDiscontinuationDate, ]);
+					}
+					//$("#inventoryItemArray").val(inventoryItemArray);
+				}
+			}
+			
+			function populateInventoryItems() {
+				const inventoryItemArray = [];
+				const varReasonIdArray = [];
+				const quantityArray = [];
+				
+				var inventoryId = "";
+				var varReasonId = "";
+				var quantity = "";
+				$("#stockadjustment input[type=checkbox]:checked").each(function () {
+					var row = $(this).closest("tr")[0];
+					inventoryId = row.cells[0].childNodes[0].value;
+					varReasonId = row.cells[3].childNodes[0].value;
+					quantity = row.cells[4].childNodes[0].value;
+					
+					if(varReasonId == "") {
+						alert("Please select Reason");
+						$(this).prop("checked", false);
+						$("#inventoryItemArray").val();
+						$("#varReasonIdArray").val();
+						$("#quantityArray").val();
+						return false;
+					}
+					if(quantity == "") {
+						alert("Please enter Quantity");
+						$(this).prop("checked", false);
+						$("#inventoryItemArray").val();
+						$("#varReasonIdArray").val();
+						$("#quantityArray").val();
+						return false;
+					}
+					inventoryItemArray.push(inventoryId);
+					varReasonIdArray.push(varReasonId);
+					quantityArray.push(quantity);
+					
+				});
+				$("#inventoryItemArray").val(inventoryItemArray);
+				$("#varReasonIdArray").val(varReasonIdArray);
+				$("#quantityArray").val(quantityArray);
+			}
+		</script>
+		<div class="search-div col-md-12">
+			<form class="" action="">
+				<i class="fa fa-search"></i> <input type="text"
+					placeholder="Filter Results" name="search">
+			</form>
+		</div>
+		<div class="col-md-12 table-container">
+			<table id="stockadjustment" class="row-border order-column"
+				style="width: 100%">
+				<thead style="background: #1F1F1F; color: #fff;">
+					<tr>
+						<th></th>
+						<th>EAN Code</th>
+						<!-- <th>UoM</th> -->
+						<th>Item Description</th>
+						<th>Reason</th>
+						<!-- <th>Receipt/Issue</th> -->
+						<!-- <th>No of Packs</th>
+                            <th>Pack Size</th> -->
+						<th>Qty</th>
+						<th>MRP</th>
+						<th>Sale Rate</th>
+						<th>Co Batch No</th>
+						<th>Expiry Date</th>
+					</tr>
+				</thead>
+				<tbody id="myBody">
+					<!-- <tr th:each="stockItem,iter : ${result}" class="result">
+						<td><span class="delete-span"><i class="fa fa-trash"></i></span></td>
+						<td id="inventoryItemId" th:text="${stockItem.inventoryItemId}"></td>
+						<td><select name="unit_id" class="table-select"><option>EA</option></select></td>
+						<td id="productId" th:text="${stockItem.productId}"></td>
+						<td>Some Reason which will be populated from the database.</td>
+						<td><select name="unit_id" class="table-select"><option>Reciept</option>
+								<option>Issue</option></select></td>
+						<td id="quantityOnHandTotal"
+							th:text="${stockItem.quantityOnHandTotal}"></td>
+						<td id="quantityOnHandTotal"
+							th:text="${stockItem.quantityOnHandTotal}"></td>
+						<td id="unitCost" th:text="${stockItem.unitCost}"></td>
+						<td id="serialNumber" th:text="${stockItem.serialNumber}"></td>
+						<td id="expireDate" th:text="${stockItem.expireDate}"></td>
+					</tr> -->
+
+				</tbody>
+			</table>
+		</div>
+		<div class="form-popup" id="saveDiv">
+			<div class="add-notify">
+				<button id="cancel" class="btn-theme btn-black" style="height: 30px">Cancel</button>
+				<!-- <button class="btn-theme btn-black" style="height:30px">Save</button>
+                <button class="btn-theme btn-black" style="height:30px">Save & Create New</button> -->
+                <button id="saveandclose" class="btn-theme btn-black" style="height:30px">Save & Close</button>
+				<!-- <button id="approve" class="btn-theme btn-black" style="height: 30px">Approve</button> -->
+			</div>
+		</div>
+		<!-- Confirm Model Starts Here -->
+		<div id="confirmationModal" class="modal fade" role="dialog">
+			<div class="modal-dialog"
+				style="margin-top: 15%; width: 400px !important;">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-body text-center">
+						<b>Stock Adjustment created Successfully!</b>
+						<div class="confirmation-btn-div">
+							<button type="button" data-dismiss="modal"
+								class="btn-theme btn-go" id="redirect">Ok</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Confirm Model End Here -->
+		<!-- Already Exists Model Starts Here -->
+		<div id="alreadyExistModal" class="modal fade" role="dialog">
+			<div class="modal-dialog"
+				style="margin-top: 15%; width: 400px !important;">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-body text-center">
+						<b id="msgtext"></b>
+						<div class="confirmation-btn-div">
+							<button type="button" data-dismiss="modal"
+								class="btn-theme btn-go">Ok</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Already Exists Model End Here -->
+		<div id="selectArticle" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h1 class="modal-title">Select Article</h1>
+				</div>
+				<div class="modal-body">
+					<div class="search-div">
+						<form class="" action="">
+							<i class="fa fa-search"></i> <input type="text"
+								placeholder="Filter Results" name="search">
+						</form>
+					</div>
+					<!-- ---------------search ends here----------- -->
+					<div class="col-md-12 table-container">
+						<table id="selectArticleTable"
+							class="row-border order-column" style="width: 100%">
+							<thead style="background: #1F1F1F; color: #fff;">
+								<tr>
+									<th>EAN Code</th>
+									<th>Item ID</th>
+									<th>Unit ID</th>
+									<th>Product name</th>
+									<th>LOT ID</th>
+									<th>No. Of Packs</th>
+									<th>Pack Size</th>
+									<th>Qty</th>
+									<th>Sale Rate</th>
+									<th>Co Batch No.</th>
+									<th>Expiry Date</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="productListEach,iter : ${productsList}" class="result">
+									<td id="eanCode" th:text="${productListEach.get('productIdEan')}"></td>
+									<td id="productId" th:text="${productListEach.get('productId')}"></td>
+									<td name="unit_id" >EA</td>
+									<td id="productName" th:text="${productListEach.get('description')}"></td>
+									<td id="lotId"></td>
+									<td id="moOfPacks"></td>
+									<td id="packSize"></td>
+									<td id="saleRate" th:text="${productListEach.get('productSalePrice')}"></td>
+									<td id="coBatchNo"></td>
+						 			<td id="expiryDate" th:text="${productListEach.get('salesDiscontinuationDate')}"></td>
+						            <td><button th:onclick="addProductFunction([[${productListEach.get('productId')}]])">Click me</button></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="modal-footer"></div>
+			</div>
+			<div id="StockAdjAlreadyExistsModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    Modal content
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b>The following Article has been already Added.</b>
+                            <div class="confirmation-btn-div">
+                            <button  onclick="modalclose()"  class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+	</section>
+	<script>
+		function openConfirmation() {
+			document.getElementById("comfirmation1").style.display = "block";
+			document.getElementById("saveDiv").style.display = "none";
+		}
+		function closeConfirmation() {
+			document.getElementById("comfirmation1").style.display = "none";
+		}
+	</script>
+
+	<!-- -------Select Reason modal starts here---------- -->
+	<div id="selectReason" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h1 class="modal-title">Select Reason</h1>
+				</div>
+				<div class="modal-body">
+					<div class="search-div">
+						<form class="" action="">
+							<i class="fa fa-search" style="width: 6%;"></i> <input
+								type="text" placeholder="Filter Results" name="search">
+
+						</form>
+					</div>
+					<!-- ---------------search ends here----------- -->
+					<div class="col-md-12 table-container">
+						<table id="selectReasonTable"
+							class="red-head row-border order-column" style="width: 100%">
+							<thead style="background: #1F1F1F; color: #fff;">
+								<tr>
+									<th>Reason Description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+								</tr>
+								<tr>
+									<td>Some Reasn which will be populated fom the database</td>
+
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="modal-footer"></div>
+			</div>
+
+		</div>
+	</div>
+
+
+	<!-- -------Select Reason modal starts here---------- -->
+	<div id="confirmationModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+
+				<div class="modal-body text-center">
+					<b>Are you sure you want to approve the transaction?</b>
+					<div class="confirmation-btn-div">
+						<button type="submit" class="btn-theme btn-go">Yes</button>
+						<button type="submit" class="btn-theme btn-go">No</button>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="modal-footer"></div>
+			</div>
+
+		</div>
+	</div>
+
+</body>
+</html>

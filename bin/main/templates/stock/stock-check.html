@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Stock Check')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Stock Check</title>
+    </head>
+    <body>
+        <section class="content-section">
+            <div class="row margin0">
+
+
+                <div class="col-lg-8 col-md-7 col-sm-6 col-xs-12 form-inline">
+                    <div class="form-group">
+                        <label class="control-label" for="department">For Department</label> 
+                        <select class="form-control" id="department">
+                            <option>Select Status</option>
+                            <option>Select Status</option>
+                            <option>Select Status</option>
+                            <option>Select Status</option>
+                        </select>
+                        <label class="control-label" for="type">Type</label> 
+                        <input class="form-control" type="text" id="type" name="date-to" value="Partial">
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label" for="remark">Stock Check Remark</label> 
+                        <input class="form-controller" type="text" name="" placeholder="Remarks" id="remark">
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Type</label> 
+                        <label class="radio-inline"> <input type="radio" id="status"
+                                                            name="optradio" checked>Complete
+                        </label> <label class="radio-inline"> <input type="radio" id="status"
+                                                                     name="optradio">Partial
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label">Stock Check Scanning Users </label> 
+                        <input class="form-controller" type="text" name="date-to"  placeholder="Search by EAN/Product Name/Item ID">
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12" style="border-left: 2px dotted #7c7c7c7d;padding: 3% 5% 3% 2%;margin-right:10%;">
+                    <fieldset>
+                        <label class="status" style="margin-right: 5%;">Status</label> 
+                        <span class="form-span"><b></b></span>
+                    </fieldset>
+                    <fieldset>
+                        <label class="status" style="margin-right: 14%;">Initiated By</label> 
+                        <span class="form-span"><b></b></span> 
+                    </fieldset>
+                    <fieldset>
+                        <label class="status" style="margin-right: 0%;">Initiated Date</label> 
+                        <span class="form-span"><b></b></span> 
+                    </fieldset>
+                </div>
+            </div>
+            <div style="padding: 5%; margin-left:7%;">
+                <button class="btn-theme btn-black button">CANCEL</button>
+                <button class="btn-theme btn-black button">INITIATE</button>
+            </div>
+        </section>
+    </body>
+</html>

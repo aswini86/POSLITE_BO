@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'CREDIT')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Credit</title>
+    </head>
+    <body>
+        <section class="content-section">
+            <div class="row margin0">
+                <fieldset style="min-width: 88%;">
+                    <label for="date" style="margin-right: 3%;">Date</label> 
+                    <input id="date" class="search-input" type="text" name="">
+                    
+                 </fieldset>
+               
+            </div>
+          
+            <div class="col-md-12 table-container">
+                <table id="store-transfer" class="row-border order-column"
+                       style="width: 100%; padding-left: 25px; padding-right: 192px; ">
+                    <thead style="background:#1F1F1F;color:#fff;">
+                        <tr>
+                            <th>BILL ID</th>
+                            <th>DATE</th>
+                            <th>CREDIT AMOUNT</th>
+                            <th>BILL AMOUNT</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="customerCreditTakenTxnEach,iter : ${customerCreditTakenTxnList}">
+                            <td style="text-align: center;" th:text="${customerCreditTakenTxnEach.get('receiptId')}"></td>
+                            <td style="text-align: center;" th:text="${customerCreditTakenTxnEach.get('billDate')}"></td>
+                            <td style="text-align: center;" th:text="${customerCreditTakenTxnEach.get('creditAmt')}"></td>
+                            <td style="text-align: center;" th:text="${customerCreditTakenTxnEach.get('billAmt')}"></td>
+           
+                        </tr>
+                       
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </body>
+</html>

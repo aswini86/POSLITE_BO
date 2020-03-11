@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Pos</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel='stylesheet' href='assets/css/roboto.css' media='all'
+	type="text/css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<link rel='stylesheet' href='assets/css/style.css' media='all'
+	type="text/css">
+<link rel='stylesheet' href='assets/css/responsive.css' media='all'
+	type="text/css">
+<link rel='stylesheet' href='assets/css/billing.css' media='all'
+	type="text/css">
+<link rel='stylesheet'
+	href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
+	media='all' type="text/css">
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/select/1.3.0/css/select.dataTables.min.css">
+<link rel='stylesheet' href='assets/css/table.css' media='all'
+	type="text/css">
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<!--[if lt IE 9]>
+  	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<section class="main-section" id="wrapper">
+		<!-- --- header starts --- -->
+		<header class="main-header">
+			<div class="left-section col-md-6 col-sm-6 col-xs-12">
+				<span class="company-name"><h3>Wellness Healthcare Ltd.</h3>
+					<h5>Terminal Id: 100234</h5></span> <span class="content-heading"><h3>POINT OF SALE</h3></span>
+			</div>
+			<div class="right-section col-md-6 col-sm-6 col-xs-12 hidden-xs">
+				<div class="dropdown pull-right">
+					<button class="btn dropdown-toggle header-dropdown" type="button"
+						data-toggle="dropdown">
+						Administrator <i class="fa fa-chevron-down pull-right"></i>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a href="#">HTML</a></li>
+						<li><a href="#">CSS</a></li>
+						<li><a href="#">JavaScript</a></li>
+					</ul>
+				</div>
+			</div>
+		</header>
+		<div id="sidebar-wrapper">
+		<ul id="sidebar_menu" class="sidebar-nav">
+		<li><img class="logo-img" src="assets/images/logo.png" alt=""/></li>
+		</ul>
+			<ul id="sidebar_menu" class="sidebar-nav">
+				<li class="sidebar-brand"><a id="menu-toggle" href="#">Menu<span
+						id="main_icon" class="glyphicon glyphicon-align-justify"></span></a></li>
+			</ul>
+			<ul class="sidebar-nav" id="sidebar">
+				<li><a href="#"><span>Payment<span></span><span class="sub_icon glyphicon glyphicon-link"></span></a></li>
+				<li><a href="#">Cart<span class="sub_icon glyphicon glyphicon-link"></span></a></li>
+			</ul>
+		</div>
+		<div class="clear"></div>
+
+		<!-- --- header ends ----- -->
+		<section class="billing content-section">
+         <div class="search-container">
+		<div class="col-md-9 col-xs-12">
+		<div class="search-options">
+		<fieldset>
+		<label>Bill Number :WH/07/18/023</label>
+		<label class="pull-right">
+		<div class="col-md-6 padding0" style="display: flex;">
+		<input type="text" class="modal-input pull-left add-input" placeholder="Customer Mobile Number" size="32" style="margin: 0;">
+		<button class="btn add-customer" data-toggle="modal" data-target="#addNew"><i class="fa fa-plus"></i></button></div>
+		<input type="text" class="modal-input pull-left" placeholder="Customer Name" size="30" style="margin-left: 25px;">
+		</label>
+		</fieldset>
+		
+		<fieldset>
+			<label>Bill Date</label>
+			<label class="pull-right">
+			<input type="date" name="transfer_date" class="modal-input pull-left" />
+			<input type="text" class="modal-input pull-left" placeholder="Customer Address" size="30">
+			<input type="date" name="billing_date" class="modal-input pull-left" />
+			</label>
+		</fieldset>
+</div>
+<div class="col-md-12" style="padding: 1%">
+<div class="pull-left">
+  <button class="btn-theme btn-black" id="cash" style="height:36px" data-toggle="modal" data-target="#cashPay" onclick="toggleColor(this.id,'cashPay')">Cash</button>
+  <button class="btn-theme btn-black" id="card" style="height:36px" data-toggle="modal" data-target="#cardPay" onclick="toggleColor(this.id,'cardPay')">Card</button>
+  <button class="btn-theme btn-black" id="cnote" style="height:36px" data-toggle="modal" data-target="#cnotePay" onclick="toggleColor(this.id,'cnotePay')">Credit Note</button>
+  <button class="btn-theme btn-black" id="coupon" style="height:36px" data-toggle="modal" data-target="#couponPay" onclick="toggleColor(this.id,'couponPay')">Gift Coupon</button>
+  <button class="btn-theme btn-black" style="height:36px">Sodexo</button>
+  <button class="btn-theme btn-black" style="height:36px">Ticket Restaurant</button>
+  <button class="btn-theme btn-black" id="paytm" style="height:36px" data-toggle="modal" data-target="#upiPay" onclick="toggleColor(this.id,'upiPay')">Paytm</button>
+  <button class="btn-theme btn-black" id="bhim" style="height:36px" data-toggle="modal" data-target="#upiPay" onclick="toggleColor(this.id,'upiPay')">Bhim</button>
+  <button class="btn-theme btn-black" id="upi" style="height:36px" data-toggle="modal" data-target="#upiPay" onclick="toggleColor(this.id,'upiPay')">Upi</button>
+  <button class="btn-theme btn-black" id="phonepe" style="height:36px"data-toggle="modal" data-target="#upiPay" onclick="toggleColor(this.id,'upiPay')">Phonepe</button>
+  </div>
+  </div>
+</div>
+		<div class="col-md-3 col-xs-12" style="padding-left: 0;">
+	 <div class="panel-group">
+  <div class="panel panel-default">
+      <div class="panel-heading">Last Bill Details</div>
+      <div class="panel-body">
+      <div class="row grey-background">
+      	<div class="col-md-6">Customer</div>
+      	<div class="col-md-6 pull-right">Vinay Acharya</div>
+      </div>
+      <div class="row border-dotted">
+      	<div class="col-md-6">Bill Amount</div>
+      	<div class="col-md-6 pull-right">344.00</div>
+      </div>
+      <div class="row">
+      	<div class="col-md-6">Return Amount</div>
+      	<div class="col-md-6 pull-right">56.00</div>
+      </div>
+      	</div>
+	</div>
+</div>
+</div>
+</div>
+
+<!-- ---------------search ends here----------- -->	
+	  <div class="col-md-9 col-sm-12 col-xs-12 table-container">
+	  <table id="interdependent_transfer" class="row-border order-column"
+		style="width: 100%">
+		<thead style="background:#1F1F1F;color:#fff;">
+			<tr>
+				<th>Payment Method</th>
+				<th>Payment Recieved</th>
+				<th>Total Amount</th>
+				<th>Amount Remaining</th>
+			</tr>
+		</thead>
+	 <tbody>
+		<tr>
+		<td>Cash</td>
+		<td><input type="number" name="quantity" class="input-box" value="1000"></td>
+		<td><input type="number" name="discount" class="input-box" value="1000">
+		</td>
+		<td><input type="number" name="discount" class="input-box" value="200">
+		</tr>
+		<tr>
+		<td>Credit Card</td>
+		<td><input type="number" name="quantity" class="input-box" value="1000"></td>
+		<td><input type="number" name="discount" class="input-box" value="1000">
+		</td>
+		<td><input type="number" name="discount" class="input-box" value="200">
+		</tr>
+	</tbody>
+	</table>
+	</div>
+   <div class="col-md-3 col-sm-12 col-xs-12 table-container">
+	<div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">Current Bill Details</div>
+      <div class="panel-body" style="height: 350px;">
+      <div class="row border-dotted">
+      	<div class="col-md-6">Bill Amount</div>
+      	<div class="col-md-6 pull-right">344.00</div>
+      </div>
+      <div class="row border-dotted">
+      	<div class="col-md-6">Item Discount</div>
+      	<div class="col-md-6 pull-right">44.00</div>
+      </div>
+      <div class="row" style="display: flex;padding: 2% 0% 0% 0%;">
+      	<div class="col-md-6">Addl. Discount</div>
+      	<div class="col-md-6 pull-right" style="display: flex;">
+      	<input type="number" name="addl_disc" class="input-box margin-right" style="width:50%" value="5">
+      	<select class="input-select">
+      		<option>%</option>
+      	</select>
+      	</div>
+      	</div>
+      	<div class="row border-dotted">
+      		<div class="col-md-6">Discount Amount</div>
+      	<div class="col-md-6 pull-right">15.00</div>
+      	</div>
+      	<div class="row" style="display: flex;padding: 2% 0% 0% 0%;">
+      	<div class="col-md-6">Charges</div>
+      	<div class="col-md-6 pull-right" style="display: flex;">
+      	<input type="number" name="addl_disc" class="input-box margin-right" style="width:50%" value="5">
+      	<select class="input-select">
+      		<option>Rs.</option>
+      	</select>
+      	</div>
+      	</div>
+      	<div class="row border-dotted">
+      		<div class="col-md-6">Amount</div>
+      	<div class="col-md-6 pull-right">5.00</div>
+      	</div>
+      	<div class="row border-dotted">
+      	<div class="col-md-6">Rounded Off</div>
+      	<div class="col-md-6 pull-right">0.00</div>
+      </div>
+      <div class="row border-dotted" style="background: antiquewhite;">
+      	<div class="col-md-6">Payable Amount</div>
+      	<div class="col-md-6 pull-right amount_red">344.00</div>
+      </div>
+	<div class="row" style="padding: 2% 0">
+	<div class="col-md-6">Tax Invoice</div>
+	<div class="col-md-6 pull-right">
+	<span class="material-switch">No &nbsp; <input
+	id="someSwitchOptionWarning" name="someSwitchOption001"
+	type="checkbox"> <label for="someSwitchOptionWarning"
+	class="label-toggle"></label> &nbsp; Yes
+	</span>
+	</div>
+	</div>
+	</div>
+    </div>
+</div>
+</div>
+<!--Cash payment modal starts here-->
+<div id="cashPay" class="modal fade in" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
+					<span class="material-switch pull-right">No &nbsp; <input
+					id="someSwitchOptionWarning" name="someSwitchOption001"
+					type="checkbox"> <label for="someSwitchOptionWarning"
+					class="label-toggle"></label> &nbsp; Yes
+					</span>
+					<h1 class="modal-title" style="margin-bottom: 15px">Cash Payment</h1>
+					<h2 class="amount_red col-md-6 padding0">Balance Amount <b class="pull-right">1290</b></h2>
+				</div>
+				<div class="modal-body">
+					<div class="col-md-8 col-sm-12 padding0">
+						<fieldset><label>Cash Recieved</label><input class="modal-input" type="text" name="cash_recieved" value="300" required="required"></fieldset> 
+					</div>
+					<div class="col-md-8 col-sm-12 padding0">
+						<fieldset><label>Deduct Amount</label><input class="modal-input" type="text" name="cash_recieved" value="290" required="required"></fieldset> 
+					</div>
+					<div class="col-md-6 col-sm-12 padding0">
+						<fieldset><label>Amount Return</label><b class="amount_red pull-right">10</b></fieldset> 
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="modal-footer">
+				<button type="button" class="btn-theme btn-black" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn-theme btn-black">Submit</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!--Cash payment modal ends here-->
+	<!--Card payment modal starts here-->
+<div id="cardPay" class="modal fade in" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
+					<span class="material-switch pull-right">No &nbsp; <input
+					id="someSwitchOptionWarning" name="someSwitchOption001"
+					type="checkbox"> <label for="someSwitchOptionWarning"
+					class="label-toggle"></label> &nbsp; Yes
+					</span>
+					<h1 class="modal-title" style="margin-bottom: 15px">Card Payment</h1>
+					<h2 class="amount_red col-md-6 padding0">Balance Amount <b class="pull-right">1000</b></h2>
+				</div>
+				<div class="modal-body">
+					<div class="col-md-8 col-sm-12 padding0">
+						<fieldset><label>Card Number</label><input class="modal-input" type="text" name="cash_recieved" value="7456" required="required"></fieldset> 
+					</div>
+					<div class="col-md-8 col-sm-12 padding0">
+						<fieldset><label>Transcation Id</label><input class="modal-input" type="text" name="cash_recieved" value="1236" required="required"></fieldset> 
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="modal-footer">
+				<button type="button" class="btn-theme btn-black" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn-theme btn-black">Submit</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+<!--Card payment modal ends here-->
+<!--Credit Note payment modal starts here-->
+<div id="cnotePay" class="modal fade in" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
+					<span class="material-switch pull-right">No &nbsp; <input
+					id="someSwitchOptionWarning" name="someSwitchOption001"
+					type="checkbox"> <label for="someSwitchOptionWarning"
+					class="label-toggle"></label> &nbsp; Yes
+					</span>
+					<h1 class="modal-title" style="margin-bottom: 15px">Card Payment</h1>
+					<h2 class="amount_red col-md-6 padding0">Credit Note <b class="pull-right">1000</b></h2>
+				</div>
+				<div class="modal-body">
+					<div class="col-md-8 col-sm-12 padding0">
+						<fieldset><label>Credit Note No.</label><input class="modal-input" type="text" name="cash_recieved" value="7555456" required="required"></fieldset> 
+					</div>
+					<div class="col-md-6 col-sm-12 padding0">
+						<fieldset><label>Amount</label><b class="amount_red pull-right">10</b></fieldset> 
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="modal-footer">
+				<button type="button" class="btn-theme btn-black" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn-theme btn-black">Submit</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!--Credit Note payment modal ends here-->
+	<!--Gift Coupon Note payment modal ends here-->
+<div id="couponPay" class="modal fade in" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
+					<span class="material-switch pull-right">No &nbsp; <input
+					id="someSwitchOptionWarning" name="someSwitchOption001"
+					type="checkbox"> <label for="someSwitchOptionWarning"
+					class="label-toggle"></label> &nbsp; Yes
+					</span>
+					<h1 class="modal-title" style="margin-bottom: 15px">Gift Coupon</h1>
+					<h2 class="amount_red col-md-6 padding0">Credit Note <b class="pull-right">1000</b></h2>
+				</div>
+				<div class="modal-body">
+					<div class="col-md-8 col-sm-12 padding0">
+						<fieldset><label>Coupon Number</label><input class="modal-input" type="text" name="cash_recieved" value="7555456" required="required"></fieldset> 
+					</div>
+					<div class="col-md-8 col-sm-12 padding0">
+						<fieldset><label>Transaction/Approval No</label><input class="modal-input" type="text" name="cash_recieved" value="7555456" required="required"></fieldset> 
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="modal-footer">
+				<button type="button" class="btn-theme btn-black" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn-theme btn-black">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Credit Note payment modal ends here-->
+	<!--Gift Coupon Note payment modal ends here-->
+<div id="upiPay" class="modal fade in" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
+					<span class="material-switch pull-right">No &nbsp; <input
+					id="someSwitchOptionWarning" name="someSwitchOption001"
+					type="checkbox"> <label for="someSwitchOptionWarning"
+					class="label-toggle"></label> &nbsp; Yes
+					</span>
+					<h1 class="modal-title" style="margin-bottom: 15px">PayTM / BHIM / UPI</h1>
+					<h2 class="amount_red col-md-6 padding0">Credit Note <b class="pull-right">1000</b></h2>
+				</div>
+				<div class="modal-body">
+					<div class="col-md-8 col-sm-12 padding0">
+						<fieldset><label>Payment Mode</label>
+                          <select class="select-modal">
+                          	<option>Select Option</option>
+                          	<option>Bhim</option>
+                          	<option>UPI</option>
+                          	<option>PhonePay</option>
+                          </select>
+						</fieldset> 
+					</div>
+					<div class="col-md-8 col-sm-12 padding0">
+						<fieldset><label>Transaction/Approval No</label><input class="modal-input" type="text" name="cash_recieved" value="7555456" required="required"></fieldset> 
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="modal-footer">
+				<button type="button" class="btn-theme btn-black" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn-theme btn-black">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--Credit Note payment modal ends here-->
+</section>
+<script
+		src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script
+		src="https://cdn.datatables.net/fixedcolumns/3.2.6/js/dataTables.fixedColumns.min.js"></script>
+	<script
+		src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
+	<script src="assets/js/table.js"></script>
+	<script>
+		$("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("active");
+        });
+
+    function toggleColor(id,modalid){
+    	console.log(id);
+    $("#"+modalid).on("shown.bs.modal", function () { 
+        $("#"+id).toggleClass("btn-black btn-orange")
+    });
+    $("#"+modalid).on("hidden.bs.modal", function () { 
+        $("#"+id).toggleClass("btn-black btn-orange")
+    });
+}
+	</script>
+</body>
+</html>

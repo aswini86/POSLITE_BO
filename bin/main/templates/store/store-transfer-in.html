@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Store Transfer In')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Store Transfer In</title>
+    </head>
+    <body>
+        <section class="content-section interdepartment-transfer">
+            <div class="search-container">
+                <div class="row margin0">
+                    <div class="col-md-8">
+                        <fieldset>
+                            <label for="Received_on" style="margin-right: 6%;">Recieved On</label> 
+                            <input class="search-input" type="date" id="Received_on" name="date-from" placeholder="DD/MM/YYYY" style="width: 20%;">
+                        </fieldset>
+                        <fieldset>
+                            <label for="Received_From" style="margin-right: 4%;">Recieved From</label>
+                             <select class="search-input" id="Received_From" style="width: 25%;">
+                                <option>Autopopulate the store</option>
+                                <option>Department To</option>
+                                <option>Autopopulate the store</option>
+                            </select>
+                        </fieldset>
+                        <fieldset>
+                            <label for="Reason_for_stock_transfer" style="margin-right: 2%;">Reason for stock <br>transfer</label> 
+                            <input class="search-input" id="Reason_for_stock_transfer" type="text" name="date-to" placeholder="Autopopulate the reason" style="width: 35%;">
+                        </fieldset>
+                    </div>
+
+                    <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12" style="border-left: 2px dotted #7c7c7c7d;padding: 3% 5% 3% 2%;">
+                        <fieldset>
+                            <label for="Transaction_no" style="margin-right: 5%;">Transaction No</label> 
+                            <span class="form-span" id="Transaction_no">2345678910</span>
+                        </fieldset>
+                        <fieldset>
+                            <label style="margin-right: 14%;">Entered By</label> 
+                            <span class="form-span">User(name) </span> 
+                            <br>
+                            <span class="form-span">05/05/2019 06:05:00 PM</span>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+            <div class="search-div">
+                <form class="" action="">
+                    <i class="fa fa-search"></i> <input type="text" placeholder="Scanned EAN Number" name="search">
+                </form>
+                <button class="btn-theme btn-green pull-right" style="background: #27AE60;"><i class="fa fa-check"></i>&nbsp;&nbsp;APPROVE</button>
+            </div>
+            <div class="col-md-12 table-container">
+                <table id="store-transfer" class="row-border order-column"
+                       style="width: 100%">
+                    <thead style="background:#1F1F1F;color:#fff;">
+                        <tr>
+                            <th>EAN Code</th>
+                            <th>UoM</th>
+                            <th>Item Description</th>
+                            <th>No of Packs</th>
+                            <th>Pack Size</th>
+                            <th>Qty</th>
+                            <th>MRP</th>
+                            <th>Sale Rate</th>
+                            <th>Co Batch No</th>
+                            <th>Expiry Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>EA</td>
+                            <td>COLDAID Syrup 60ml</td>
+                            <td>1</td>
+                            <td>10</td>
+                            <td>10</td>
+                            <td>43.00</td>
+                            <td>37.00</td>
+                            <td>CO BATCH 101</td>
+                            <td>11/1/2018</td>
+                        </tr>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>EA</td>
+                            <td>COLDAID Syrup 60ml</td>
+                            <td>1</td>
+                            <td>10</td>
+                            <td>10</td>
+                            <td>43.00</td>
+                            <td>37.00</td>
+                            <td>CO BATCH 101</td>
+                            <td>11/1/2018</td>
+                        </tr>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>EA</td>
+                            <td>COLDAID Syrup 60ml</td>
+                            <td>1</td>
+                            <td>10</td>
+                            <td>10</td>
+                            <td>43.00</td>
+                            <td>37.00</td>
+                            <td>CO BATCH 101</td>
+                            <td>11/1/2018</td>
+                        </tr>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>EA</td>
+                            <td>COLDAID Syrup 60ml</td>
+                            <td>1</td>
+                            <td>10</td>
+                            <td>10</td>
+                            <td>43.00</td>
+                            <td>37.00</td>
+                            <td>CO BATCH 101</td>
+                            <td>11/1/2018</td>
+                        </tr>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>EA</td>
+                            <td>COLDAID Syrup 60ml</td>
+                            <td>1</td>
+                            <td>10</td>
+                            <td>10</td>
+                            <td>43.00</td>
+                            <td>37.00</td>
+                            <td>CO BATCH 101</td>
+                            <td>11/1/2018</td>
+                        </tr>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>EA</td>
+                            <td>COLDAID Syrup 60ml</td>
+                            <td>1</td>
+                            <td>10</td>
+                            <td>10</td>
+                            <td>43.00</td>
+                            <td>37.00</td>
+                            <td>CO BATCH 101</td>
+                            <td>11/1/2018</td>
+                        </tr>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>EA</td>
+                            <td>COLDAID Syrup 60ml</td>
+                            <td>1</td>
+                            <td>10</td>
+                            <td>10</td>
+                            <td>43.00</td>
+                            <td>37.00</td>
+                            <td>CO BATCH 101</td>
+                            <td>11/1/2018</td>
+                        </tr>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>EA</td>
+                            <td>COLDAID Syrup 60ml</td>
+                            <td>1</td>
+                            <td>10</td>
+                            <td>10</td>
+                            <td>43.00</td>
+                            <td>37.00</td>
+                            <td>CO BATCH 101</td>
+                            <td>11/1/2018</td>
+                        </tr>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>EA</td>
+                            <td>COLDAID Syrup 60ml</td>
+                            <td>1</td>
+                            <td>10</td>
+                            <td>10</td>
+                            <td>43.00</td>
+                            <td>37.00</td>
+                            <td>CO BATCH 101</td>
+                            <td>11/1/2018</td>
+                        </tr>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>EA</td>
+                            <td>COLDAID Syrup 60ml</td>
+                            <td>1</td>
+                            <td>10</td>
+                            <td>10</td>
+                            <td>43.00</td>
+                            <td>37.00</td>
+                            <td>CO BATCH 101</td>
+                            <td>11/1/2018</td>
+                        </tr>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>EA</td>
+                            <td>COLDAID Syrup 60ml</td>
+                            <td>1</td>
+                            <td>10</td>
+                            <td>10</td>
+                            <td>43.00</td>
+                            <td>37.00</td>
+                            <td>CO BATCH 101</td>
+                            <td>11/1/2018</td>
+                        </tr>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>EA</td>
+                            <td>COLDAID Syrup 60ml</td>
+                            <td>1</td>
+                            <td>10</td>
+                            <td>10</td>
+                            <td>43.00</td>
+                            <td>37.00</td>
+                            <td>CO BATCH 101</td>
+                            <td>11/1/2018</td>
+                        </tr>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>EA</td>
+                            <td>COLDAID Syrup 60ml</td>
+                            <td>1</td>
+                            <td>10</td>
+                            <td>10</td>
+                            <td>43.00</td>
+                            <td>37.00</td>
+                            <td>CO BATCH 101</td>
+                            <td>11/1/2018</td>
+                        </tr>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>EA</td>
+                            <td>COLDAID Syrup 60ml</td>
+                            <td>1</td>
+                            <td>10</td>
+                            <td>10</td>
+                            <td>43.00</td>
+                            <td>37.00</td>
+                            <td>CO BATCH 101</td>
+                            <td>11/1/2018</td>
+                        </tr>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>EA</td>
+                            <td>COLDAID Syrup 60ml</td>
+                            <td>1</td>
+                            <td>10</td>
+                            <td>10</td>
+                            <td>43.00</td>
+                            <td>37.00</td>
+                            <td>CO BATCH 101</td>
+                            <td>11/1/2018</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>	
+        <!-- --- add notification div starts here --- -->
+        <div class="warning-notify" style="bottom: 40px;">
+            <h2><i class="fa fa-times" aria-hidden="true"></i> <img src="assets/images/icon-info.png" alt="" class="">Are You sure you want to approve this transaction. <button class="btn-theme btn-black"><img src="assets/images/icon-yes.png" alt="icon for yes">
+                    Yes</button><button class="btn-theme btn-black"><img src="assets/images/icon-no.png" alt="icon for no">No</button>
+            </h2>
+        </div>
+    </body>
+</html>

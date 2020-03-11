@@ -1,0 +1,4 @@
+"partyId","preferredCurrencyUomId","groupName","firstName","middleName","lastName","companyPartyId","companyName","roleTypeId","contactMechPurposeTypeId","contactMechTypeId","emailAddress","telCountryCode","telAreaCode","telContactNumber","address1","address2","city","stateProvinceGeoId","postalCode","countryGeoId",
+"DemoSupplier","","Demo Supplier","","","","","","SUPPLIER","BILLING_LOCATION","POSTAL_ADDRESS","","","","","2004 Factory Blvd","","City of Industry","CA","90000","USA",
+"DemoSupplier","","Demo Supplier","","","","","","SUPPLIER","GENERAL_LOCATION","POSTAL_ADDRESS","","","","","2004 Factory Blvd","","City of Industry","CA","90000","USA",
+"DemoSupplier","","Demo Supplier","","","","","","SUPPLIER","PAYMENT_LOCATION","POSTAL_ADDRESS","","","","","2004 Factory Blvd","","City of Industry","CA","90000","USA",

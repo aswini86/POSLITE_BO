@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>Retail BO :: Login</title>
+		<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="shortcut icon" type="image/x-icon" th:href="@{images/favicon.png}">
+		<link rel="apple-touch-icon" th:href="@{assets/images/apple-touch-icon.png}">
+		<link rel="apple-touch-icon" sizes="72x72" th:href="@{assets/images/apple-touch-icon-72x72.png}">
+		<link rel="apple-touch-icon" sizes="114x114" th:href="@{assets/images/apple-touch-icon-114x114.png}">
+		
+		<link rel='stylesheet' th:href='@{https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap}' media='all' type="text/css">
+		<link rel='stylesheet' th:href="@{assets/css/pos/bootstrap.min.css}" media='all' type="text/css">
+		<link rel='stylesheet' th:href="@{assets/css/pos/line-awesome.min.css}" media='all' type="text/css">
+		<link rel='stylesheet' th:href="@{assets/css/pos/app.css}" media='all' type="text/css">
+		<link rel='stylesheet' th:href="@{assets/css/pos/datatables.css}" media='all' type="text/css">
+		<link rel='stylesheet' th:href="@{assets/css/pos/datepicker.css}" media='all' type="text/css">
+		<link rel='stylesheet' th:href="@{assets/css/pos/easy-responsive-tabs.css}" media='all' type="text/css">
+		<link rel='stylesheet' th:href="@{assets/css/pos/style.css}" media='all' type="text/css">
+		<link rel='stylesheet' th:href="@{assets/css/pos/responsive.css}" media='all' type="text/css">
+    </head>
+	</head>
+	<body>
+		<div class="loginwrapper">
+	        <div class="loginform">
+	            <div class="loginlogo">
+	                <img src="assets/images/logoicon.svg" alt="logo">
+	            </div>
+	            <form class="form-horizontal" name="f" th:action="@{/login}" method="post">
+	                <div class="form-group">
+	                    <label><span>Welcome</span> Log-in to your account</label>
+	                    <input type="tel" name="username" id="username" placeholder="Your Username">
+	                    <input type="password" name="password" id="password" placeholder="Your Password">
+	                </div>
+	                <div class="loginbtn">
+	                    <button type="submit" > Login </button>
+	                </div>
+	            </form>
+	        </div>
+	    </div>
+	</body>
+</html>

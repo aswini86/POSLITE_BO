@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Create Purchase Order')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Create Purchase Order</title>
+    </head>
+    <body>
+        <section class="content-section">
+            <div class="row margin0">
+                <div class="col-md-8">
+                    <fieldset class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="width: 12%;">PO Date</label> 
+                        <input class="form-control date-picker col-lg-2 col-md-2 col-sm-2 col-xs-2" style="margin:0px 5px 5px 5px;" id="orderDate" type="date" placeholder="DD/MM/YYYY"/>
+                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="margin-right: 2%; width:10%;">Vendor Name</label> 
+                        <!-- <input class="search-input col-lg-2 col-md-2 col-sm-2 col-xs-2" style="margin:0px 5px 5px 5px;" type="text" name="Vendor" placeholder="Search by Vendor Name/GSTIN" id="VendorList" list="Vendors"> -->
+                        <select class="search-input col-lg-2 col-md-2 col-sm-2 col-xs-2" 
+                        				id="supplier" style="margin:0px 5px 5px 5px;">
+							<option value="">Please Select One</option>
+							<div th:each="suppliers : ${partyRoleList}">
+								<option class="categoryitem"
+									th:value="${suppliers.partyId}"
+									th:text="${suppliers.firstName}">
+								</option>
+							</div>
+						</select>
+                        <label class="col-lg-1 col-md-1 col-sm-1 col-xs-1">Tax Invoice</label> 
+                        <label class="col-lg-1 col-md-1 col-sm-1 col-xs-1">No</label> 
+                        <span class="material-switch col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <input id="someSwitchOptionWarning" name="someSwitchOption001" type="checkbox"/>
+                            <label for="someSwitchOptionWarning" class="label-toggle"></label>
+                        </span>
+                        <label class="col-lg-1 col-md-1 col-sm-1 col-xs-1">Yes</label>
+                    </fieldset>
+                    <fieldset class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="width: 12%;">Valid By</label>
+                        <input class="form-control date-picker  col-lg-2 col-md-2 col-sm-2 col-xs-2" style="margin:0px 5px 5px 5px;" id="validBy" type="date" placeholder="DD/MM/YYYY"/>
+                        <!-- <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="margin-right: 2%; width:10%;">Adll. Cash Discount</label>
+                        <input class="search-input col-lg-2 col-md-2 col-sm-2 col-xs-2" style="margin:0px 5px 5px 5px; width: 15%;" type="text" placeholder="00.00"/>
+                        <select class="form-control col-lg-2 col-md-2 col-sm-2 col-xs-2" style="margin:0px 5px 5px 5px; width: 10%;" id="sel1">
+                            <option selected>%</option>
+                            <option>%</option>
+                            <option>%</option>
+                        </select>
+                        <select class="form-control col-lg-2 col-md-2 col-sm-2 col-xs-2" style="margin:0px 5px 5px 5px; width: 10%;" id="sel1">
+                            <option selected>Before Tax</option>
+                            <option>%</option>
+                            <option>%</option>
+                        </select> -->
+                    </fieldset>
+                    <fieldset class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="width:12%; padding:14px;">Remark</label> 
+                        <input class="search-input col-lg-2 col-md-2 col-sm-2 col-xs-2" type="text" name="" placeholder="Remark" style="width: 61%;">
+                    </fieldset>
+                    <fieldset class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <label class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="width:12%;">Scan/ Search Item</label> 
+                        <input class="search-input col-lg-2 col-md-2 col-sm-2 col-xs-2" type="text" name="productId" id="productId" placeholder="Search By EAN/Product Name/Item ID" style="width: 25%;">
+                        <button type="button" class="btn-theme btn-black" data-toggle="modal" data-target="#selectArticle" 
+                        id="criteriaSearchbtn">GO</button>
+                        <button type="button" class="btn-theme btn-black" >Cancle Po</button>
+                        <!-- <button type="button" class="btn-theme btn-black" >Repeat Order?</button> -->
+                    </fieldset>
+                </div>
+                <div class="col-md-4" style="border-left: 2px dotted #7c7c7c7d;padding: 3% 5% 3% 2%;">
+                    <fieldset>
+                        <label style="margin-right: 5%;">PO Number</label> 
+                        <span class="form-span">User(name)</span>
+                    </fieldset>
+                    <fieldset>
+                        <label style="margin-right: 14%;">Status</label> 
+                        <span class="form-span">Approval Panding</span>
+                    </fieldset>
+                    <fieldset>
+                        <label style="margin-right: 14%;">Entered By</label> 
+                        <span class="form-span">User(Name) 05/05/2019 06:05:00 PM </span>
+                    </fieldset>
+                    <fieldset>
+                        <label style="margin-right: 14%;">Approved By</label> 
+                        <span class="form-span">User(Name) 05/05/2019 06:05:00 PM</span>
+                    </fieldset>
+                </div>
+
+            </div>
+            <div class="col-md-12 table-container">
+                <table id="purchaseOrderTable" class="row-border order-column"
+                       style="width: 100%">
+                    <thead style="background:#1F1F1F;color:#fff;">
+                        <tr>
+                            <th>EAN Code</th>
+                            <th>Item Name</th>
+                            <th>UoM</th>
+                            <th>Order Qty</th>
+                            <th>MRP</th>
+                            <th>Offer Rate (Excl. Rate)</th>
+                            <th>Tax Rate</th>
+                            <th>SGST Amt.</th>
+                            <th>CGST Amt.</th>
+                            <th>IGST Amt.</th>
+                            <th>Net Rate</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myBody">
+                        <tr th:each="orderItemListEach,iter : ${orderItemList}" class="result">
+							<td id="eanCode" th:text="${orderItemListEach.get('productEan')}"></td>
+							<td id="productName" th:text="${orderItemListEach.get('productName')}"></td>
+							<td id="productUom" th:text="${orderItemListEach.get('currencyUomId')}"></td>
+							<!-- <td id="orderQty_" th:text="${orderItemListEach.get('orderQty')}"></td> -->
+							<td><input type="text" name="orderQty" th:value="${orderItemListEach.get('orderQty')}" 
+							 th:id="${'orderQty_'+iter.index}"></td>
+							<td id="mrp" th:text="${orderItemListEach.get('productPrice')}"></td>
+							<!-- <td id="offerRate" th:text="${orderItemListEach.get('offerPrice')}"></td> -->
+							<td><input type="text" name="offerAmt" th:value="${orderItemListEach.get('orderQty')}" 
+							 th:id="${'offerAmt_'+iter.index}"></td>
+							<td id="TaxRate" th:text="${orderItemListEach.get('taxPercentage')}"></td>
+							<td id="SGSTAmt" th:text="${orderItemListEach.get('orderSgst')}"></td>
+							<td id="CGSTAmt" th:text="${orderItemListEach.get('orderCgst')}"></td>
+							<td id="IGSTAmt" th:text="${orderItemListEach.get('orderIgst')}"></td>
+							<td id="NetRate" th:text="${orderItemListEach.get('productNetRate')}"></td>
+				 			<td id="orderAmt" th:text="${orderItemListEach.get('productAmount')}"></td>
+				            </td>
+						</tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- <div class="col-md-12 table-container">
+                <table id="productRecieveInfoTable"
+                       style="background-color: #fff4df">
+                    <tbody >
+                        <tr style="background-color: #fff4df">
+                            <td><p><strong>Date</strong></p>12/12/2018</td>
+                            <td><p><strong>Received From</strong></p>Mahalashkmi Pharma Enterprises</td>
+                            <td><p><strong>Received Qty</strong></p>50</td>
+                            <td><p><strong>MRP</strong></p>60</td>
+                            <td><p><strong>Offer Rates</strong></p>5.00</td>
+                            <td><p><strong>Tax Rate</strong></p>0%</td>
+                            <td><p><strong>Item Disc.</strong></p>5.00</td> 
+                            <td><p><strong>Bill Disc.</strong></p>0.00</td>
+                            <td><p><strong>Net Rate</strong></p>45.00</td>
+                            <td><p><strong>Margin</strong></p>25%</td>
+                            <td><p><strong>Markup</strong></p>33%</td>
+                            <td><input class="search-input" type="text" name="" placeholder="Markup  26.42%"  style="width:150px;" disabled/></td>
+                            <td><input class="search-input" type="text" name="" placeholder=" Margin  20.90%"  style="width:150px;" disabled/></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> 
+            <div class="row pull-left">
+                <div class="col-md-12">
+                    <input class="search-input" type="text" name="" placeholder="Purc. Markup  24.92%"  style="width:150px;" disabled/>
+                    <input class="search-input" type="text" name="" placeholder="Pure. Margin  19.95%" style="width:150px;" disabled/>
+                    <input class="search-input" type="text" name="" placeholder="Total Items  7" style="width:150px;" disabled/>
+                    <input class="search-input" type="text" name="" placeholder="Total Ammount 21848.70" style="width:150px;" disabled/>
+                </div>
+            </div>-->
+			<!-- <div id="approve1" class="form-popup">
+	            <div class="pull-right" style="margin-top:4px;margin-right:19px">
+	                <button class="btn-theme btn-black" style="height:30px"  data-toggle="modal" data-target="#cancleconfirmationModal">Cancel</button>
+	                <button class="btn-theme btn-black" style="height:30px" data-toggle="modal" data-target="#confirmationModal">Save</button>
+	                <button class="btn-theme btn-black" style="height:30px" >Save & Create New</button>
+	                <button class="btn-theme btn-black" style="height:30px">Save & Close</button>
+	            </div>
+            </div> -->
+            <div id="approve1" class="form-popup">
+				<div class="add-notify">
+					<h2>
+						<i onclick="closeForm()" class="fa fa-times" aria-hidden="true"></i>
+						<!-- <button onclick="approveConfirmation()" class="btn-theme btn-black">Approve & create New</button> -->
+						<button onclick="saveCloseConfirmation()" class="btn-theme btn-black">Save & Close</button>
+						<button onclick="openConfirmation()" class="btn-theme btn-green">Save</button>
+					</h2>
+				</div>
+			</div>
+			<div id="saveCloseConfirmation" class="form-popup">
+				<div class="warning-notify">
+					<h2>
+						<i onclick="closeSaveConfirmation()" class="fa fa-times"
+							aria-hidden="true"></i> <img src="assets/images/icon-info.png"
+							alt="" class="">Are You sure you want to Save this transaction.
+						<button onclick="closeSaveConfirmation()" class="btn-theme btn-black" id="savecloseyes">
+							<img src="assets/images/icon-yes.png" alt="icon for yes">Yes
+						</button>
+						<button class="btn-theme btn-black" onclick="closeSaveConfirmation()">
+							<img src="assets/images/icon-no.png" alt="icon for no">No
+						</button>
+					</h2>
+				</div>
+			</div>
+			<div id="comfirmation1" class="form-popup">
+				<div class="warning-notify">
+					<h2>
+						<i onclick="closeConfirmation()" class="fa fa-times"
+							aria-hidden="true"></i> <img src="assets/images/icon-info.png"
+							alt="" class="">Are You sure you want to Save this transaction.
+						<button onclick="closeConfirmation()" class="btn-theme btn-black" id="yes">
+							<img src="assets/images/icon-yes.png" alt="icon for yes">Yes
+						</button>
+						<button class="btn-theme btn-black" onclick="closeConfirmation()">
+							<img src="assets/images/icon-no.png" alt="icon for no">No
+						</button>
+					</h2>
+				</div>
+
+			</div>
+            
+            <div id="selectArticle" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h1 class="modal-title">Select Article</h1>
+				</div>
+				<div class="modal-body">
+					<div class="search-div">
+						<form class="" action="">
+							<i class="fa fa-search"></i> <input type="text"
+								placeholder="Filter Results" name="search">
+
+						</form>
+					</div>
+					<!-- ---------------search ends here----------- -->
+					<div class="col-md-12 table-container">
+						<table id="selectArticleTable"
+							class="row-border order-column" style="width: 100%">
+							<thead style="background: #1F1F1F; color: #fff;">
+								<tr>
+									<th>EAN Code</th>
+									<th>Item ID</th>
+									<th>Unit ID</th>
+									<th>Product name</th>
+									<th>LOT ID</th>
+									<th>No. Of Packs</th>
+									<th>Pack Size</th>
+									<!-- <th>Qty</th> -->
+									<th>Sale Rate</th>
+									<th>Co Batch No.</th>
+									<th>Expiry Date</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="productListEach,iter : ${productsList}" class="result">
+									<td id="eanCode" th:text="${productListEach.get('productIdEan')}"></td>
+									<td id="productId" th:text="${productListEach.get('productId')}"></td>
+									<td name="unit_id" >EA</td>
+									<td id="productName" th:text="${productListEach.get('description')}"></td>
+									<td id="lotId"></td>
+									<td id="moOfPacks"></td>
+									<td id="packSize"></td>
+									<td id="saleRate" th:text="${productListEach.get('productSalePrice')}"></td>
+									<td id="coBatchNo"></td>
+						 			<td id="expiryDate" th:text="${productListEach.get('salesDiscontinuationDate')}"></td>
+						            <td>
+						            <img th:src="@{/assets/images/add.png}" width="24">
+						            <button th:onclick="addProductFunction([[${productListEach.get('productId')}]])">Click me</button>
+						            </td>
+								</tr>
+								
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="clear"></div>
+				<div class="modal-footer"></div>
+			</div>
+			<!-- --- add notification div starts here --- -->
+			<div id="RateAlreadyExistsModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    Modal content
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b>The following Article has been already Added.</b>
+                            <div class="confirmation-btn-div">
+                            <button  onclick="modalclose()"  class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+		<!-- --- add notification div starts here --- -->
+			<div id="OrderAlreadyExistsModal" class="modal fade" role="dialog">
+	            <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+	                <div class="modal-content">
+	                    <div class="modal-body text-center">
+	                        <b>The following Article has been already Added.</b>
+	                        <div class="confirmation-btn-div">
+	                        <button  onclick="modalclose()"  class="btn-theme btn-go">Ok</button>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+        	</div>
+        	<input type="text" id="orderItemArray" name="orderItemArray" th:value="${finalOrderItemArray}">
+			<input type="text" id="orderQuantityArray" name="orderQuantityArray" th:value="${finalOrderQtyArray}">
+			<input type="text" id="orderItemMRPArray" name="orderItemMRPArray" th:value="${finalOrderItemMRPArray}">
+			<input type="text" id="oiOfferRateArray" name="oiOfferRateArray" th:value="${finaloiOfferRateArray}">
+			<input type="text" id="oiTaxRateArray" name="oiTaxRateArray" th:value="${finalOrderTaxArray}">
+			<input type="text" id="sgstAmtArray" name="sgstAmtArray" th:value="${finalSgstAmtArray}" >
+			<input type="text" id="cgstAmtArray" name="cgstAmtArray" th:value="${finalCgstAmtArray}">
+			<input type="text" id="igstAmtArray" name="igstAmtArray" th:value="${finalIgstAmtArray}">
+			<input type="hidden" id="createdBy" name="createdBy" th:value="${session.username}">
+			<input type="text" id="orderId" name="orderId" th:value="${orderId}">
+			
+			<!-- Cancle PurchaseProduct model start here -->
+        <div id="cancleconfirmationModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+
+                    <div class="modal-body text-center">
+                        <b>Are you sure you want to cancle this purchase order?</b>
+                        <div class="confirmation-btn-div">
+                            <button type="submit" class="btn-theme btn-go" >Yes</button>
+                            <button type="submit" class=" btn-theme btn-go" data-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="modal-footer"></div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Cancle PurchaseProduct model end here -->
+
+        <!--  confirmationModal model start here -->
+        <div id="confirmationModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b id="successmsgtext"></b>
+                            <div class="confirmation-btn-div">
+                            <button type="button" data-dismiss="modal" class="btn-theme btn-go" id="redirect">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- confirmationModalt model end here -->
+        <!-- Already Exists Model Starts Here -->
+            <div id="alreadyExistModal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="margin-top: 15%;width: 400px !important;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body text-center">
+                            <b id="msgtext"></b>
+                            <div class="confirmation-btn-div">
+                                <button type="button" data-dismiss="modal" class="btn-theme btn-go">Ok</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <!-- Already Exists Model End Here -->
+	</div>
+		<script type="text/javascript">
+		document.getElementById("approve1").style.display = "none";
+		document.getElementById("saveCloseConfirmation").style.display = "none";
+		document.getElementById("comfirmation1").style.display = "none";
+		$('#myBody').on('click','tr',
+			function() {
+				var table = $('#purchaseOrderTable').DataTable();
+				openForm();
+		});
+		function openForm() {
+			document.getElementById("approve1").style.display = "block";
+		}
+		function closeForm() {
+			document.getElementById("approve1").style.display = "none";
+		}
+		function saveCloseConfirmation() {
+			document.getElementById("saveCloseConfirmation").style.display = "block";
+			document.getElementById("approve1").style.display = "none";
+		}
+		function closeSaveConfirmation() {
+			document.getElementById("saveCloseConfirmation").style.display = "none";
+		}
+		function openConfirmation() {
+			document.getElementById("comfirmation1").style.display = "block";
+			document.getElementById("approve1").style.display = "none";
+		}
+		function closeConfirmation() {
+			document.getElementById("comfirmation1").style.display = "none";
+		}
+		$(document).ready(
+			function() {
+				$('#criteriaSearchbtn').click(
+					function() {
+						var supplierId = $('#supplier').val();
+						var productId = $('#productId').val();
+						var data0 = {
+							supplierId : supplierId,
+							productId : productId,
+						}
+						var json = JSON.stringify(data0);
+						$.ajax({
+							type : 'GET',
+							url : '/searchArticlesByVendor',
+							data : {
+								json : json,
+								password : "ofbiz",
+								username : "admin",
+							},
+							dataType : 'json',
+							success : function(data) {
+								populateCatDataTable(data);
+							}
+						});
+					});
+				function populateCatDataTable(data) {
+					var table = $('#selectArticleTable').DataTable();
+					table.clear();
+					var result = JSON.parse(JSON.stringify(data.finalProductPriceInfoList));
+					for (var j = 0, l = result.length; j < l; j++) {
+						var obj = result[j];
+						$('#selectArticleTable').dataTable().fnAddData([
+							obj.productIdEan,
+							obj.productId,
+							'<td name="unit_id" >EA</td>',
+							obj.productName,
+							'<td></td>',
+							'<td></td>',
+							'<td></td>',
+							obj.productSalePrice,
+							'<td></td>',
+							obj.salesDiscontinuationDate,
+							'<td><button onclick="addProductFunction('+obj.productId+')">Click me</button></td>',
+							 ]);
+					}
+				}
+			});
+		function modalclose() {
+			$('#OrderAlreadyExistsModal').modal('hide');
+		}
+		function isInArray(value, array) {
+			var len = array.length;
+			for (var i=0;i < len; i++) {
+				if(array[i] == value) {
+					return true;
+				}
+			}
+			return false;
+		}
+		const productIdArray = [];
+		
+		const orderItemArray = [];
+		const orderQuantityArray = [];
+		const orderItemMRPArray = [];
+		const oiOfferRateArray = [];
+		const oiTaxRateArray = [];
+		const sgstAmtArray = [];
+		const cgstAmtArray = [];
+		const igstAmtArray = [];
+		
+		var productIds = $("#orderItemArray").val();
+		var productIdVal = productIds.split(",");
+		for (var i=0; i < productIdVal.length; i++) {
+			productIdArray.push(productIdVal[i]);
+		}
+		
+		var orderItems = $("#orderItemArray").val();
+		var orderItemVal = orderItems.split(",");
+		for (var i=0; i < orderItemVal.length; i++) {
+			orderItemArray.push(orderItemVal[i]);
+		}
+		
+		var orderQty = $("#orderQuantityArray").val();
+		var orderQtyVal = orderQty.split(",");
+		for (var i=0; i < orderQtyVal.length; i++) {
+			orderQuantityArray.push(orderQtyVal[i]);
+		}
+		
+		var orderItemMrp = $("#orderItemMRPArray").val();
+		var orderItemMrpVal = orderItemMrp.split(",");
+		for (var i=0; i < orderItemMrpVal.length; i++) {
+			orderItemMRPArray.push(orderItemMrpVal[i]);
+		}
+		
+		var orderItemOffer = $("#oiOfferRateArray").val();
+		var orderItemOfferVal = orderItemOffer.split(",");
+		for (var i=0; i < orderItemOfferVal.length; i++) {
+			oiOfferRateArray.push(orderItemOfferVal[i]);
+		}
+		
+		var orderItemTax = $("#oiTaxRateArray").val();
+		var orderItemTaxVal = orderItemTax.split(",");
+		for (var i=0; i < orderItemTaxVal.length; i++) {
+			oiTaxRateArray.push(orderItemTaxVal[i]);
+		}
+		
+		var orderItemSgst = $("#sgstAmtArray").val();
+		var orderItemSgstVal = orderItemSgst.split(",");
+		for (var i=0; i < orderItemSgstVal.length; i++) {
+			sgstAmtArray.push(orderItemSgstVal[i]);
+		}
+		
+		var orderItemCgst = $("#cgstAmtArray").val();
+		var orderItemCgst = orderItemCgst.split(",");
+		for (var i=0; i < orderItemCgst.length; i++) {
+			cgstAmtArray.push(orderItemCgst[i]);
+		}
+		
+		var orderItemIgst = $("#igstAmtArray").val();
+		var orderItemIgst = orderItemIgst.split(",");
+		for (var i=0; i < orderItemIgst.length; i++) {
+			igstAmtArray.push(orderItemIgst[i]);
+		}
+		
+		function addProductFunction(productId) {
+			
+			var categoryId = "";
+			var password = "ofbiz";
+			var username = "admin";
+			var supplierId = $('#supplier').val();
+			var productIdExists = isInArray(productId, productIdArray);
+			if(productIdExists){
+				$('#OrderAlreadyExistsModal').modal('show');
+				return false;
+			}
+			var data0 = {
+				supplierId : supplierId,
+				productId : productId,
+			}
+			var json = JSON.stringify(data0);
+			$.ajax({
+				type : 'GET',
+				url : '/searchArticlesByVendor',
+				data : {
+					json : json,
+					username : username,
+					password : password,
+				},
+				dataType : 'json',
+				success : function(data) {
+					populateDataTable(data);
+				}
+			});
+			function populateDataTable(data) {
+				var table = $('#purchaseOrderTable').DataTable();
+				//table.clear();
+				var currentRow = table.column(0).data().length;
+				var result = JSON.parse(JSON.stringify(data.finalProductPriceInfoList));
+				for (var j = 0, l = result.length; j < l; j++) {
+					
+					var obj = result[j];
+					var productPrice = "";
+					var sgst = "";
+					var cgst = "";
+					var igst = "";
+					var netAmt = "";
+					
+					productIdArray.push(obj.productId);
+					orderItemArray.push(obj.productId);
+					var prdTaxVal = JSON.parse(JSON.stringify(obj.productTaxMap));
+					
+					productPrice = obj.productPrice;
+					sgst = prdTaxVal.SGST_TAX;
+					cgst = prdTaxVal.CGST_TAX;
+					igst = prdTaxVal.IGST_TAX;
+					netAmt = parseFloat(productPrice)+parseFloat(sgst)+parseFloat(cgst)+parseFloat(igst);
+					
+					orderQuantityArray.push("0");
+					orderItemMRPArray.push(productPrice);
+					oiOfferRateArray.push("0");
+					oiTaxRateArray.push(prdTaxVal.taxPercentage);
+					sgstAmtArray.push(sgst);
+					cgstAmtArray.push(cgst);
+					igstAmtArray.push(igst);
+					
+					$('#purchaseOrderTable').dataTable().fnAddData([
+					obj.productIdEan,
+					obj.productName,
+					'<td>EA</td>',
+					'<input class="scanQtyClass" type="text" name="orderQty" id="orderQty_'+currentRow+'" style="width:150px;" value="0" "/>',
+					obj.productPrice,
+					'<input type="text" name="offerAmt" id="offerAmt_'+currentRow+'" value="0" />',
+					prdTaxVal.taxPercentage,
+					prdTaxVal.SGST_TAX,
+					prdTaxVal.CGST_TAX,
+					prdTaxVal.IGST_TAX,
+					obj.productPrice,
+					'<input type="text" name="netAmt" id="netAmt_'+currentRow+'" value='+netAmt+' style="width:70px;"/>', ]);
+				}
+				$("#productIdArray").val(productIdArray);
+				
+				$("#orderItemArray").val(orderItemArray);
+				$("#orderQuantityArray").val(orderQuantityArray);
+				$("#orderItemMRPArray").val(orderItemMRPArray);
+				$("#oiOfferRateArray").val(oiOfferRateArray);
+				$("#oiTaxRateArray").val(oiTaxRateArray);
+				$("#sgstAmtArray").val(sgstAmtArray);
+				$("#cgstAmtArray").val(cgstAmtArray);
+				$("#igstAmtArray").val(igstAmtArray);
+			}
+		}
+		$("#purchaseOrderTable").on("change","tr", function () {
+			const orderQuantityArray = [];
+			const oiOfferRateArray = [];
+			
+            var sgst = parseInt("0");
+            var cgst = parseInt("0");
+            var igst = parseInt("0");
+            var itemPrice = parseInt("0");
+            var itemOfferPrice = parseInt("0");
+            var itemAmt = "";
+            var orderQty = parseInt("0");
+            
+            var table = $('#purchaseOrderTable').DataTable();
+            var count = table.rows().count();
+            var index = table.row(this).index();
+            var data = table.row(this).data();
+            itemPrice = parseInt(data[4]);
+            
+            
+            itemOfferPrice = parseInt($('#offerAmt_'+index).val());
+            
+            sgst = parseInt(data[7]);
+            cgst = parseInt(data[8]);
+            igst = parseInt(data[9]);
+            
+            orderQty = parseInt($('#orderQty_'+index).val());
+            
+            if(itemOfferPrice != 0) {
+                itemPrice = itemOfferPrice;
+            }
+            
+            itemAmt = itemPrice+sgst+cgst+igst;
+            itemAmt = orderQty*itemAmt;
+            $('#netAmt_'+index).val(itemAmt);
+            
+            for (var j = 0, l = count; j < l; j++) {
+            	var data = table.row(j).data();
+            	orderQty = parseInt($('#orderQty_'+j).val());
+            	itemOfferPrice = parseInt($('#offerAmt_'+j).val());
+            	
+            	orderQuantityArray.push(orderQty);
+            	oiOfferRateArray.push(itemOfferPrice);
+            }
+            $("#orderQuantityArray").val(orderQuantityArray);
+            $("#oiOfferRateArray").val(oiOfferRateArray);
+        });
+		
+		var orderItmArray = "";
+		var orderQtyArray = "";
+		var orderItmMRPArray = "";
+		var orderItemOfferRateArray = "";
+		var orderItemTaxRateArray = "";
+		var sgstAmountArray = "";
+		var cgstAmountArray = "";
+		var igstAmountArray = "";
+		var supplierId = "";
+		var poDate = "";
+		var validBy = "";
+		var statusId = "";
+		var orderId = "";
+		$('#yes').click(
+			function() {
+				supplierId = $('#supplier').val();
+				poDate = $('#orderDate').val();
+				validBy = $('#validBy').val();
+				orderItmArray = $('#orderItemArray').val();
+				orderQtyArray = $('#orderQuantityArray').val();
+				orderItmMRPArray = $('#orderItemMRPArray').val();
+				orderItemOfferRateArray = $('#oiOfferRateArray').val();
+	            orderItemTaxRateArray = $('#oiTaxRateArray').val();
+	            sgstAmountArray = $('#sgstAmtArray').val();
+	            cgstAmountArray = $('#cgstAmtArray').val();
+	            igstAmountArray = $('#igstAmtArray').val();
+	            statusId = "ORDER_PRT_INITIATED";
+	            orderId = $('#orderId').val();
+	            
+				var data0 = {
+					supplierId : supplierId,
+					poDate : poDate,
+					validBy : validBy,
+					orderItemArray : orderItmArray,
+					orderQuantityArray : orderQtyArray,
+					orderItemMRPArray : orderItmMRPArray,
+					oiOfferRateArray : orderItemOfferRateArray,
+                    oiTaxRateArray : orderItemTaxRateArray,
+                    sgstAmtArray : sgstAmountArray,
+                    cgstAmtArray : cgstAmountArray,
+                    igstAmtArray : igstAmountArray,
+                    statusId : statusId,
+                    orderId : orderId,
+                    
+				}
+				var json = JSON.stringify(data0);
+				$.ajax({
+					type : 'GET',
+					url : '/purchaseOrder/Edit',
+					data : {
+						json : json,
+						username : "admin",
+						password : "ofbiz",
+					},
+					dataType : 'json',
+					success : function(data) {
+						document.getElementById("approve1").style.display = "none";
+	                    if (data != "" && data != null) {
+	                    	alert("data--"+data);
+	                        $('#confirmationModal').modal('toggle');
+	                        $("#successmsgtext").append("Purchase Order Saved Successfully!");
+	                    } else {
+	                        $('#alreadyExistModal').modal('toggle');
+	                        $("#msgtext").append("Error while Saving Purchase Order");
+	                    }
+					}
+				});
+				$('#redirect').click(
+					function() {
+						var homeUrl = '/purchaseOrderList';
+						window.location = homeUrl;
+				});
+		});
+		
+		$('#savecloseyes').click(
+				function() {
+					supplierId = $('#supplier').val();
+					poDate = $('#orderDate').val();
+					validBy = $('#validBy').val();
+					orderItmArray = $('#orderItemArray').val();
+					orderQtyArray = $('#orderQuantityArray').val();
+					orderItmMRPArray = $('#orderItemMRPArray').val();
+					orderItemOfferRateArray = $('#oiOfferRateArray').val();
+		            orderItemTaxRateArray = $('#oiTaxRateArray').val();
+		            sgstAmountArray = $('#sgstAmtArray').val();
+		            cgstAmountArray = $('#cgstAmtArray').val();
+		            igstAmountArray = $('#igstAmtArray').val();
+		            statusId = "ORDER_INITIATED";
+		            orderId = $('#orderId').val();
+		            
+					var data0 = {
+						supplierId : supplierId,
+						poDate : poDate,
+						validBy : validBy,
+						orderItemArray : orderItmArray,
+						orderQuantityArray : orderQtyArray,
+						orderItemMRPArray : orderItmMRPArray,
+						oiOfferRateArray : orderItemOfferRateArray,
+	                    oiTaxRateArray : orderItemTaxRateArray,
+	                    sgstAmtArray : sgstAmountArray,
+	                    cgstAmtArray : cgstAmountArray,
+	                    igstAmtArray : igstAmountArray,
+	                    statusId : statusId,
+	                    orderId : orderId,
+	                    
+					}
+					var json = JSON.stringify(data0);
+					$.ajax({
+						type : 'GET',
+						url : '/purchaseOrder/Edit',
+						data : {
+							json : json,
+							username : "admin",
+							password : "ofbiz",
+						},
+						dataType : 'json',
+						success : function(data) {
+							document.getElementById("approve1").style.display = "none";
+		                    if (data != "" && data != null) {
+		                        $('#confirmationModal').modal('toggle');
+		                        $("#successmsgtext").append("Purchase Order Initiated Successfully!");
+		                    } else {
+		                        $('#alreadyExistModal').modal('toggle');
+		                        $("#msgtext").append("Error while Initiating Purchase Order");
+		                    }
+						}
+					});
+					$('#redirect').click(
+						function() {
+							var homeUrl = '/purchaseOrderList';
+							window.location = homeUrl;
+					});
+		});
+		</script>
+        </section>
+
+        
+    </body>
+</html>

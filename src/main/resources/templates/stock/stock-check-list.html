@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Stock Check List')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Stock Check List</title>
+    </head>
+    <body>
+        <section class="stockadjustment-list content-section">
+            <!-- ---------------search starts here----------- -->
+            <div class="search-container">
+                <button class="btn-theme btn-green pull-right" data-toggle="modal"
+                        data-target="#addNew" style="margin-right: 0px; height: 38px;">
+                    <i class="fa fa-plus hidden-xs" aria-hidden="true"></i> Create New
+                </button>
+                <form class="form-inline">
+                    <div class="form-group">
+                        <label for="search" class="control-label">Search
+                            Transaction</label> <input type="search" class="form-control" id="search"
+                                                   name="search" placeholder="Search By transaction Id"> <select
+                                                   name="status" class="form-control">
+                            <option>Select Status</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label class="control-label" for="date_from">Date From</label> <input
+                            type="date" name="date_from" id="date_from" class="form-control" style="margin-left:59px;">
+                        <label class="control-label" for="date_to">Date To</label> <input
+                            type="date" name="date_to" id="date_to" class="form-control">
+                        <button type="submit" class="btn-theme btn-go">Go</button>
+                    </div>
+                </form>
+
+            </div>
+            <div class="clear"></div>
+            <div class="search-div col-md-12">
+                <form class="" action="">
+                    <i class="fa fa-search"></i> <input type="text"
+                                                        placeholder="Filter Results" name="search">
+
+                </form>
+                <button class="btn-clear-search pull-right">
+                    <i class="fa fa-times" aria-hidden="true"></i> CLEAR SEARCH
+                </button>
+            </div>
+            <div class="clear"></div>
+            <!-- ---------------search ends here----------- -->
+            <div class="col-md-12 table-container">
+                <table id="rateadjustment" class="red-head row-border order-column"
+                       style="width: 100%">
+                    <thead>
+                        <tr>
+                            <th>Stock Check Remark</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Initiated By</th>
+                            <th>Initiated Date</th>
+                            <th>Approved By</th>
+                            <th>Approved Date</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>It is a long established fact that a reader will be
+                                distracted by the readable</td>
+                            <td>Admin</td>
+                            <td>Scanning</td>
+                            <td>12/08/2018</td>
+                            <td>Approved</td>
+                            <td>12/08/2018</td>
+                            <td><a href="#"><img src="assets/images/print.png"
+                                                 width="24"></a></td>
+                        </tr>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>It is a long established fact that a reader will be
+                                distracted by the readable</td>
+                            <td>Admin</td>
+                            <td>Scanning</td>
+                            <td>12/08/2018</td>
+                            <td>Approved</td>
+                            <td>12/08/2018</td>
+                            <td><a href="#"><img src="assets/images/print.png"
+                                                 width="24"></a></td>
+                        </tr>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>It is a long established fact that a reader will be
+                                distracted by the readable</td>
+                            <td>Admin</td>
+                            <td>Scanning</td>
+                            <td>12/08/2018</td>
+                            <td>Approved</td>
+                            <td>12/08/2018</td>
+                            <td><a href="#"><img src="assets/images/print.png"
+                                                 width="24"></a></td>
+                        </tr>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>It is a long established fact that a reader will be
+                                distracted by the readable</td>
+                            <td>Admin</td>
+                            <td>Scanning</td>
+                            <td>12/08/2018</td>
+                            <td>Approved</td>
+                            <td>12/08/2018</td>
+                            <td><a href="#"><img src="assets/images/print.png"
+                                                 width="24"></a></td>
+                        </tr>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>It is a long established fact that a reader will be
+                                distracted by the readable</td>
+                            <td>Admin</td>
+                            <td>Scanning</td>
+                            <td>12/08/2018</td>
+                            <td>Approved</td>
+                            <td>12/08/2018</td>
+                            <td><a href="#"><img src="assets/images/print.png"
+                                                 width="24"></a></td>
+                        </tr>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>It is a long established fact that a reader will be
+                                distracted by the readable</td>
+                            <td>Admin</td>
+                            <td>Scanning</td>
+                            <td>12/08/2018</td>
+                            <td>Approved</td>
+                            <td>12/08/2018</td>
+                            <td><a href="#"><img src="assets/images/print.png"
+                                                 width="24"></a></td>
+                        </tr>
+                        <tr>
+                            <td>8902080404094</td>
+                            <td>It is a long established fact that a reader will be
+                                distracted by the readable</td>
+                            <td>Admin</td>
+                            <td>Scanning</td>
+                            <td>12/08/2018</td>
+                            <td>Approved</td>
+                            <td>12/08/2018</td>
+                            <td><a href="#"><img src="assets/images/print.png"
+                                                 width="24"></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+    </body>
+</html>

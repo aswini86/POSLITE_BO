@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Opening Stock')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Open Stock</title>
+    </head>
+    <body>
+        <section class="content-section">
+            <div class="row margin0">
+                <button class="btn-theme btn-white" onclick="javascript:window.location = 'uploadItems'">
+                    Upload <br>Inventory <img src="assets/images/loader.png" alt="" class="btn-img hidden-xs">
+                </button>
+                <button class="btn-theme btn-blue" onclick="javascript:window.location = 'exportArticle'">
+                    Inventory Template <img src="" alt="" class="btn-img hidden-xs">
+                </button>
+                <button class="btn-theme btn-blue" onclick="javascript:window.location = 'scanItems'">
+                    Scan <img src="assets/images/scan.png" alt="" class="btn-img hidden-xs">
+                </button>
+            </div>
+            <div class="tab-section">
+                <ul class="nav nav-pills">
+                    <li class="active"><a data-toggle="tab" href="#mappedItems">Mapped Items</a></li>
+                    <li><a data-toggle="tab" href="#unmappedItems">Unmapped Items</a></li>
+                </ul>
+            </div>
+                 <div class="search-container">
+     
+            
+            <form th:action="@{/mapUnmappedItem}" th:object="${itemFormBean}" method="post">
+                <div class="tab-content">
+                    <div id="mappedItems" class="tab-pane active">
+                        <div class="col-md-12 table-container">
+                            <table id="mapped-items" class="row-border order-column" style="width: 100%">
+                                <thead style="background: #1F1F1F; color: #fff;">
+                                    <tr>
+                                        <th>EAN Code</th>
+                                        <th>Product Name</th>
+                                        <th>Product Description</th>
+                                        <th>Lot Id</th>
+                                        <th>Batch Number</th>
+                                        <th>Qty</th>
+                                        <th>MRP</th>
+                                        <th>SP</th>
+                                        <th>CP</th>
+                                        <th>Manufacturing Date</th>
+                                        <th>Expiry Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="item, itemStat: *{mappedItems}">
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].ean}"></td>
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].productName}"></td>
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].description}"></td>
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].lotId}"></td>
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].batchNumber}"></td>
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].quantity}"></td>
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].mrp}"></td>
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].sp}"></td>
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].cp}"></td>
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].manufacturingDate}"></td>
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].expiryDate}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div id="unmappedItems" class="tab-pane">
+                        <div class="col-md-6 col-sm-12 table-container">
+                            <table id="unmapped-items" class="row-border order-column"
+                                   style="width: 100%">
+                                <thead style="background: #1F1F1F; color: #fff;">
+                                    <tr>
+                                        <th></th>
+                                        <th>EAN Code</th>
+                                        <th>Product Name</th>
+                                        <th>Item Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="item, itemStat: *{unmappedItems}">
+                                        <td><input type="radio" th:field="*{itemId}" th:value="*{unmappedItems[__${itemStat.index}__].id}"></td>
+                                        <td th:text="*{unmappedItems[__${itemStat.index}__].ean}"></td>
+                                        <td th:text="*{unmappedItems[__${itemStat.index}__].productName}"></td>
+                                        <td th:text="*{unmappedItems[__${itemStat.index}__].description}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <button class="btn-theme btn-confirm pull-right" style="margin-top: -40px;">
+                                <i class="fa fa-check hidden-xs" aria-hidden="true"></i> Map Item
+                            </button>
+                            <div class="unmapped-div">                                
+                                <div class="table-container">
+                                    <table id="products" class="row-border order-column" style="width: 100%">
+                                        <thead style="background: #1F1F1F; color: #fff;">
+                                            <tr>
+                                                <th></th>
+                                                <th>EAN Code</th>
+                                                <th>Product Name</th>
+                                                <th>Item Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr th:each="product, productStat: *{products}">
+                                                <td><input type="radio" th:field="*{ean}" th:value="*{products[__${productStat.index}__].ean}"></td>
+                                                <td th:text="*{products[__${productStat.index}__].ean}"></td>
+                                                <td th:text="*{products[__${productStat.index}__].productName}"></td>
+                                                <td th:text="*{products[__${productStat.index}__].description}"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="clear"></div>
+        </section>
+    </body>
+</html>	

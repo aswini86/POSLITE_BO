@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, 'Opening Stock')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Open Stock</title>
+    </head>
+    <body>
+        <section class="content-section">
+            <div class="row margin0">
+                <button class="btn-theme btn-white" onclick="javascript:window.location = 'uploadItems'">
+                    Upload <br>Inventory <img src="assets/images/loader.png" alt="" class="btn-img hidden-xs">
+                </button>
+                <button class="btn-theme btn-blue">
+                    Scan <img src="assets/images/scan.png" alt="" class="btn-img hidden-xs">
+                </button>
+                <button class="btn-theme btn-red" onclick="javascript:window.location = 'scanItems'">
+                    Clear Data <img src="assets/images/clear.png" alt="" class="btn-img hidden-xs">
+                </button>                
+            </div>
+
+            <form id="frm" method="POST" th:action="@{/addScanItem}" th:object="${itemFormBean}">
+                <input class="scanItemEAN" id="scanItem" type="text" th:field="*{ean}" onkeyup="changeActionToAddScanItem()"/>
+                <button class="btn-theme btn-confirm pull-right" onmouseenter="changeActionToAddItemsToInventory()">
+                    <i class="fa fa-check hidden-xs" aria-hidden="true"></i> Confirm
+                </button>
+                <script th:inline="javascript">
+                $(document).ready(function() {
+                	$("#scanItem").val("");
+                    $("#scanItem").focus();
+                  });
+                    var triggered = false;
+                    function changeActionToAddScanItem() {
+                        console.log("Triggered 2..");
+                        var action = /*[['/addScanItem']]*/ '/addScanItem';
+                        $("#frm").attr("action", action);
+                        document.getElementById("frm").submit();
+                    }
+                    
+                    function changeActionToAddItemsToInventory() {
+                        console.log("Triggered..");
+                        var action = /*[['/addItemsToInventory']]*/ '/addItemsToInventory';
+                        $("#frm").attr("action", action);
+                    }
+                </script>
+                <div class="col-md-12 table-container">
+                    <table id="scan-items" class="row-border order-column" style="width: 100%">
+                        <thead style="background: #1F1F1F; color: #fff;">
+                            <tr>
+                                <th>EAN Code</th>
+                                <th>Item Description</th>
+                                <th>Qty</th>
+                                <th>MRP</th>
+                                <th>SP</th>
+                                <th>CP</th>
+                                <th>Lot Id</th>
+                                <th>Expiry Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="item, itemStat: *{items}">
+                                <td><input th:field="*{items[__${itemStat.index}__].ean}"></td>
+                                <td><input th:field="*{items[__${itemStat.index}__].description}"></td>
+                                <td><input th:field="*{items[__${itemStat.index}__].quantity}"></td>
+                                <td><input th:field="*{items[__${itemStat.index}__].mrp}"></td>
+                                <td><input th:field="*{items[__${itemStat.index}__].sp}"></td>
+                                <td><input th:field="*{items[__${itemStat.index}__].cp}"></td>
+                                <td><input th:field="*{items[__${itemStat.index}__].lotId}"></td>
+                                <td><input type="date" th:field="*{items[__${itemStat.index}__].expiryDate}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+            <div class="clear"></div>
+        </section>
+    </body>
+</html>	

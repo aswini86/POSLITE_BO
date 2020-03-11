@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{::title}, ~{::section}, ' Expiry Date Reports')}" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Retail BO :: Open Stock</title>
+    </head>
+    <body>
+        <section class="content-section">
+				
+   <div class="form-group">
+            <label for="txtExpiryDate">Days:</label>
+            <div class='input-group date' id='txtExpiryDateParent'>
+                <input id="days" type="text" name="days" style="width: 219px;margin-left: 90px;
+                 margin-top: -28px;"class="form-control" placeholder="Expiry days..."/>
+               
+            </div>
+        </div>
+ <button id="go" class="btn btn-go" style="margin-left:330px;margin-top: -83px;" type="button">GO</button>
+                 <div class="search-container">
+            
+            <form th:action="@{/mapUnmappedItem}" th:object="${itemFormBean}" method="post">
+                <div class="tab-content">
+                    <div id="mappedItems" class="tab-pane active">
+                        <div class="col-md-12 table-container">
+                            <table id="mapped-items" class="row-border order-column" style="width: 100%">
+                                <thead style="background: #1F1F1F; color: #fff;">
+                                    <tr>
+                                        <th>EAN Code</th>
+                                        <th>Product Name</th>
+                                        <th>Product Description</th>
+                                        <th>Lot Id</th>
+                                        <th>Batch Number</th>
+                                        <th>Qty</th>
+                                        <th>MRP</th>
+                                        <th>SP</th>
+                                        <th>CP</th>
+                                        <th>Manufacturing Date</th>
+                                        <th>Expiry Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="item, itemStat: *{mappedItems}">
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].ean}"></td>
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].productName}"></td>
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].description}"></td>
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].lotId}"></td>
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].batchNumber}"></td>
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].quantity}"></td>
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].mrp}"></td>
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].sp}"></td>
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].cp}"></td>
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].manufacturingDate}"></td>
+                                        <td th:text="*{mappedItems[__${itemStat.index}__].expiryDate}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="clear"></div>
+            <script>
+        $(document).ready(function() {
+            $('#go').click(function() {
+                var days = $('#days').val();
+                var password = "ofbiz";
+                var username = "admin";
+                
+                var data0 = {
+                	days : days,
+                };
+                var json = JSON.stringify(data0);
+                $.ajax({
+                       type : 'GET',
+                       url : '/getExpiryDate',
+                       data : {
+                    	   days : days,
+                           username : username,
+                           password : password
+                       },
+                       dataType : 'json',
+                       success : function(data) {
+                           populateDataTable(data);
+                       }
+                 });
+                function populateDataTable(data) {
+                    var table = $('#mapped-items').DataTable();
+                    table.clear();
+                    var result = JSON.parse(JSON.stringify(data));
+                     for (var j = 0, l = result.length; j < l; j++) {
+                        var obj = result[j];
+                       	$('#mapped-items').dataTable().fnAddData([
+                       		obj.ean,
+                       		obj.productName,
+                       		obj.description,
+                       		obj.lotId,
+                       		obj.batchNumber,
+                       		obj.quantity,
+                       		obj.mrp,
+                       		obj.sp,
+                       		obj.cp,
+                       		obj.manufacturingDate,
+                       		obj.expiryDate,
+                        ]);
+                    }
+                     if(result.length == 0){
+                         $('#mapped-items').dataTable().fnAddData([
+                             '<td>No Data Available</td>',
+                             '<td></td>',
+                             '<td></td>',
+                             '<td></td>',
+                             '<td></td>',
+                             '<td></td>',
+                             '<td></td>',
+                             '<td></td>',
+                             '<td></td>',
+                             '<td></td>',
+                             '<td></td>',
+                        ]);
+                     }
+                }
+            });
+        });
+        
+        </script>
+        </section>
+        
+    </body>
+</html>	
